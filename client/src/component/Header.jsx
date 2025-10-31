@@ -1,0 +1,33 @@
+import { Search, ShoppingCart } from "lucide-react";
+import React from "react";
+
+const Header = () => {
+  return (
+    <div className=" flex flex-col w-full h-30   items-center gap-4 bg-blue-600 text-white">
+      <div className="flex gap-10 ml-140 text-[13px]">
+        <button>SAVE MORE ON APP</button>
+        <button>BECOME A SELLER</button>
+        <button>HELP & SUPPORT</button>
+        <button>LOGIN</button>
+        <button>SIGN UP</button>
+        <button>LANG</button>
+      </div>
+      <div className="flex justify-center gap-20 w-full items-center">
+        <div className="text-5xl font-mono">Hell'O</div>
+        <div className="flex  w-200 h-12 items-center rounded bg-white text-black ">
+          <input
+            type="text"
+            className="border-none outline-0  w-full p-2"
+            placeholder="Search here"
+          />
+          <Search className="bg-blue-500 h-full w-10 " />
+        </div>
+        <div>
+          <ShoppingCart size={30} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Header;

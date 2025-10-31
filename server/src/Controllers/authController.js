@@ -2,8 +2,6 @@ import User from "../Models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
-
-
 import nodemailer from "nodemailer";
 // signUp
 export const Register = async (req, res) => {
