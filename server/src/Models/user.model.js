@@ -21,11 +21,12 @@ const userSchema = new mongoose.Schema(
       default: "customer",
       required: true,
     },
-    phoneNumber: [
-      {
-        type: Number,
-      },
-    ],
+    phoneNumber: {
+      type: Number,
+    },
+    address: {
+      type: String,
+    },
     imageUrl: {
       type: String,
     },

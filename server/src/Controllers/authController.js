@@ -25,13 +25,11 @@ export const Register = async (req, res) => {
         .json({ success: false, message: "Password must be greater than 8" });
     }
     const hashedPass = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPass,
     });
-    await Friend.create({ userId: user._id });
-
     return res
       .status(201)
       .json({ success: true, message: "Successfully Created Account" });
@@ -51,7 +49,7 @@ export const Login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Required All Fields" });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     if (!user) {
       return res
         .status(400)
@@ -75,15 +73,7 @@ export const Login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Successfully login!",
-      user: {
-        userId: user._id,
-        email: user.email,
-        name: user.name,
-        imageUrl: user.imageUrl,
-        phoneNumber: user.phoneNumber,
-        address: user.address,
-        preferences: user.preferences,
-      },
+      user,
     });
   } catch (error) {
     console.log("Login error", error.message);
@@ -123,12 +113,12 @@ export const profileUpdate = async (req, res) => {
   try {
     const userId = req.userId;
     const file = req.file?.path;
-    const { bio, name } = req.body;
+    const { name } = req.body;
 
     if (!userId) {
       return res.status(404).json({ message: "UnAuthorized", success: false });
     }
-    if (!file && !bio && !name) {
+    if (!file && !name) {
       return res
         .status(400)
         .json({ success: false, message: "Nothing changed" });
@@ -150,7 +140,6 @@ export const profileUpdate = async (req, res) => {
       user.imageUrl = cloudinaryResult.secure_url;
     }
 
-    if (bio) user.bio = bio.trim();
     if (name) user.name = name.trim();
 
     await user.save({ validateBeforeSave: false });
@@ -158,16 +147,7 @@ export const profileUpdate = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Profile Update Successfully",
-      user: {
-        userId: user._id,
-        name: user.name,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        imageUrl: user.imageUrl,
-        address: user.address,
-        preferences: user.preferences,
-        bio: user.bio,
-      },
+      user,
     });
   } catch (error) {
     console.log("Something went wrong", error.message);
@@ -190,16 +170,7 @@ export const authUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      user: {
-        name: user.name,
-        userId: user._id,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        imageUrl: user.imageUrl,
-        address: user.address,
-        preferences: user.preferences,
-        bio: user.bio,
-      },
+      user,
       message: "Authorized User",
     });
   } catch (error) {
@@ -210,8 +181,8 @@ export const authUser = async (req, res) => {
   }
 };
 
-// get all Users
-export const getUsers = async (req, res) => {
+// get all Users not me 
+export const getAllUsers = async (req, res) => {
   try {
     const userId = req.userId;
     const users = await User.find({
