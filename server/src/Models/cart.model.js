@@ -11,11 +11,9 @@ const cartItemSchema = new mongoose.Schema({
     default: 1,
     required: true,
   },
-
-  amount: {
-    type: Number,
-    required: true,
-    min: 1,
+  addedAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
@@ -28,10 +26,6 @@ const cartSchema = new mongoose.Schema(
       required: true,
     },
     cartItems: [cartItemSchema], // array of items
-
-    totalAmount: {
-      type: Number,
-    },
   },
 
   { timestamps: true }
