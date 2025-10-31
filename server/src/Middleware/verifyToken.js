@@ -10,7 +10,7 @@ export const verifyToken = (req, res, next) => {
     }
     req.user = decoded;
     req.userId = decoded.userId;
-
+    req.role = decoded.role;
     next();
   } catch (error) {
     console.error("JWT verification failed:", error.message);

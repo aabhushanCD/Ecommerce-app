@@ -60,9 +60,13 @@ export const Login = async (req, res) => {
       return res.status(400).json({ success: false, message: "Try Again!" });
     }
 
-    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const accessToken = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       // secure: process.env.NODE_ENV === "production",
@@ -181,7 +185,7 @@ export const authUser = async (req, res) => {
   }
 };
 
-// get all Users not me 
+// get all Users not me
 export const getAllUsers = async (req, res) => {
   try {
     const userId = req.userId;
@@ -291,6 +295,55 @@ export const resetPass = async (req, res) => {
 
     return res.status(500).json({
       message: "Internal Server Error",
+      success: false,
+    });
+  }
+};
+
+// change role
+export const changeToSeller = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { role } = req.body;
+    const document = req.file;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "unAuthorized", success: false });
+    }
+    if (!role || !document) {
+      return res.status(404).json({
+        message: "Please Select role and Upload Your Document",
+        success: false,
+      });
+    }
+    if (!role) {
+      return res
+        .status(400)
+        .json({ message: "please Select role", success: false });
+    }
+    if (document) {
+      const cloudinaryResult = await uploadMedia(document.path);
+      if (!cloudinaryResult || !cloudinaryResult.secure_url) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Image upload failed" });
+      }
+      user.document.pan = cloudinaryResult.secure_url;
+    }
+
+    await user.save({ validateBeforeSave: false });
+    return res.status(200).json({
+      user,
+      success: false,
+      message: "Successfully Send Request to Change Role",
+    });
+  } catch (error) {
+    console.error(
+      "Something went wrong while changing role to seller ",
+      error.message
+    );
+    return res.status(500).json({
+      message: "Server Error, change To Seller error ",
       success: false,
     });
   }
