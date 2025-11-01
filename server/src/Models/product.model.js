@@ -44,6 +44,10 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isFlashSale: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

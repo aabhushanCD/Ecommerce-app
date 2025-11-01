@@ -64,8 +64,16 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    const { name, category, description, price, discount, stock, isAvailable } =
-      req.body;
+    const {
+      name,
+      category,
+      description,
+      price,
+      discount,
+      stock,
+      isAvailable,
+      isFlashSale,
+    } = req.body;
     const { productId } = req.params;
     const userId = req.userId;
     const role = req.role;
@@ -89,6 +97,7 @@ export const updateProduct = async (req, res) => {
     product.discount = discount ?? product.discount;
     product.stock = stock ?? product.stock;
     product.isAvailable = isAvailable ?? product.isAvailable;
+    product.isFlashSale = isFlashSale ?? product.isFlashSale;
 
     const updatedProduct = await product.save();
     return res.status(200).json({
@@ -171,8 +180,94 @@ export const updateProductImage = async (req, res) => {
   }
 };
 
-export const viewProduct = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
+    const { category, flash, page = 1, limit = 10, search, sort } = req.query;
+    const query = {};
 
-  } catch (error) {}
+    // 1 Filter by category
+    if (category) query.category = category;
+
+    // 2 Flash sale products
+    if (flash === "true") query.isFlashSale = true;
+
+    // 3 Search by name or description
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // 4 Pagination
+    const skip = (page - 1) * limit;
+
+    // 5 Sorting (price, rating, date, etc.)
+    const sortOptions = {};
+
+    if (sort === "priceAsc") sortOptions.price = 1;
+    if (sort === "priceDesc") sortOptions.price = -1;
+    if (sort === "newest") sortOptions.createdAt = -1;
+    else sortOptions.createdAt = -1;
+
+    const products = await Product.find(query)
+      .populate("category", "name")
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(Number(limit))
+      .lean();
+    const total = await Product.countDocuments(query);
+
+    return res.status(200).json({
+      success: true,
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+      totalProducts: total,
+      products,
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching products",
+      error: error.message,
+    });
+  }
 };
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const userId = req.userId;
+    const role = req.role;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(403).json({ message: "Access Denied", success: false });
+    }
+    if (product.sellerId !== userId && role === "customer") {
+      return res.status(401).json({ message: "UnAuthorized", success: false });
+    }
+    if (product.imageUrls.length > 0) {
+      for (const img of product.imageUrls) {
+        try {
+          await deleteMedia(img.publicId);
+        } catch (err) {
+          console.warn("Failed to delete media:", img.publicId, err.message);
+        }
+      }
+    }
+
+    await product.deleteOne();
+    return res
+      .status(200)
+      .json({ success: true, message: "Successfully Removed Product" });
+  } catch (error) {
+    console.error("Something went Wrong!", error.message);
+    return res
+      .status(500)
+      .json({ message: "Server Errro While deleting Product" });
+  }
+};
+
+
