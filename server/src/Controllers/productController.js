@@ -1,5 +1,5 @@
 import Product from "../Models/product.model";
-import { uploadMedia } from "../Utils/cloudinary";
+import { deleteMedia, uploadMedia } from "../Utils/cloudinary";
 
 // adding product by seller
 export const addProduct = async (req, res) => {
@@ -31,7 +31,10 @@ export const addProduct = async (req, res) => {
           .status(500)
           .json({ success: false, message: "Image upload failed" });
       }
-      imageUrls.push(cloudinaryResult.secure_url);
+      imageUrls.push({
+        url: cloudinaryResult.secure_url,
+        publicId: cloudinaryResult.public_id,
+      });
     }
 
     const product = await Product.create({
@@ -57,4 +60,119 @@ export const addProduct = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const { name, category, description, price, discount, stock, isAvailable } =
+      req.body;
+    const { productId } = req.params;
+    const userId = req.userId;
+    const role = req.role;
+
+    const product = await Product.findById(productId);
+
+    if (role !== "seller" && role !== "admin") {
+      return res.status(403).json({ message: "Access denied", success: false });
+    }
+
+    if (product.sellerId.toString() !== userId && role !== "admin") {
+      return res
+        .status(404)
+        .json({ message: "unAuthorized to update product" });
+    }
+
+    product.name = name || product.name;
+    product.category = category || product.category;
+    product.description = description || product.description;
+    product.price = price || product.price;
+    product.discount = discount ?? product.discount;
+    product.stock = stock ?? product.stock;
+    product.isAvailable = isAvailable ?? product.isAvailable;
+
+    const updatedProduct = await product.save();
+    return res.status(200).json({
+      message: "Successfully update Product details",
+      updatedProduct,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error while updating Product ", error.message);
+    return res.status(500).json({
+      message: "Server Error,while update Product details",
+      success: false,
+    });
+  }
+};
+
+export const updateProductImage = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const role = req.role;
+    const files = req.files;
+    const { productId } = req.params;
+    const { removedImageIds } = req.body;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    if (role !== "seller" && role !== "admin") {
+      return res.status(403).json({ success: false, message: "Access denied" });
+    }
+
+    if (product.sellerId.toString() !== userId && role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized to modify this product",
+      });
+    }
+
+    if (removedImageIds && Array.isArray(removedImageIds)) {
+      for (const publicId of removedImageIds) {
+        await deleteMedia(publicId);
+        product.imageUrls = product.imageUrls.filter(
+          (img) => img.publicId !== publicId
+        );
+      }
+    }
+
+    if (files) {
+      for (const file of files) {
+        const cloudinaryResult = await uploadMedia(file.path);
+        if (cloudinaryResult && cloudinaryResult.secure_url) {
+          product.imageUrls.push({
+            url: cloudinaryResult.secure_url,
+            publicId: cloudinaryResult.public_id,
+          });
+        }
+      }
+    }
+    await product.save();
+
+    return res.status(200).json({
+      message: "Product Picture Uploaded Successfully",
+      success: false,
+    });
+  } catch (error) {
+    console.error(
+      "Something went wrong while updating product image",
+      error.message
+    );
+    return res.status(500).json({
+      message: "Server Error, while Picture Uploading",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const viewProduct = async (req, res) => {
+  try {
+
+  } catch (error) {}
 };

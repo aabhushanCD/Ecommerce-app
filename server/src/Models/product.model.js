@@ -31,8 +31,8 @@ const productSchema = new mongoose.Schema(
     },
     imageUrls: [
       {
-        type: String,
-        trim: true,
+        url: { type: String, trim: true },
+        publicId: { type: String, trim: true },
       },
     ],
     stock: {
