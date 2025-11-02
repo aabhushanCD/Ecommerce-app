@@ -1,5 +1,5 @@
-import Product from "../Models/product.model";
-import { deleteMedia, uploadMedia } from "../Utils/cloudinary";
+import Product from "../Models/product.model.js";
+import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
 
 // adding product by seller
 export const addProduct = async (req, res) => {

@@ -13,8 +13,8 @@ const categorySchema = new mongoose.Schema(
       trim: true,
     },
     imageUrl: {
-      type: String,
-      trim: true,
+      url: { type: String, trim: true },
+      publicId: { type: String, trim: true },
     },
     parentCategory: {
       type: mongoose.Schema.Types.ObjectId,
