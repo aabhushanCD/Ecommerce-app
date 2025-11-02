@@ -32,8 +32,8 @@ const sellerSchema = new mongoose.Schema({
     max: 5,
   },
   address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
+    type: "String",
+    trim: true,
   },
 });
 
