@@ -8,6 +8,11 @@ const orderItemSchema = new mongoose.Schema({
   price: Number,
   discount: Number,
   subtotal: Number,
+  itemStatus: {
+    type: String,
+    enum: ["Placed", "Confirmed", "Shipped", "Delivered", "Cancelled"],
+    default: "Placed",
+  },
 });
 
 const orderSchema = new mongoose.Schema(
