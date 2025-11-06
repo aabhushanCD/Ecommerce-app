@@ -203,4 +203,13 @@ export const sellerConfirmedOrder = async (req, res) => {
   }
 };
 
+export const getOrderStatus = async (req, res) => {
+  try {
+  } catch (error) {}
+};
+export const setOrderStatus = async (req, res) => {
+  try {
+  } catch (error) {}
+};
+
 
