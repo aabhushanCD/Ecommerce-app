@@ -5,6 +5,13 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import auth from "./src/Routes/authRoutes.js";
 import { ConnectDB } from "./src/DB/ConnectDb.js";
+import cartRoute from "./src/Routes/cartRoute.js";
+import categoriesRoutes from "./src/Routes/cartRoute.js";
+import orderRoutes from "./src/Routes/cartRoute.js";
+import productRoutes from "./src/Routes/cartRoute.js";
+import sellerRoutes from "./src/Routes/cartRoute.js";
+import wishlistRoutes from "./src/Routes/cartRoute.js";
+
 const app = express();
 app.use(
   cors({
@@ -25,6 +32,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", auth);
+app.use("/api/cart", cartRoute);
+app.use("/api/categories", categoriesRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/product", productRoutes);
+app.use("/api/seller", sellerRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 const PORT = process.env.PORT || 8080;
 ConnectDB()

@@ -1,7 +1,7 @@
 import User from "../Models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
+import { uploadMedia } from "../Utils/cloudinary.js";
 import nodemailer from "nodemailer";
 // signUp
 export const Register = async (req, res) => {
@@ -13,16 +13,17 @@ export const Register = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Please Provide All Fields" });
     }
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be greater than 8",
+      });
+    }
     const existed = await User.findOne({ email });
     if (existed) {
       return res
         .status(400)
         .json({ success: false, message: "User Already Existed" });
-    }
-    if (password.length < 8) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Password must be greater than 8" });
     }
     const hashedPass = await bcrypt.hash(password, 10);
     await User.create({
@@ -55,7 +56,7 @@ export const Login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "user not found" });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: "Try Again!" });
     }
@@ -69,7 +70,7 @@ export const Login = async (req, res) => {
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      // secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
       secure: false,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,

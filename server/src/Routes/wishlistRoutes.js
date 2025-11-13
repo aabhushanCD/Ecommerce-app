@@ -8,7 +8,7 @@ import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.post("toggleWishlist", verifyToken, toggleWishlist);
+router.post("toggleWishlist/:productId", verifyToken, toggleWishlist);
 
 router.get("viewWishlist", verifyToken, viewWishlist);
 

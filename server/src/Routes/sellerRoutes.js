@@ -19,7 +19,7 @@ router.put("update/profile", verifyToken, updateMySellerInfo);
 
 router.get("view/all/sellers", verifyToken, getAllSellers);
 
-router.get("verify", verifyToken, verifySeller);
+router.get("verify/:sellerId", verifyToken, verifySeller);
 
 router.get("view/:sellerId", verifyToken, getSellerById);
 
