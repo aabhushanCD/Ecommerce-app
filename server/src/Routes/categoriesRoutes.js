@@ -15,6 +15,7 @@ router.get("categories/view", verifyToken, viewCategories);
 
 router.put("categories/update", verifyToken, updateCategories);
 
-router.delete("/categories/remove", verifyToken, removeCategories);
+router.delete("categories/remove", verifyToken, removeCategories);
+
 
 export default router;
