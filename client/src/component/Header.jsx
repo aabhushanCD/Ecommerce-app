@@ -1,15 +1,27 @@
 import { Search, ShoppingCart } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <div className=" flex flex-col w-full h-30   items-center gap-4 bg-blue-600 text-white">
-      <div className="flex gap-10 ml-140 text-[13px]">
+      <div className="flex gap-10 ml-140 text-[13px] ">
         <button>SAVE MORE ON APP</button>
         <button>BECOME A SELLER</button>
         <button>HELP & SUPPORT</button>
-        <button>LOGIN</button>
-        <button>SIGN UP</button>
+        <button
+          onClick={() => navigate("/login")}
+          className="hover:text-green-400 "
+        >
+          LOGIN
+        </button>
+        <button
+          onClick={() => navigate("/register")}
+          className="hover:text-green-400 "
+        >
+          SIGN UP
+        </button>
         <button>LANG</button>
       </div>
       <div className="flex justify-center gap-20 w-full items-center">

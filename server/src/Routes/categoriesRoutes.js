@@ -1,11 +1,11 @@
 import express from "express";
-import { verifyToken } from "../middleware/verifyToken";
+import { verifyToken } from "../middleware/verifyToken.js";
 import {
   addCategories,
   removeCategories,
   updateCategories,
   viewCategories,
-} from "../Controllers/categoriesController";
+} from "../Controllers/categoriesController.js";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
@@ -22,7 +22,7 @@ router.get("categories/view", verifyToken, viewCategories);
 router.put(
   "categories/update/:id",
   verifyToken,
-  upload.single(file),
+  upload.single("file"),
   updateCategories
 );
 

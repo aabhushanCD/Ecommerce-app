@@ -6,20 +6,23 @@ import cookieParser from "cookie-parser";
 import auth from "./src/Routes/authRoutes.js";
 import { ConnectDB } from "./src/DB/ConnectDb.js";
 import cartRoute from "./src/Routes/cartRoute.js";
-import categoriesRoutes from "./src/Routes/cartRoute.js";
-import orderRoutes from "./src/Routes/cartRoute.js";
-import productRoutes from "./src/Routes/cartRoute.js";
-import sellerRoutes from "./src/Routes/cartRoute.js";
-import wishlistRoutes from "./src/Routes/cartRoute.js";
+import categoriesRoutes from "./src/Routes/categoriesRoutes.js";
+import orderRoutes from "./src/Routes/orderRoutes.js";
+import productRoutes from "./src/Routes/productRoute.js";
+import sellerRoutes from "./src/Routes/sellerRoutes.js";
+import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 
+const allowedOrigins = [process.env.CLIENT_URL_1, process.env.CLIENT_URL_2];
 const app = express();
 app.use(
   cors({
     origin: (origin, callback) => {
       // allow requests with no origin (like Postman or curl)
+
       if (!origin) return callback(null, true);
+
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
+        return callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }

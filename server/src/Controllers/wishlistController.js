@@ -29,13 +29,11 @@ export const toggleWishlist = async (req, res) => {
 
     if (!wishlist) {
       wishlist = await Wishlist.create({ userId, productId: [productId] });
-      return res
-        .status(200)
-        .json({
-          message: "Product added to wishlist",
-          success: true,
-          wishlist,
-        });
+      return res.status(200).json({
+        message: "Product added to wishlist",
+        success: true,
+        wishlist,
+      });
     }
 
     // If product already exists in wishlist, remove it
@@ -43,13 +41,11 @@ export const toggleWishlist = async (req, res) => {
     if (alreadyAdded) {
       wishlist.productId.pull(productId);
       await wishlist.save();
-      return res
-        .status(200)
-        .json({
-          message: "Product removed from wishlist",
-          success: true,
-          wishlist,
-        });
+      return res.status(200).json({
+        message: "Product removed from wishlist",
+        success: true,
+        wishlist,
+      });
     }
 
     // Otherwise, add it

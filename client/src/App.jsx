@@ -1,4 +1,12 @@
+import Carolie from "./component/Carosel";
+import SuggestedProduct from "./component/SuggestedProduct";
+
 function App() {
-  return <>Hello</>;
+  return (
+    <>
+      <Carolie />
+      <SuggestedProduct />
+    </>
+  );
 }
 export default App;
