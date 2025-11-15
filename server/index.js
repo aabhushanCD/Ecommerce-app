@@ -12,11 +12,11 @@ import productRoutes from "./src/Routes/productRoute.js";
 import sellerRoutes from "./src/Routes/sellerRoutes.js";
 import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 
-const allowedOrigins = [process.env.CLIENT_URL_1, process.env.CLIENT_URL_2];
+const allowedOrigins = [process.env.CLIENT_URL_1];
 const app = express();
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
       // allow requests with no origin (like Postman or curl)
 
       if (!origin) return callback(null, true);

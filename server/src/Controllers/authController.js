@@ -50,13 +50,13 @@ export const Login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Required All Fields" });
     }
-    const user = await User.findOne({ email }).select("-password");
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "user not found" });
     }
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ success: false, message: "Try Again!" });
     }
@@ -71,7 +71,6 @@ export const Login = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      secure: false,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
     });

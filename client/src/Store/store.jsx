@@ -32,13 +32,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   // Login
-  const login = async (email, password) => {
+  const login = async (data) => {
     try {
-      const res = await axios.post(
-        `${ServerApi}/auth/login`,
-        { email, password },
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${ServerApi}/auth/login`, data);
 
       setCurrentUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -52,13 +48,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   // Signup
-  const Signup = async (form) => {
+  const Signup = async (data) => {
     try {
-      const res = await axios.post(`${ServerApi}/auth/register`, {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      });
+      const res = await axios.post(`${ServerApi}/auth/register`, data);
 
       toast.success(res.data?.message || "Account created successfully");
       return true;

@@ -8,15 +8,11 @@ const Signup = () => {
   const passwordRef = useRef();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData();
-
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const name = nameRef.current.value.trim();
+    const email = emailRef.current.value.trim();
+    const password = passwordRef.current.value.trim();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    form.set("name", name);
-    form.set("email", email);
-    form.set("password", password);
+
     try {
       if (name.length <= 3) {
         return "Invalid Name!";
@@ -27,8 +23,15 @@ const Signup = () => {
       if (password.length <= 7) {
         return "Invalid Name!";
       }
-      await Signup(form);
-    } catch (error) {}
+      const success = await Signup({name, email, password});
+      if (success) {
+        nameRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="w-full flex justify-center mt-10">
