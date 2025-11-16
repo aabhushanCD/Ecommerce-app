@@ -112,7 +112,7 @@ export const LogOut = async (req, res) => {
   }
 };
 
-// update user Profile name bio and profile picture
+// update user Profile name  and profile picture
 export const profileUpdate = async (req, res) => {
   try {
     const userId = req.userId;
@@ -135,13 +135,17 @@ export const profileUpdate = async (req, res) => {
     }
 
     if (file) {
-      const cloudinaryResult = await uploadMedia(file);
-      if (!cloudinaryResult || !cloudinaryResult.secure_url) {
-        return res
-          .status(500)
-          .json({ success: false, message: "Image upload failed" });
+      try {
+        const cloudinaryResult = await uploadMedia(file);
+        if (!cloudinaryResult || !cloudinaryResult.secure_url) {
+          return res
+            .status(500)
+            .json({ success: false, message: "Image upload failed" });
+        }
+        user.imageUrl = cloudinaryResult.secure_url;
+      } catch (error) {
+        console.error("error while uploading to cloudinary", error.message);
       }
-      user.imageUrl = cloudinaryResult.secure_url;
     }
 
     if (name) user.name = name.trim();

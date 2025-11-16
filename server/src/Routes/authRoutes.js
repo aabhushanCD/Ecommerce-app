@@ -25,11 +25,6 @@ router.post("/reset/:id/:token", resetPass);
 
 // -------------profile-----------------------
 
-router.put(
-  "/updateProfile",
-  verifyToken,
-  upload.single("profile"),
-  profileUpdate
-);
+router.put("/updateProfile", verifyToken, upload.single("file"), profileUpdate);
 
 export default router;
