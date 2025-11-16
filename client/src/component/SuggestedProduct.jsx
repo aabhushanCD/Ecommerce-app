@@ -28,12 +28,15 @@ const SuggestedProduct = () => {
     return price * (discount / 100);
   };
   return (
-    <div className="">
-      <div>Suggestions</div>
+    <div className="p-1">
+      <div className="text-2xl font-semibold p-1">Suggestions</div>
       <div className="flex gap-5 flex-wrap ">
         {product &&
           product.map((item, index) => (
-            <div className="border transform transition-transform hover:scale-102 duration-200">
+            <div
+              key={index}
+              className="border transform transition-transform hover:scale-102 duration-200"
+            >
               <div className="w-70 ">
                 <img
                   src={item.image}

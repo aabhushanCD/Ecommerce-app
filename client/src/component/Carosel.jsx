@@ -21,15 +21,18 @@ const Carousel = () => {
     setCurrent((prev) => (prev - 1 + urls.length) % urls.length);
 
   return (
-    <div className="relative w-full border-b-4 overflow-hidden">
+    <section
+      id="carosel"
+      className="relative w-full border-b-4 overflow-hidden"
+    >
       {/* Image Wrapper */}
-      <div className="relative h-56 md:h-96">
+      <div className="relative h-56 md:h-96  flex justify-center">
         {urls.map((url, index) => (
           <img
             key={index}
             src={url}
             alt={`Slide ${index + 1}`}
-            className={`absolute w-full h-full object-cover transition-opacity duration-700 aspect-auto ${
+            className={`absolute w-300  min-h-56 object-cover  ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -91,7 +94,7 @@ const Carousel = () => {
           </svg>
         </span>
       </button>
-    </div>
+    </section>
   );
 };
 

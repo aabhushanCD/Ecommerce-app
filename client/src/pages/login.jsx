@@ -7,6 +7,7 @@ const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [validForm, setValidForm] = useState({
     email: { valid: false },
     password: { valid: false },
@@ -28,7 +29,12 @@ const Login = () => {
       const email = emailRef.current.value.trim();
       const password = passwordRef.current.value.trim();
       const success = await login({ email, password });
-    } catch (error) {}
+      if (success) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="fixed z-50 top-10 left-10 gap-4 flex w-300 h-10 border bg-white shadow-gray-400 m-auto">
