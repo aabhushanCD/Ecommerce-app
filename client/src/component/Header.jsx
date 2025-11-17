@@ -1,11 +1,21 @@
 import { useAuth } from "@/Store/store";
-import { Search, ShoppingCart } from "lucide-react";
+import { LogOut, Search, ShoppingCart } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser, logOut } = useAuth();
+  const handleLogout = async () => {
+    try {
+      const success = await logOut();
+      if (success) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className=" flex flex-col w-full h-30 justify-center   items-center gap-4 bg-blue-600 text-white">
       <div
@@ -38,8 +48,9 @@ const Header = () => {
           />
           <Search className="bg-blue-500 h-full w-10 " />
         </div>
-        <div>
+        <div className="flex gap-5 items-center">
           <ShoppingCart size={30} />
+          <LogOut onClick={handleLogout} />
         </div>
       </div>
     </div>

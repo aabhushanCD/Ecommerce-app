@@ -62,13 +62,19 @@ export const AuthContextProvider = ({ children }) => {
   };
   const logOut = async () => {
     try {
-      const res = await axios.get(`${ServerApi}/auth/logout`, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${ServerApi}/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );  
       if (res.status === 200) {
         setCurrentUser(null);
-        return localStorage.removeItem("user");
+        localStorage.removeItem("user");
+        return true;
       }
+      return false;
     } catch (error) {
       console.error(error);
     }
