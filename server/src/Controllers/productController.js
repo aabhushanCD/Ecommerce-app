@@ -269,5 +269,3 @@ export const deleteProduct = async (req, res) => {
       .json({ message: "Server Errro While deleting Product" });
   }
 };
-
-

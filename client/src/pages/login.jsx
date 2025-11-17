@@ -2,6 +2,7 @@ import { UserPen } from "lucide-react";
 import React, { useRef, useState } from "react";
 import catwebp from "/images/catwebp.webp";
 import { useAuth } from "@/Store/store";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const emailRef = useRef();

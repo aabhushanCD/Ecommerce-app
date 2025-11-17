@@ -9,6 +9,7 @@ import { useAuth } from "@/Store/store";
 import PublicRoute from "./PublicRoute";
 import ProductAdd from "@/pages/Seller/ProductAdd";
 import ProfileUpdate from "@/pages/ProfileUpdate";
+import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
 
 const AppRoutes = () => {
   const { currentUser } = useAuth();
@@ -29,10 +30,6 @@ const AppRoutes = () => {
         <Route path="*" element={<Navigate to="/" />}></Route>
 
         <Route
-          path="/login"
-          element={currentUser ? <Navigate to="/" /> : <Navigate to="/login" />}
-        />
-        <Route
           path="/register"
           element={
             <PublicRoute>
@@ -40,7 +37,8 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-        <Route path="/profile" element={<ProfileUpdate />}></Route>
+        <Route path="/viewAllProducts" element={<ViewAllProducts />} />
+        <Route path="/profile" element={<ProfileUpdate />} />
         <Route path="/add-product" element={<ProductAdd />} />
         <Route
           path="/login"
@@ -49,7 +47,7 @@ const AppRoutes = () => {
               <Login />
             </PublicRoute>
           }
-        />
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

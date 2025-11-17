@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { ServerApi } from "@/constant";
 import { toast } from "sonner";
-
+// axios.defaults.withCredentials = true;
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -24,7 +24,6 @@ export const AuthContextProvider = ({ children }) => {
     } catch (error) {
       setCurrentUser(null);
       localStorage.removeItem("user");
-
       toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
@@ -34,12 +33,14 @@ export const AuthContextProvider = ({ children }) => {
   // Login
   const login = async (data) => {
     try {
-      const res = await axios.post(`${ServerApi}/auth/login`, data);
+      const res = await axios.post(`${ServerApi}/auth/login`, data, {
+        withCredentials: true,
+      });
 
       setCurrentUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      console.log(res.data.user);
 
-      toast.success(res?.data?.message || "Logged in successfully");
       return true;
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
