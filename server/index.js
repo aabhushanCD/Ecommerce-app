@@ -12,15 +12,14 @@ import productRoutes from "./src/Routes/productRoute.js";
 import sellerRoutes from "./src/Routes/sellerRoutes.js";
 import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 
-const allowedOrigins = [process.env.CLIENT_URL_1];
+const allowedOrigins = ["http://localhost:5173"];
 const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like Postman or curl)
-
-      if (!origin) return callback(null, true);
-
+      if (!origin) {
+        callback(null, true);
+      }
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {

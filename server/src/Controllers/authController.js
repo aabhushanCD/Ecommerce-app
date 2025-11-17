@@ -3,6 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { uploadMedia } from "../Utils/cloudinary.js";
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env" });
 // signUp
 export const Register = async (req, res) => {
   try {
@@ -70,14 +73,17 @@ export const Login = async (req, res) => {
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
+
+    const safeUser = user.toObject();
+    delete safeUser.password;
     return res.status(200).json({
       success: true,
       message: "Successfully login!",
-      user,
+      user: safeUser,
     });
   } catch (error) {
     console.log("Login error", error.message);
