@@ -11,21 +11,16 @@ import upload from "../middleware/multer.js";
 const router = express.Router();
 
 router.post(
-  "categories/add/:parentId",
+  "/add/:parentId",
   verifyToken,
   upload.single("file"),
   addCategories
 );
 
-router.get("categories/view", verifyToken, viewCategories);
+router.get("/view", verifyToken, viewCategories);
 
-router.put(
-  "categories/update/:id",
-  verifyToken,
-  upload.single("file"),
-  updateCategories
-);
+router.put("/update/:id", verifyToken, upload.single("file"), updateCategories);
 
-router.delete("categories/remove/:id", verifyToken, removeCategories);
+router.delete("/remove/:id", verifyToken, removeCategories);
 
 export default router;

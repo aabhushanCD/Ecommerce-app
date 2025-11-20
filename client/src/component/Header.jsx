@@ -17,7 +17,7 @@ const Header = () => {
     }
   };
   return (
-    <div className=" flex flex-col w-full h-30 justify-center   items-center gap-4 bg-blue-600 text-white">
+    <div className=" flex flex-col w-full h-25 justify-center   items-center gap-4 bg-blue-700 text-white">
       <div
         className={`flex gap-10 ml-140 text-[13px] ${currentUser && "hidden"}`}
       >

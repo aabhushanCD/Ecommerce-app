@@ -10,7 +10,7 @@ const ViewAllProducts = () => {
     <>
       <div className="p-4 ">
         <h1 className="text-3xl font-bold text-center">Products</h1>
-        <table className="border-2 w-full bg-blue-500 ">
+        <table className="border-2 w-full bg-gray-50 ">
           <thead>
             <tr>
               <th className="border p-2 w-50">S.N</th>

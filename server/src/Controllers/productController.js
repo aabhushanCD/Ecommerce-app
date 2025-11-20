@@ -7,8 +7,8 @@ export const addProduct = async (req, res) => {
     const { name, category, description, price, discount, stock } = req.body;
     const userId = req.userId;
     const role = req.role;
-    const files = req.files;
-    if (!name || !price || !stock || !files || !category || !description) {
+
+    if (!name || !price || !stock || !category || !description) {
       return res
         .status(400)
         .json({ message: "Please Provide mandatory fields", success: false });
@@ -23,19 +23,7 @@ export const addProduct = async (req, res) => {
     }
 
     // Upload images to Cloudinary
-    let imageUrls = [];
-    for (const file of files) {
-      const cloudinaryResult = await uploadMedia(file.path);
-      if (!cloudinaryResult || !cloudinaryResult.secure_url) {
-        return res
-          .status(500)
-          .json({ success: false, message: "Image upload failed" });
-      }
-      imageUrls.push({
-        url: cloudinaryResult.secure_url,
-        publicId: cloudinaryResult.public_id,
-      });
-    }
+    let imageUrls = null;
 
     const product = await Product.create({
       sellerId: userId,
