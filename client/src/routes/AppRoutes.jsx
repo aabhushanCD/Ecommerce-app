@@ -5,7 +5,7 @@ import Signup from "@/pages/Signup";
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./protectedRoute";
-import { useAuth } from "@/Store/store";
+
 import PublicRoute from "./PublicRoute";
 import ProductAdd from "@/pages/Seller/ProductAdd";
 import ProfileUpdate from "@/pages/ProfileUpdate";
@@ -13,7 +13,6 @@ import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
 import AddCategories from "@/pages/Admin/AddCategories";
 
 const AppRoutes = () => {
-  const { currentUser } = useAuth();
   return (
     <BrowserRouter>
       <Routes>
@@ -38,9 +37,6 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-        <Route path="/viewAllProducts" element={<ViewAllProducts />} />
-        <Route path="/profile" element={<ProfileUpdate />} />
-        <Route path="/add-product" element={<ProductAdd />} />
         <Route
           path="/login"
           element={
@@ -49,7 +45,13 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-        <Route path="/add-category" element={<AddCategories />}></Route>
+        <Route path="/viewAllProducts" element={<ViewAllProducts />} />
+
+        <Route>
+          <Route path="/profile" element={<ProfileUpdate />} />
+          <Route path="/add-product" element={<ProductAdd />} />
+          <Route path="/add-category" element={<AddCategories />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

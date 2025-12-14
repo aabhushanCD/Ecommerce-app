@@ -68,7 +68,7 @@ export const AuthContextProvider = ({ children }) => {
         {
           withCredentials: true,
         }
-      );  
+      );
       if (res.status === 200) {
         setCurrentUser(null);
         localStorage.removeItem("user");
