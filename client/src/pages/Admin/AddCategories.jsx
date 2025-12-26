@@ -1,9 +1,20 @@
 import { ServerApi } from "@/constant";
 import axios from "axios";
-import React from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import React, { useRef, useState } from "react";
 
 const AddCategories = () => {
+  // useEffect(async() => {
+  //   const res= axios.get(`${ServerApi}/`)
+  // });
+  const categoryRef = useRef();
+  const [categories, setCategories] = useState([]);
   const handleAddCategory = async (parentId = null) => {
+    const category = categoryRef.current.value;
+
+    setCategories((prev) => [...prev, category]);
+
+    categoryRef.current.value = "";
     try {
       const res = await axios.post(
         `${ServerApi}/categories/add/${parentId}`,
@@ -20,24 +31,32 @@ const AddCategories = () => {
     }
   };
   return (
-    <div className="w-100 h-50 bg-gray-50 m-auto">
-      <h1 className="text-2xl font-semibold text-center">Add Category</h1>
-      <div className="flex border-b p-2">
-        <label htmlFor="new-category ">New Category:</label>
+    <div className=" grid  w-100 border-2 min-h-50  m-auto mt-50 p-4">
+      <div className="font-bold text-3xl text-blue-700 m-auto">CATEGORY</div>
+      <div className="font-bold  text-gray-500 ">
+        {categories &&
+          categories.map((c, i) => (
+            <div key={i} className="border-b-2 flex justify-between p-2">
+              {c} <ChevronRight />
+            </div>
+          ))}
+      </div>
+      <span className="flex gap-4 justify-between  items-center font-semibold px-4 rounded-2xl border mt-2  py-1">
         <input
           type="text"
-          id="new-category"
-          className="outline-none border-b p-2"
+          placeholder="Add New Category . . ."
+          className="outline-none"
+          ref={categoryRef}
+          onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}
         />
-      </div>
-      <div className="p-2">
         <button
-          className="bg-green-500 p-2 rounded-2xl"
+          id="add"
+          className="font-bold text-3xl bg-green-900 rounded-4xl  text-white  p-2 "
           onClick={handleAddCategory}
         >
-          Add
+          +
         </button>
-      </div>
+      </span>
     </div>
   );
 };

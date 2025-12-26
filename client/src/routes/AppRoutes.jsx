@@ -47,11 +47,11 @@ const AppRoutes = () => {
         />
         <Route path="/viewAllProducts" element={<ViewAllProducts />} />
 
-        <Route>
-          <Route path="/profile" element={<ProfileUpdate />} />
-          <Route path="/add-product" element={<ProductAdd />} />
-          <Route path="/add-category" element={<AddCategories />} />
-        </Route>
+        <Route path="/profile" element={<ProfileUpdate />} />
+        <Route path="/add-product" element={<ProductAdd />} />
+     
+
+        <Route path="/admin" index element={<AddCategories />}></Route>
       </Routes>
     </BrowserRouter>
   );
