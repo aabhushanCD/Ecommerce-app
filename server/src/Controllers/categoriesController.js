@@ -1,17 +1,29 @@
 import Category from "../Models/categories.model.js";
 import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
 
-// ____Add Catefories_____________
+// ____Add Categories_____________
 export const addCategories = async (req, res) => {
   try {
     const role = req.role;
     const { name, description } = req.body;
-    const { parentId } = req.params;
+    const parentId = req.body.parentId;
     const file = req.file;
-
+    console.log(role, parentId);
     // Only admin can create category
     if (role !== "admin") {
       return res.status(403).json({ message: "Access denied", success: false });
+    }
+
+    // Validate parentId if provided
+    let parentCategory = null;
+    if (parentId) {
+      if (!mongoose.Types.ObjectId.isValid(parentId)) {
+        return res.status(400).json({
+          message: "Invalid parent category ID",
+          success: false,
+        });
+      }
+      parentCategory = new mongoose.Types.ObjectId(parentId);
     }
 
     // Check duplicate category name
@@ -33,7 +45,7 @@ export const addCategories = async (req, res) => {
         };
       } catch (error) {
         return res.status(500).json({
-          message: "Error uploading image. Try again later.",
+          message: "Error uploading image. Try again later!",
           success: false,
         });
       }
@@ -44,7 +56,7 @@ export const addCategories = async (req, res) => {
       name,
       description,
       imageUrl: imageData,
-      parentCategory: parentId || null,
+      parentCategory,
     });
 
     return res.status(200).json({

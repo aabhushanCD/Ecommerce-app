@@ -1,62 +1,102 @@
-import { ServerApi } from "@/constant";
 import axios from "axios";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import CategoryItem from "@/component/CategoryItems";
+import { ServerApi } from "@/constant";
 
 const AddCategories = () => {
-  // useEffect(async() => {
-  //   const res= axios.get(`${ServerApi}/`)
-  // });
   const categoryRef = useRef();
-  const [categories, setCategories] = useState([]);
-  const handleAddCategory = async (parentId = null) => {
-    const category = categoryRef.current.value;
+  const parentRef = useRef();
 
-    setCategories((prev) => [...prev, category]);
+  const [categories, setCategories] = useState([]);
+  const [tree, setTree] = useState([]);
+
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+
+  const buildCategoryTree = (categories) => {
+    const map = {};
+    const roots = [];
+
+    categories.forEach((cat) => {
+      map[cat._id] = { ...cat, children: [] };
+    });
+
+    categories.forEach((cat) => {
+      if (cat.parentCategory) {
+        map[cat.parentCategory]?.children.push(map[cat._id]);
+      } else {
+        roots.push(map[cat._id]);
+      }
+    });
+
+    return roots;
+  };
+
+  const fetchCategory = async () => {
+    const res = await axios.get(`${ServerApi}/categories/view`, {
+      withCredentials: true,
+    });
+    setCategories(res.data.categories);
+    setTree(buildCategoryTree(res.data.categories));
+  };
+
+  const handleAddCategory = async () => {
+    const name = categoryRef.current.value;
+    const parentId = parentRef.current.value || null;
+
+    if (!name) return;
+
+    await axios.post(
+      `${ServerApi}/categories/add`,
+      {
+        name,
+        description: "Electronic and Gadgets",
+        parentId,
+      },
+      { withCredentials: true }
+    );
 
     categoryRef.current.value = "";
-    try {
-      const res = await axios.post(
-        `${ServerApi}/categories/add/${parentId}`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.status === 200) {
-        console.log("success");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    parentRef.current.value = "";
+    fetchCategory();
   };
+
   return (
-    <div className=" grid  w-100 border-2 min-h-50  m-auto mt-50 p-4">
-      <div className="font-bold text-3xl text-blue-700 m-auto">CATEGORY</div>
-      <div className="font-bold  text-gray-500 ">
-        {categories &&
-          categories.map((c, i) => (
-            <div key={i} className="border-b-2 flex justify-between p-2">
-              {c} <ChevronRight />
-            </div>
-          ))}
+    <div className="max-w-xl mx-auto p-4 border rounded-lg bg-white">
+      <h2 className="text-2xl font-bold text-center mb-4">Categories</h2>
+
+      {/* Category Tree */}
+      <div className="space-y-1">
+        {tree.map((cat) => (
+          <CategoryItem key={cat._id} category={cat} />
+        ))}
       </div>
-      <span className="flex gap-4 justify-between  items-center font-semibold px-4 rounded-2xl border mt-2  py-1">
+
+      {/* Add Category */}
+      <div className="mt-6 border-t pt-4 space-y-3">
         <input
-          type="text"
-          placeholder="Add New Category . . ."
-          className="outline-none"
           ref={categoryRef}
-          onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}
+          placeholder="Category name"
+          className="w-full border p-2 rounded"
         />
+
+        <select ref={parentRef} className="w-full border p-2 rounded">
+          <option value="">No Parent (Root)</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+
         <button
-          id="add"
-          className="font-bold text-3xl bg-green-900 rounded-4xl  text-white  p-2 "
           onClick={handleAddCategory}
+          className="w-full bg-green-700 text-white p-2 rounded hover:bg-green-800"
         >
-          +
+          Add Category
         </button>
-      </span>
+      </div>
     </div>
   );
 };

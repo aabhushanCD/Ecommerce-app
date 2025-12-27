@@ -10,12 +10,7 @@ import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
-router.post(
-  "/add/:parentId",
-  verifyToken,
-  upload.single("file"),
-  addCategories
-);
+router.post("/add", verifyToken, upload.single("file"), addCategories);
 
 router.get("/view", verifyToken, viewCategories);
 
