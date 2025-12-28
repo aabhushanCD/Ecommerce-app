@@ -1,7 +1,7 @@
 import React from "react";
 import product1 from "/images/cosmetic.jpg";
 import photo3 from "/images/photo3.jpg";
-import messi from "/images/cosmetic.jpg";
+
 import photo2 from "/images/cream.webp";
 const product = [
   {
@@ -12,7 +12,7 @@ const product = [
   },
   {
     name: "Toy",
-    image: messi,
+    image: product1,
     price: "10000",
     discount: 10,
   },
@@ -35,18 +35,18 @@ const SuggestedProduct = () => {
           product.map((item, index) => (
             <div
               key={index}
-              className="border transform transition-transform hover:scale-102 duration-200"
+              className="grid  place-content-between  border transform transition-transform hover:scale-102 duration-200"
             >
-              <div className="w-70 ">
+              <div className="  w-70 h-70 ">
                 <img
                   src={item.image}
-                  className="object-cover w-full h-full"
-                  alt="Product Image"
+                  className=" object-cover w-full h-full"
+                  alt={item.name}
                 />
               </div>
               <div className="p-2">
                 <p> {item.name}</p>
-                <p className="text-red-500">Rs.{item.price}</p>
+                <p className="text-red-200">Rs.{item.price}</p>
                 <div className="flex gap-2 text-[14px]">
                   <p className="line-through text-gray-400">
                     Rs.{handleDiscount(item.price, item.discount)}

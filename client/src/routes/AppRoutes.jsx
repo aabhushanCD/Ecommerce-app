@@ -10,7 +10,8 @@ import PublicRoute from "./PublicRoute";
 import ProductAdd from "@/pages/Seller/ProductAdd";
 import ProfileUpdate from "@/pages/ProfileUpdate";
 import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
-import AddCategories from "@/pages/Admin/AddCategories";
+import AddCategories from "@/pages/Admin/categories";
+import AdminLayout from "@/pages/Admin/layout";
 
 const AppRoutes = () => {
   return (
@@ -49,9 +50,10 @@ const AppRoutes = () => {
 
         <Route path="/profile" element={<ProfileUpdate />} />
         <Route path="/add-product" element={<ProductAdd />} />
-     
 
-        <Route path="/admin" index element={<AddCategories />}></Route>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" index element={<AddCategories />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

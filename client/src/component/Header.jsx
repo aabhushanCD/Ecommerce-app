@@ -2,10 +2,13 @@ import { useAuth } from "@/Store/store";
 import { LogOut, Search, ShoppingCart } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "./ThemeProvider";
 
-const Header = () => {
+const Header = () => {  
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
   const { currentUser, logOut } = useAuth();
+
   const handleLogout = async () => {
     try {
       const success = await logOut();
@@ -17,7 +20,7 @@ const Header = () => {
     }
   };
   return (
-    <div className=" flex flex-col w-full h-25 justify-center   items-center gap-4 bg-blue-700 text-white">
+    <div className=" flex flex-col w-full h-25 justify-center dark:bg-gray-800 dark:text-white items-center gap-4 bg-blue-700 text-white">
       <div
         className={`flex gap-10 ml-140 text-[13px] ${currentUser && "hidden"}`}
       >
@@ -51,6 +54,11 @@ const Header = () => {
         <div className="flex gap-5 items-center">
           <ShoppingCart size={30} />
           <LogOut onClick={handleLogout} />
+        </div>
+        <div>
+          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+            Dark
+          </button>
         </div>
       </div>
     </div>

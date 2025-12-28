@@ -23,7 +23,7 @@ const Carousel = () => {
   return (
     <section
       id="carosel"
-      className="relative w-full border-b-4 overflow-hidden"
+      className="relative w-full border-b-4 overflow-hidden h-[70vh]"
     >
       {/* Image Wrapper */}
       <div className="relative h-56 md:h-96  flex justify-center">

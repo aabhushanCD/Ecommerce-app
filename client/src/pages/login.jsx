@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-300 via-emerald-200 to-teal-300 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-300 via-emerald-200 to-teal-300 px-4">
       <div className="w-full max-w-4xl bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl grid md:grid-cols-2 overflow-hidden">
         {/* Left Image Section */}
         <div className="hidden md:flex flex-col justify-between bg-green-400 text-white p-6">
@@ -91,7 +91,6 @@ const Login = () => {
                 <CheckCircle className="text-green-500" size={18} />
               )}
               <span>
-            
                 <Eye onClick={() => setEye(!eye)} />
               </span>
             </div>
@@ -110,7 +109,10 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Don’t have an account?
-            <span className="text-green-600 font-semibold cursor-pointer" onClick={()=>navigate("/register")}>
+            <span
+              className="text-green-600 font-semibold cursor-pointer"
+              onClick={() => navigate("/register")}
+            >
               Sign up
             </span>
           </p>

@@ -6,7 +6,6 @@ import { ServerApi } from "@/constant";
 const AddCategories = () => {
   const categoryRef = useRef();
   const parentRef = useRef();
-
   const [categories, setCategories] = useState([]);
   const [tree, setTree] = useState([]);
 
