@@ -13,6 +13,7 @@ import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
 import AddCategories from "@/pages/Admin/categories";
 
 import AdminLanding from "@/pages/Admin/adminLangingPage";
+import SellerDashboard from "@/pages/Seller/sellerLandingPage";
 
 const AppRoutes = () => {
   return (
@@ -47,12 +48,14 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-        <Route path="/viewAllProducts" element={<ViewAllProducts />} />
-
-        <Route path="/profile" element={<ProfileUpdate />} />
-        <Route path="/add-product" element={<ProductAdd />} />
-
-        <Route path="/admin"  element={<AdminLanding />}>
+        {/*____________________- Seller_____________________________ */}
+        <Route path="/seller" element={<SellerDashboard />}>
+          <Route path="viewAllProducts" element={<ViewAllProducts />} />
+          <Route path="profile" element={<ProfileUpdate />} />
+          <Route path="add-product" element={<ProductAdd />} />
+        </Route>
+        {/*____________________ Admin___________________________ */}
+        <Route path="/admin" element={<AdminLanding />}>
           <Route path="addCategory" element={<AddCategories />} />
         </Route>
       </Routes>
