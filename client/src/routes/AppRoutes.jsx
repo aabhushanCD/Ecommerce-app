@@ -12,6 +12,7 @@ import ProfileUpdate from "@/pages/ProfileUpdate";
 import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
 import AddCategories from "@/pages/Admin/categories";
 import AdminLayout from "@/pages/Admin/layout";
+import AdminLanding from "@/pages/Admin/adminLangingPage";
 
 const AppRoutes = () => {
   return (
@@ -51,8 +52,9 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfileUpdate />} />
         <Route path="/add-product" element={<ProductAdd />} />
 
-        <Route element={<AdminLayout />}>
-          <Route path="/admin" index element={<AddCategories />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminLanding />}></Route>
+          <Route path="addCategory" element={<AddCategories />} />
         </Route>
       </Routes>
     </BrowserRouter>
