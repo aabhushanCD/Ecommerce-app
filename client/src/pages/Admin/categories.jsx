@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import CategoryItem from "@/component/CategoryItems";
+import CategoryItem from "@/components/CategoryItems";
 import { ServerApi } from "@/constant";
 
 const AddCategories = () => {

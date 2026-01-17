@@ -1,14 +1,12 @@
-import Carolie from "./component/Carosel";
-import SuggestedProduct from "./component/SuggestedProduct";
-import { ThemeProvider } from "./component/ThemeProvider";
+import Carolie from "./components/Carosel";
+import SuggestedProduct from "./components/SuggestedProduct";
+// import { ThemeProvider } from "./component/ThemeProvider";
 
 function App() {
   return (
     <>
-      
         <Carolie />
         <SuggestedProduct />
-  
     </>
   );
 }

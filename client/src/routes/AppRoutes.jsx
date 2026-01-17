@@ -1,5 +1,5 @@
 import App from "@/App";
-import Layout from "@/component/Layout";
+import Layout from "@/components/Layout";
 import Login from "@/pages/login";
 import Signup from "@/pages/Signup";
 import React from "react";
