@@ -39,8 +39,6 @@ export const AuthContextProvider = ({ children }) => {
 
       setCurrentUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      console.log(res.data.user);
-
       return true;
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);

@@ -1,5 +1,5 @@
-import Carolie from "./components/Carosel";
-import SuggestedProduct from "./components/SuggestedProduct";
+import Carolie from "./pages/customer/component/Carosel";
+import SuggestedProduct from "./pages/customer/component/SuggestedProduct";
 // import { ThemeProvider } from "./component/ThemeProvider";
 
 function App() {

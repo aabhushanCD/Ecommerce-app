@@ -34,7 +34,7 @@ const Signup = () => {
     }
   };
   return (
-    <div className="w-full flex justify-center mt-10">
+    <div className="w-full flex justify-center mt-10 dark:text-black">
       <div className="w-[350px] p-6 border rounded-xl shadow-md bg-white">
         <h1 className="text-2xl font-semibold mb-4 text-center">Sign Up</h1>
         <div className="flex flex-col gap-3">

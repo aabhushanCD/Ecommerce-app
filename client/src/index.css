@@ -120,4 +120,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px; /* Adjust height for horizontal slider */
+    width: 4px; /* Adjust width for vertical slider */
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1; /* Example: slate-300 */
+    border-radius: 10px;
+  }
 }

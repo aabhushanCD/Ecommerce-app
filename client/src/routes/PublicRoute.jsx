@@ -1,21 +1,16 @@
-import { useAuth } from "@/Store/store";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+  import { useAuth } from "@/Store/store";
+  import { Navigate } from "react-router-dom";
 
-function PublicRoute({ children }) {
-  const { currentUser } = useAuth();
-  const navigate = useNavigate();
+  function PublicRoute({ children }) {
+    const { currentUser, loading } = useAuth();
 
-  useEffect(() => {
+    if (loading) return null;
     if (currentUser) {
-      navigate("/");
+      if (currentUser.role === "admin") return <Navigate to="/admin" replace />;
+      if (currentUser.role === "seller") return <Navigate to="/seller" replace />;
+      return <Navigate to="/" replace />;
     }
-  }, [currentUser, navigate]);
+    return children;
+  }
 
-  // ⛔ If logged in, return nothing (prevent UI flash)
-  if (currentUser) return null;
-
-  return <>{children}</>;
-}
-
-export default PublicRoute;
+  export default PublicRoute;

@@ -1,42 +1,22 @@
 import { useAuth } from "@/Store/store";
-import { Loader } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
-  const navigate = useNavigate();
-  const { currentUser, me } = useAuth();
-  const [checking, setChecking] = useState(true);
+function ProtectedRoute({ allowedRoles, children }) {
+  const { currentUser, loading } = useAuth();
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      await me(); // check login
-      setChecking(false); // completed
-    };
-    verifyUser();
-  }, []);
-
-  useEffect(() => {
-    if (!checking && !currentUser) {
-      navigate("/login");
-    }
-  }, [checking, currentUser, navigate]);
-
-  // 🔵 Show loader until fully checked
-  if (checking) {
-    return (
-      <div className="flex justify-center items-center h-screen text-xl gap-2">
-        Hell'O <Loader className="animate-spin" />
-      </div>
-    );
+  if (loading) {
+    return null; // or spinner
+  }
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
   }
 
-  // 🔵 Only show children if user exists
-  if (currentUser) {
-    return <>{children}</>;
+  if (!allowedRoles.includes(currentUser.role)) {
+    console.log(allowedRoles);
+    return <Navigate to="/unauthorized" replace />;
   }
 
-  return null;
+  return children ? children : <Outlet />;
 }
 
 export default ProtectedRoute;
