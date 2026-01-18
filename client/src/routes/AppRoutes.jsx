@@ -7,13 +7,17 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./protectedRoute";
 
 import PublicRoute from "./PublicRoute";
-import ProductAdd from "@/pages/Seller/ProductAdd";
+import ProductAdd from "@/pages/Seller/components/ProductAdd";
 import ProfileUpdate from "@/components/ProfileUpdate";
 import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
 import AddCategories from "@/pages/Admin/components/categories";
 
 import AdminLanding from "@/pages/Admin/LangingPage";
-import SellerDashboard from "@/pages/Seller/sellerLandingPage";
+import SellerDashboard from "@/pages/Seller/Dashboard";
+import AdminLayout from "@/pages/Admin/components/AdminLayout";
+import Orders from "@/pages/Seller/Orders";
+import SellerLayout from "@/pages/Seller/components/SellerLayout";
+import SellerMyProducts from "@/pages/Seller/Products";
 
 const AppRoutes = () => {
   return (
@@ -55,26 +59,27 @@ const AppRoutes = () => {
             </PublicRoute>
           }
         />
-        {/*____________________- Seller_____________________________ */}
+        {/*____________________ Seller_____________________________ */}
         <Route
           path="/seller"
           element={
             <ProtectedRoute allowedRoles={["seller"]}>
-              <Layout />
+              <SellerLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<SellerDashboard />} />
+          <Route index path="dashboard" element={<SellerDashboard />} />
           <Route path="viewAllProducts" element={<ViewAllProducts />} />
           <Route path="profile" element={<ProfileUpdate />} />
-          <Route path="add-product" element={<ProductAdd />} />
+          <Route path="products" element={<SellerMyProducts />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
         {/*____________________ Admin___________________________ */}
         <Route
           path="/admin"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              <Layout />
+              <AdminLayout />
             </ProtectedRoute>
           }
         >

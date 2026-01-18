@@ -1,78 +1,104 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
 import CategoryItem from "@/pages/customer/component/CategoryItems";
 import { ServerApi } from "@/constant";
+
+/* ------------------ API FUNCTIONS ------------------ */
+
+ const fetchCategories = async () => {
+  const res = await axios.get(`${ServerApi}/categories/view`, {
+    withCredentials: true,
+  });
+  return res.data.categories;
+};
+
+const addCategoryApi = async (payload) => {
+  return axios.post(`${ServerApi}/categories/add`, payload, {
+    withCredentials: true,
+  });
+};
+
+/* ------------------ HELPER ------------------ */
+
+const buildCategoryTree = (categories = []) => {
+  const map = {};
+  const roots = [];
+
+  categories.forEach((cat) => {
+    map[cat._id] = { ...cat, children: [] };
+  });
+
+  categories.forEach((cat) => {
+    if (cat.parentCategory) {
+      map[cat.parentCategory]?.children.push(map[cat._id]);
+    } else {
+      roots.push(map[cat._id]);
+    }
+  });
+
+  return roots;
+};
+
+/* ------------------ COMPONENT ------------------ */
 
 const AddCategories = () => {
   const categoryRef = useRef();
   const parentRef = useRef();
-  const [categories, setCategories] = useState([]);
-  const [tree, setTree] = useState([]);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchCategory();
-  }, []);
+  /* -------- FETCH CATEGORIES -------- */
+  const { data: categories = [], isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
 
-  const buildCategoryTree = (categories) => {
-    const map = {};
-    const roots = [];
+  /* -------- DERIVED TREE (NO STATE) -------- */
+  const tree = buildCategoryTree(categories);
 
-    categories.forEach((cat) => {
-      map[cat._id] = { ...cat, children: [] };
-    });
+  /* -------- ADD CATEGORY -------- */
+  const addCategory = useMutation({
+    mutationFn: addCategoryApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
 
-    categories.forEach((cat) => {
-      if (cat.parentCategory) {
-        map[cat.parentCategory]?.children.push(map[cat._id]);
-      } else {
-        roots.push(map[cat._id]);
-      }
-    });
-
-    return roots;
-  };
-
-  const fetchCategory = async () => {
-    const res = await axios.get(`${ServerApi}/categories/view`, {
-      withCredentials: true,
-    });
-    setCategories(res.data.categories);
-    setTree(buildCategoryTree(res.data.categories));
-  };
-
-  const handleAddCategory = async () => {
+  /* -------- HANDLER -------- */
+  const handleAddCategory = () => {
     const name = categoryRef.current.value;
     const parentId = parentRef.current.value || null;
 
     if (!name) return;
 
-    await axios.post(
-      `${ServerApi}/categories/add`,
-      {
-        name,
-        description: "Electronic and Gadgets",
-        parentId,
-      },
-      { withCredentials: true }
-    );
+    addCategory.mutate({
+      name,
+      description: "Electronic and Gadgets",
+      parentId,
+    });
 
     categoryRef.current.value = "";
     parentRef.current.value = "";
-    fetchCategory();
   };
+
+  /* -------- UI -------- */
+  if (isLoading) {
+    return <p className="text-center">Loading categories...</p>;
+  }
 
   return (
     <div className="max-w-xl mx-auto p-4 border rounded-lg bg-white">
       <h2 className="text-2xl font-bold text-center mb-4">Categories</h2>
 
-      {/* Category Tree */}
+      {/* CATEGORY TREE */}
       <div className="space-y-1">
         {tree.map((cat) => (
           <CategoryItem key={cat._id} category={cat} />
         ))}
       </div>
 
-      {/* Add Category */}
+      {/* ADD CATEGORY */}
       <div className="mt-6 border-t pt-4 space-y-3">
         <input
           ref={categoryRef}

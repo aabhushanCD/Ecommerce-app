@@ -1,4 +1,5 @@
 import Product from "../Models/product.model.js";
+import User from "../Models/User.model.js";
 import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
 
 // adding product by seller
@@ -7,7 +8,7 @@ export const addProduct = async (req, res) => {
     const { name, category, description, price, discount, stock } = req.body;
     const userId = req.userId;
     const role = req.role;
-
+    console.log(req.body);
     if (!name || !price || !stock || !category || !description) {
       return res
         .status(400)
@@ -133,7 +134,7 @@ export const updateProductImage = async (req, res) => {
       for (const publicId of removedImageIds) {
         await deleteMedia(publicId);
         product.imageUrls = product.imageUrls.filter(
-          (img) => img.publicId !== publicId
+          (img) => img.publicId !== publicId,
         );
       }
     }
@@ -158,7 +159,7 @@ export const updateProductImage = async (req, res) => {
   } catch (error) {
     console.error(
       "Something went wrong while updating product image",
-      error.message
+      error.message,
     );
     return res.status(500).json({
       message: "Server Error, while Picture Uploading",
@@ -255,5 +256,35 @@ export const deleteProduct = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Server Errro While deleting Product" });
+  }
+};
+
+export const myProduct = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const user = await User.findById(userId);
+    if (user.role === "customer" || user.role === "Customer") {
+      return res
+        .status(404)
+        .json({ message: "Unauthorized to view product", success: false });
+    }
+    const products = await Product.find({ sellerId: userId }).populate(
+      "category",
+      "name",
+    );
+
+    if (!products) {
+      return res.status(300).json({ message: "No any product Added" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Your all product", success: true, products });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error to display your products",
+      success: false,
+    });
   }
 };

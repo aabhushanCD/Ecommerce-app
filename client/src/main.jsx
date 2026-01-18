@@ -4,13 +4,16 @@ import "./index.css";
 import App from "./App.jsx";
 import AppRoutes from "./routes/appRoutes";
 import { AuthContextProvider } from "./Store/store";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthContextProvider>
-      <AppRoutes>
-        <App />
-      </AppRoutes>
-    </AuthContextProvider>
-  </StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <AppRoutes>
+          <App />
+        </AppRoutes>
+      </AuthContextProvider>
+    </QueryClientProvider>
+  </StrictMode>,
 );

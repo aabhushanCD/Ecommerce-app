@@ -4,6 +4,7 @@ import {
   addProduct,
   deleteProduct,
   getProducts,
+  myProduct,
   updateProduct,
   updateProductImage,
 } from "../Controllers/productController.js";
@@ -18,7 +19,7 @@ router.put(
   "update/product/image/:productId",
   verifyToken,
   upload.array("files"),
-  updateProductImage
+  updateProductImage,
 );
 // router.get(
 //   "view/?category/?flash/?page & ?limit/?search/?sort",
@@ -27,4 +28,6 @@ router.put(
 // );
 router.delete("remove/product/:productId", verifyToken, deleteProduct);
 
+// seller products
+router.get("/myProducts", verifyToken, myProduct);
 export default router;

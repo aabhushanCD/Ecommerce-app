@@ -10,14 +10,14 @@ import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.post("order/placedOrder", verifyToken, placedOrder);
+router.post("placedOrder", verifyToken, placedOrder);
 
-router.get("order/view", verifyToken, getOrders);
+router.get("/view", verifyToken, getOrders);
 
-router.post("order/confirmed/by/seller", verifyToken, sellerConfirmedOrder);
+router.post("confirmed/by/seller", verifyToken, sellerConfirmedOrder);
 
-router.get("order/view/status", verifyToken, getOrderStatus);
+router.get("view/status", verifyToken, getOrderStatus);
 
-router.put("order/set/status", verifyToken, setOrderStatus);
+router.put("set/status", verifyToken, setOrderStatus);
 
 export default router;

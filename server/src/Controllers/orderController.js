@@ -1,7 +1,8 @@
 import Cart from "../Models/cart.model.js";
 import Product from "../Models/product.model.js";
 import Order from "../Models/order.model.js";
-import User from "../Models/user.model.js";
+import User from "../Models/User.model.js";
+
 
 export const placedOrder = async (req, res) => {
   try {
@@ -108,7 +109,7 @@ export const getOrders = async (req, res) => {
     const userId = req.userId;
     const role = req.role;
 
-    if (role !== "Seller") {
+    if (role !== "seller") {
       return res.status(403).json({ message: "UnAuthorized", success: false });
     }
     const user = await User.findById(userId);
