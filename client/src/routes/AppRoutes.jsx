@@ -7,9 +7,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./protectedRoute";
 
 import PublicRoute from "./PublicRoute";
-import ProductAdd from "@/pages/Seller/components/ProductAdd";
+
 import ProfileUpdate from "@/components/ProfileUpdate";
-import ViewAllProducts from "@/pages/Seller/ViewAllProducts";
+
 import AddCategories from "@/pages/Admin/components/categories";
 
 import AdminLanding from "@/pages/Admin/LangingPage";
@@ -69,7 +69,7 @@ const AppRoutes = () => {
           }
         >
           <Route index path="dashboard" element={<SellerDashboard />} />
-          <Route path="viewAllProducts" element={<ViewAllProducts />} />
+          
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />

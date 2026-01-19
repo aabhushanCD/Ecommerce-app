@@ -21,11 +21,7 @@ router.put(
   upload.array("files"),
   updateProductImage,
 );
-// router.get(
-//   "view/?category/?flash/?page & ?limit/?search/?sort",
-//   verifyToken,
-//   getProducts
-// );
+router.get("/view", verifyToken, getProducts);
 router.delete("remove/product/:productId", verifyToken, deleteProduct);
 
 // seller products

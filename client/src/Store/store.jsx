@@ -1,21 +1,22 @@
 import { createContext, useContext, useState } from "react";
-import axios from "axios";
+
 import { ServerApi } from "@/constant";
 import { toast } from "sonner";
+import axiosInstance from "@/services/axiosInstance";
 // axios.defaults.withCredentials = true;
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
+    JSON.parse(localStorage.getItem("user")) || null,
   );
 
   // Fetch logged-in user
   const me = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${ServerApi}/auth/me`, {
+      const res = await axiosInstance.get(`/auth/me`, {
         withCredentials: true,
       });
 
@@ -33,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
   // Login
   const login = async (data) => {
     try {
-      const res = await axios.post(`${ServerApi}/auth/login`, data, {
+      const res = await axiosInstance.post(`/auth/login`, data, {
         withCredentials: true,
       });
 
@@ -49,7 +50,7 @@ export const AuthContextProvider = ({ children }) => {
   // Signup
   const Signup = async (data) => {
     try {
-      const res = await axios.post(`${ServerApi}/auth/register`, data);
+      const res = await axiosInstance.post(`/auth/register`, data);
 
       toast.success(res.data?.message || "Account created successfully");
       return true;
@@ -60,12 +61,12 @@ export const AuthContextProvider = ({ children }) => {
   };
   const logOut = async () => {
     try {
-      const res = await axios.post(
-        `${ServerApi}/auth/logout`,
+      const res = await axiosInstance.post(
+        `/auth/logout`,
         {},
         {
           withCredentials: true,
-        }
+        },
       );
       if (res.status === 200) {
         setCurrentUser(null);

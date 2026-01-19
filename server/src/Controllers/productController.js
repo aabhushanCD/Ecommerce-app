@@ -171,7 +171,7 @@ export const updateProductImage = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { category, flash, page = 1, limit = 10, search, sort } = req.query;
+    const { category, flash, page = 1, limit = 10, search, sort } = req.params;
     const query = {};
 
     // 1 Filter by category

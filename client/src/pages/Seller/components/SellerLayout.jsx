@@ -53,9 +53,10 @@ const SellerLayout = () => {
       <div className="max-w-8xl mx-auto p-6">
         <div className="grid grid-cols-12 gap-6">
           {/* Sidebar */}
-
           <SellerAsideNav activeTab={activeTab} setActiveTab={setActiveTab} />
-          <Outlet />
+          <div className="col-span-12 lg:col-span-9">
+            <Outlet />
+          </div>
         </div>
       </div>
     </main>

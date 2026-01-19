@@ -1,68 +1,42 @@
 import React from "react";
-import product1 from "/images/cosmetic.jpg";
-import photo3 from "/images/photo3.jpg";
-import photo2 from "/images/cream.webp";
+
 import ProductCart from "./productCart";
+import { useQuery } from "@tanstack/react-query";
 
-const products = [
-  {
-    name: "Toy",
-    image: photo3,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: product1,
-    price: 10000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-  {
-    name: "Toy",
-    image: photo2,
-    price: 1000,
-    discount: 10,
-  },
-];
+import axiosInstance from "@/services/axiosInstance";
 
+const fetchProduct = async ({ flash = false, page = 1, limit = 10 }) => {
+  const res = await axiosInstance.get(`/product/view`, {
+    params: {
+      flash,
+      page,
+      limit,
+    },
+    withCredentials: true,
+  });
+
+  return res.data.products;
+};
 const SuggestedProduct = () => {
-  const discountedPrice = (price, discount) => price - price * (discount / 100);
+  const discountedPrice = (price, discount) =>
+    Math.floor(price - price * (discount / 100));
+
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["suggested-products"],
+    queryFn: () => fetchProduct({ limit: 10, sort: "popular" }),
+  });
+
+  if (isLoading) {
+    return <p className="p-4 text-gray-500">Loading suggestions...</p>;
+  }
+
+  if (isError) {
+    return <p className="p-4 text-red-500">Failed to load products</p>;
+  }
 
   return (
     <div className="p-4">
