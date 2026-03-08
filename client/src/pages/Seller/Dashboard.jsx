@@ -32,7 +32,7 @@ import {
   Bar,
 } from "recharts";
 import SellerAsideNav from "./components/SellerAsideNav";
-import ProductAdd from "./components/ProductAdd";
+import ProductAdd from "../../features/product/components/ProductAdd";
 
 const salesData = [
   { day: "Mon", sales: 2400, views: 4000 },

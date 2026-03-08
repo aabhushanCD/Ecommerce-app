@@ -7,6 +7,7 @@ import axios from "axios";
 import { ServerApi } from "@/constant";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { addProduct } from "../product.api";
 
 /* ---------------- API FUNCTIONS ---------------- */
 
@@ -18,9 +19,7 @@ const fetchCategories = async () => {
 };
 
 const addProductApi = async (payload) => {
-  return axios.post(`${ServerApi}/product/add-product`, payload, {
-    withCredentials: true,
-  });
+  return addProduct(payload);
 };
 
 function ProductAdd({ showAddProduct, setShowAddProduct }) {

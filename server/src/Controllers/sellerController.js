@@ -106,7 +106,7 @@ export const updateMySellerInfo = async (req, res) => {
     const seller = await Seller.findOneAndUpdate(
       { sellerId: userId },
       updateData,
-      { new: true }
+      { new: true },
     );
 
     if (!seller) {
@@ -175,7 +175,7 @@ export const verifySeller = async (req, res) => {
     const seller = await Seller.findByIdAndUpdate(
       sellerId,
       { isVerified: true },
-      { new: true }
+      { new: true },
     );
 
     if (!seller) {

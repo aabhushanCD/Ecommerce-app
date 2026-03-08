@@ -3,7 +3,7 @@ import { ServerApi } from "@/constant";
 
 const axiosInstance = axios.create({
   baseURL: ServerApi,
-  withCredential: true,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(

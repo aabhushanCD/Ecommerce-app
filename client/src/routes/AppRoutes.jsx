@@ -17,7 +17,7 @@ import SellerDashboard from "@/pages/Seller/Dashboard";
 import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import Orders from "@/pages/Seller/Orders";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
-import SellerMyProducts from "@/pages/Seller/Products";
+import SellerMyProducts from "@/features/product/components/Products";
 
 const AppRoutes = () => {
   return (

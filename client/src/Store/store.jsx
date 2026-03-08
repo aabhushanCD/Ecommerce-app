@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 
-import { ServerApi } from "@/constant";
 import { toast } from "sonner";
 import axiosInstance from "@/services/axiosInstance";
 // axios.defaults.withCredentials = true;

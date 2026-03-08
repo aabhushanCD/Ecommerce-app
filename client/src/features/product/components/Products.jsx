@@ -1,46 +1,13 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Trash2, Edit, Package } from "lucide-react";
-
-import { ServerApi } from "@/constant";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-/* ---------------- API FUNCTIONS ---------------- */
-
-const fetchMyProducts = async () => {
-  const res = await axios.get(`${ServerApi}/product/myProducts`, {
-    withCredentials: true,
-  });
-  return res.data.products;
-};
-
-const deleteProductApi = async (id) => {
-  return axios.delete(`${ServerApi}/product/${id}`, {
-    withCredentials: true,
-  });
-};
-
-/* ---------------- COMPONENT ---------------- */
+import { useDeleteProduct, useGetAllMyProducts } from "../product.hook";
+import { discount } from "@/utils";
 
 const SellerMyProducts = () => {
-  const queryClient = useQueryClient();
-
-  const {
-    data: products = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["my-products"],
-    queryFn: fetchMyProducts,
-  });
-
-  const deleteProduct = useMutation({
-    mutationFn: deleteProductApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["my-products"]);
-    },
-  });
+  const { data, isLoading, error } = useGetAllMyProducts();
+  const deleteProduct = useDeleteProduct();
 
   if (isLoading) {
     return (
@@ -49,8 +16,7 @@ const SellerMyProducts = () => {
       </div>
     );
   }
-
-  if (isError) {
+  if (error) {
     return (
       <div className="text-center text-red-500 mt-10">
         Failed to load products
@@ -58,7 +24,7 @@ const SellerMyProducts = () => {
     );
   }
 
-  if (products.length === 0) {
+  if (data?.products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-gray-500">
         <Package size={48} className="mb-4 opacity-40" />
@@ -94,10 +60,8 @@ const SellerMyProducts = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {products.map((product) => {
-            const discountedPrice =
-              product.price -
-              Math.floor((product.price * product.discount) / 100);
+          {data?.products.map((product) => {
+            const discountedPrice = discount(product.price, product.discount);
 
             return (
               <tr key={product._id}>

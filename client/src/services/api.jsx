@@ -1,4 +1,6 @@
-export const BASE_URL = "http://localhost:8000/api/";
+import { ServerApi } from "@/constant";
+
+export const BASE_URL = ServerApi;
 
 export const AUTH_URL = {
   login: "/auth/login",
