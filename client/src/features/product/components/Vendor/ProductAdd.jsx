@@ -7,7 +7,6 @@ import axios from "axios";
 import { ServerApi } from "@/constant";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { addProduct } from "../product.api";
 
 /* ---------------- API FUNCTIONS ---------------- */
 
@@ -16,10 +15,6 @@ const fetchCategories = async () => {
     withCredentials: true,
   });
   return res.data.categories;
-};
-
-const addProductApi = async (payload) => {
-  return addProduct(payload);
 };
 
 function ProductAdd({ showAddProduct, setShowAddProduct }) {
@@ -39,7 +34,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
 
   /* -------- ADD PRODUCT -------- */
   const addProduct = useMutation({
-    mutationFn: addProductApi,
+    mutationFn: async (payload) => addProduct(payload),
     onSuccess: () => {
       console.log("✅ Product added successfully");
       setShowAddProduct(false);

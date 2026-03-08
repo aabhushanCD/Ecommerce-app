@@ -2,7 +2,7 @@ import { Trash2, Edit, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-import { useDeleteProduct, useGetAllMyProducts } from "../product.hook";
+import { useDeleteProduct, useGetAllMyProducts } from "../../product.hook";
 import { discount } from "@/utils";
 
 const SellerMyProducts = () => {

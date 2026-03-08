@@ -1,7 +1,8 @@
 import React from "react";
 import { Package } from "lucide-react";
+import { discount } from "@/utils";
 
-const ProductCart = ({ item, discountedPrice }) => {
+const ProductCart = ({ item }) => {
   const imageUrl = item.imageUrls?.[0];
 
   return (
@@ -37,7 +38,7 @@ const ProductCart = ({ item, discountedPrice }) => {
 
         <div className="flex items-center gap-2 mt-1">
           <p className="text-lg font-semibold text-green-600">
-            Rs. {discountedPrice(item.price, item.discount)}
+            Rs. {discount(item.price, item.discount)}
           </p>
 
           {item.discount > 0 && (

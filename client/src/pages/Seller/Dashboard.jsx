@@ -7,11 +7,7 @@ import {
   DollarSign,
   Eye,
   Plus,
-  BarChart3,
-  Settings,
-  Bell,
-  Search,
-  Upload,
+ 
   Clock,
   CheckCircle2,
   AlertCircle,
@@ -31,8 +27,8 @@ import {
   BarChart,
   Bar,
 } from "recharts";
-import SellerAsideNav from "./components/SellerAsideNav";
-import ProductAdd from "../../features/product/components/ProductAdd";
+
+import ProductAdd from "@/features/product/components/Vendor/ProductAdd";
 
 const salesData = [
   { day: "Mon", sales: 2400, views: 4000 },

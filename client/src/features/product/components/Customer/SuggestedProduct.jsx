@@ -1,6 +1,6 @@
 import React from "react";
-import ProductCart from "../../../features/product/components/ProductCart";
-import { useProducts } from "../product.hook";
+import ProductCart from "./ProductCart";
+import { useProducts } from "../../product.hook";
 import { discount } from "@/utils";
 
 const SuggestedProduct = () => {
@@ -16,7 +16,7 @@ const SuggestedProduct = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Suggestions</h2>
+      <h2 className="text-4xl font-bold mb-4">Suggestions</h2>
       <div className="flex gap-6 flex-1 overflow-auto scroll-m-10 pb-4 scrollbar-thin">
         {data?.data?.products?.map((item) => (
           <div className="min-w-max ">

@@ -28,7 +28,6 @@ export const useGetAllMyProducts = () =>
  */
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
-
    useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {

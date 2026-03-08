@@ -1,4 +1,5 @@
-import SuggestedProduct from "./features/product/components/SuggestedProduct";
+import Products from "./features/product/components/Customer/Product";
+import SuggestedProduct from "./features/product/components/Customer/SuggestedProduct";
 import Carolie from "./pages/customer/component/Carosel";
 
 // import { ThemeProvider } from "./component/ThemeProvider";
@@ -8,6 +9,7 @@ function App() {
     <>
       <Carolie />
       <SuggestedProduct />
+      <Products />
     </>
   );
 }
