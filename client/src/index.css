@@ -3,6 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --color-background: #F6F4EB;
+  --color-surface: #91C8E4;
+
+  --color-primary: #749BC2;
+  --color-primary-hover: #5c87b1;
+
+  --color-accent: #4682A9;
+  --color-accent-hover: #356b8c;
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

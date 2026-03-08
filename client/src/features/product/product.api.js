@@ -45,3 +45,9 @@ export const deleteProduct = async (id) => {
 export const getAllMyProducts = async () => {
   return await axiosInstance.get(`/product/myProducts`);
 };
+
+export const getProductDetails = async (productId) => {
+  return await axiosInstance.get(`/product/${productId}`);
+};
+
+

@@ -2,11 +2,12 @@ import React from "react";
 import { Package } from "lucide-react";
 import { discount } from "@/utils";
 
-const ProductCart = ({ item }) => {
+const ProductCard = ({ item }) => {
   const imageUrl = item.imageUrls?.[0];
-
+  const fixedprice = discount(item.price, item.discount);
   return (
     <div
+      key={item._id}
       className="w-55 bg-white rounded-xl border shadow-sm
                  hover:shadow-lg transition-all duration-300 group"
     >
@@ -38,7 +39,7 @@ const ProductCart = ({ item }) => {
 
         <div className="flex items-center gap-2 mt-1">
           <p className="text-lg font-semibold text-green-600">
-            Rs. {discount(item.price, item.discount)}
+            Rs. {fixedprice}
           </p>
 
           {item.discount > 0 && (
@@ -64,4 +65,4 @@ const ProductCart = ({ item }) => {
   );
 };
 
-export default ProductCart;
+export default ProductCard;

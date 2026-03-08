@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-[#0f172a] dark:bg-black text-white">
+    <header className="w-full bg-[#0f172a] dark:bg-black text-white ">
       {/* Top bar */}
       {!currentUser && (
         <div className="hidden md:flex justify-end gap-6 text-xs px-6 py-2 bg-[#020617] text-gray-300 dark:bg-gray-800">

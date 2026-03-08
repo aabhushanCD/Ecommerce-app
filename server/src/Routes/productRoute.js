@@ -3,6 +3,7 @@ import { verifyToken } from "../middleware/verifyToken.js";
 import {
   addProduct,
   deleteProduct,
+  getProductDetails,
   getProducts,
   myProduct,
   updateProduct,
@@ -23,7 +24,7 @@ router.put(
 );
 router.get("/view", verifyToken, getProducts);
 router.delete("remove/product/:productId", verifyToken, deleteProduct);
-
+router.get("/:productId", getProductDetails);
 // seller products
 router.get("/myProducts", verifyToken, myProduct);
 export default router;

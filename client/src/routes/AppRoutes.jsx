@@ -18,6 +18,7 @@ import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import Orders from "@/pages/Seller/Orders";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import SellerMyProducts from "@/features/product/components/Vendor/Products";
+import ProductDetails from "@/features/product/components/Customer/ProductDetails";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<App />}></Route>
+          <Route path="/product/:id" element={<ProductDetails />} />
         </Route>
 
         <Route
@@ -49,7 +51,6 @@ const AppRoutes = () => {
           <Route path="/login" element={<Login />} />
         </Route>
 
-        
         {/*____________________ Seller_____________________________ */}
         <Route
           path="/seller"
@@ -60,12 +61,10 @@ const AppRoutes = () => {
           }
         >
           <Route index path="dashboard" element={<SellerDashboard />} />
-
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />
         </Route>
-
 
         {/*____________________ Admin___________________________ */}
         <Route

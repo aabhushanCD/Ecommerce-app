@@ -8,10 +8,12 @@ const Layout = () => {
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="fixed top-0  left-0 w-full z-50">
+        <div className="sticky top-0   w-full z-50">
           <Header />
         </div>
+
         <Outlet />
+
         <Footer />
       </ThemeProvider>
     </>

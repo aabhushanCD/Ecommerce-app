@@ -288,3 +288,27 @@ export const myProduct = async (req, res) => {
     });
   }
 };
+
+export const getProductDetails = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    if (!productId) {
+      return res.status(400).json({ message: "please enter valid product" });
+    }
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(400).json({ message: "Item doesn't exist" });
+    }
+
+    res.status(200).json({
+      message: "product details is",
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong to get product details",
+    });
+  }
+};
