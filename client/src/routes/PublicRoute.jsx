@@ -1,5 +1,5 @@
 import { useAuth } from "@/Store/store";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 const roleRedirectMap = {
   admin: "/admin",
@@ -7,16 +7,16 @@ const roleRedirectMap = {
   customer: "/",
 };
 
-function PublicRoute({ children }) {
+function PublicRoute() {
   const { currentUser, loading } = useAuth();
 
-  if (loading) return null;
+if (loading) return <div>Loading...</div>;
 
   if (currentUser) {
     return <Navigate to={roleRedirectMap[currentUser.role] || "/"} replace />;
   }
 
-  return children;
+  return <Outlet />;
 }
 
 export default PublicRoute;

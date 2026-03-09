@@ -9,7 +9,7 @@ const ProductDetails = () => {
 
   console.log(data);
   const product = data?.data?.product;
-  const fixed = discount(product.price, product.discount);
+  const fixed = discount(product?.price, product?.discount);
   if (isLoading) {
     return <div className="p-10 text-center">Loading...</div>;
   }

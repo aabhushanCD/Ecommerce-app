@@ -1,8 +1,9 @@
 import { Mail, Lock, CheckCircle, Eye } from "lucide-react";
 import React, { useRef, useState } from "react";
 import catwebp from "/images/catwebp.webp";
-import { useAuth } from "@/Store/store";
+
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/Store/store";
 
 const Login = () => {
   const emailRef = useRef();
@@ -46,7 +47,7 @@ const Login = () => {
           <img src={catwebp} alt="cat" className="rounded-xl shadow-lg" />
           <p className="text-lg font-semibold mt-4">
             Welcome back!
-            <br /> Login to continue 🚀
+            <br /> Login to continue
           </p>
         </div>
 
