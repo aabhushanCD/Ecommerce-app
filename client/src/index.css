@@ -4,13 +4,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #F6F4EB;
-  --color-surface: #91C8E4;
+  --color-background: #f6f4eb;
+  --color-surface: #91c8e4;
 
-  --color-primary: #749BC2;
+  --color-primary: #749bc2;
   --color-primary-hover: #5c87b1;
 
-  --color-accent: #4682A9;
+  --color-accent: #4682a9;
   --color-accent-hover: #356b8c;
 }
 @theme inline {
@@ -68,6 +68,10 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
+  --color-primary: #4682a9;
+  --color-secondary: #749bc2;
+  --color-accent: #91c8e4;
+  --color-background: #f6f4eb;
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -138,5 +142,43 @@
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background-color: #cbd5e1; /* Example: slate-300 */
     border-radius: 10px;
+  }
+}
+
+@layer utilities {
+  .bg-background {
+    background-color: var(--color-background);
+  }
+  .bg-surface {
+    background-color: var(--color-surface);
+  }
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .bg-primary-hover:hover {
+    background-color: var(--color-primary-hover);
+  }
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  .bg-accent-hover:hover {
+    background-color: var(--color-accent-hover);
+  }
+
+  .text-background {
+    color: var(--color-background);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  .border-accent {
+    border-color: var(--color-accent);
   }
 }

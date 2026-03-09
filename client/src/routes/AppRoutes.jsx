@@ -18,7 +18,7 @@ import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import Orders from "@/pages/Seller/Orders";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import SellerMyProducts from "@/features/product/components/Vendor/Products";
-import ProductDetails from "@/features/product/components/Customer/ProductDetails";
+import ProductDetails from "@/features/product/components/Customer/ProductDetailsHead";
 
 const AppRoutes = () => {
   return (
