@@ -3,9 +3,13 @@ import { useParams } from "react-router-dom";
 import { useProductDetails } from "../../product.hook";
 
 import { HiOutlineChatAlt2 } from "react-icons/hi";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+
 import { ChevronRight } from "lucide-react";
 import ProductDetailsHead from "./ProductDetailsHead";
+
+import ProductReviews from "./ProductReviews";
+import ProductDetailSection from "./ProductDetailSection";
+import ProductDiscussion from "./ProductDiscussion";
 
 const SAMPLE_REVIEWS = [
   {
@@ -36,7 +40,7 @@ const SAMPLE_REVIEWS = [
   },
 ];
 
-const ProductDetails = () => {
+const ProductDetailsContainer = () => {
   const { id } = useParams();
   const { data, isLoading, error } = useProductDetails(id);
 
@@ -98,7 +102,7 @@ const ProductDetails = () => {
 
       {/* Main Product Section */}
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ProductDetailsHead />
+        <ProductDetailsHead product={product} />
 
         {/* Tabs Section */}
         <div className="mt-6 max-w-2xl bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -127,114 +131,14 @@ const ProductDetails = () => {
           {/* Tab Content */}
           <div className="p-6 lg:p-8">
             {activeTab === "Details" && (
-              <div className="max-w-2xl">
-                <h2 className="text-lg font-bold text-gray-800 mb-3">
-                  Product Details
-                </h2>
-                <p className="text-gray-600 leading-relaxed mb-4">
-                  {product?.description ?? "No description available."}
-                </p>
-                <div className="grid grid-cols-2 gap-3 mt-4">
-                  {[
-                    { label: "Material", value: "100% Cotton" },
-                    { label: "Fit", value: "Regular Fit" },
-                    { label: "Care", value: "Machine Wash" },
-                    { label: "Origin", value: "Made in Nepal" },
-                  ].map(({ label, value }) => (
-                    <div key={label} className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">
-                        {label}
-                      </p>
-                      <p className="text-sm font-semibold text-gray-700 mt-0.5">
-                        {value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ProductDetailSection product={product} />
             )}
 
             {activeTab === "Reviews" && (
-              <div className="max-w-2xl">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-800">
-                      Customer Reviews
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-0.5">
-                      Showing{" "}
-                      <span className="font-semibold text-gray-700">5</span> of{" "}
-                      <span className="font-semibold text-gray-700">225</span>{" "}
-                      reviews
-                    </p>
-                  </div>
-                  <button className="border border-gray-200 text-gray-600 text-sm font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
-                    Latest ▾
-                  </button>
-                </div>
-
-                <div className="flex flex-col gap-6">
-                  {SAMPLE_REVIEWS.map((review) => (
-                    <div
-                      key={review.id}
-                      className="flex gap-4 pb-6 border-b border-gray-100 last:border-0 last:pb-0"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center shrink-0">
-                        {review.avatar}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h3 className="font-semibold text-gray-800 text-sm">
-                              {review.name}
-                            </h3>
-                            <div className="flex items-center gap-2 mt-0.5">
-                              <StarRating rating={review.rating} />
-                              <span className="text-xs text-gray-400">
-                                {review.date}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-                          {review.comment}
-                        </p>
-                        <div className="flex items-center gap-4 mt-3">
-                          <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-indigo-600 transition-colors font-medium">
-                            Reply
-                          </button>
-                          <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-green-600 transition-colors font-medium">
-                            <FaThumbsUp className="text-xs" /> Helpful
-                          </button>
-                          <button className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-red-500 transition-colors font-medium">
-                            <FaThumbsDown className="text-xs" /> Not Helpful
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <button className="mt-6 w-full border-2 border-dashed border-gray-200 rounded-xl py-3 text-sm text-gray-400 font-medium hover:border-indigo-300 hover:text-indigo-500 transition-colors">
-                  Load more reviews
-                </button>
-              </div>
+              <ProductReviews SAMPLE_REVIEWS={SAMPLE_REVIEWS} />
             )}
 
-            {activeTab === "Discussion" && (
-              <div className="max-w-2xl text-center py-12 text-gray-400">
-                <HiOutlineChatAlt2 className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                <p className="font-semibold text-gray-500">
-                  No discussions yet
-                </p>
-                <p className="text-sm mt-1">
-                  Be the first to start a conversation about this product.
-                </p>
-                <button className="mt-4 bg-indigo-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-indigo-700 transition-colors">
-                  Start Discussion
-                </button>
-              </div>
-            )}
+            {activeTab === "Discussion" && <ProductDiscussion />}
           </div>
         </div>
         <div className="max-w-2xl border h-10"></div>
@@ -243,4 +147,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetailsContainer;

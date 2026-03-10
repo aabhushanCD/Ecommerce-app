@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCart from "./ProductCard";
 import { useProducts } from "../../product.hook";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Products = () => {
   const { data, isLoading, error } = useProducts();
@@ -21,7 +21,7 @@ const Products = () => {
         className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-fr  mt-4  "
       >
         {data?.data?.products?.map((item) => (
-          <div onClick={() => navigate(`product/${item._id}`)}>
+          <div key={item._id} onClick={() => navigate(`/product/${item._id}`)}>
             <ProductCart item={item} />
           </div>
         ))}

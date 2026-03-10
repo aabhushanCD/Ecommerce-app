@@ -2,15 +2,12 @@ import express from "express";
 import {
   getOrders,
   getOrderStatus,
-  placedOrder,
   sellerConfirmedOrder,
   setOrderStatus,
 } from "../Controllers/orderController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
-
-router.post("placedOrder", verifyToken, placedOrder);
 
 router.get("/view", verifyToken, getOrders);
 

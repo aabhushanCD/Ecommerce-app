@@ -18,7 +18,7 @@ import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import Orders from "@/pages/Seller/Orders";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import SellerMyProducts from "@/features/product/components/Vendor/Products";
-import ProductDetails from "@/features/product/components/Customer/ProductDetailsHead";
+import ProductDetailsContainer from "@/features/product/components/Customer/ProductDetailsContainer";
 
 const AppRoutes = () => {
   return (
@@ -33,7 +33,7 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<App />}></Route>
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/product/:id" element={<ProductDetailsContainer />} />
         </Route>
 
         <Route
@@ -46,7 +46,7 @@ const AppRoutes = () => {
         />
 
         {/*______________________________ public Routes___________________ */}
-        <Route   element={<PublicRoute />}>
+        <Route element={<PublicRoute />}>
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Route>

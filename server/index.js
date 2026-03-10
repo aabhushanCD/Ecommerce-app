@@ -11,7 +11,7 @@ import orderRoutes from "./src/Routes/orderRoutes.js";
 import productRoutes from "./src/Routes/productRoute.js";
 import sellerRoutes from "./src/Routes/sellerRoutes.js";
 import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
-
+import checkout from "./src/Routes/checkoutRoutes.js";
 const allowedOrigins = ["http://localhost:5173"];
 const app = express();
 app.use(
@@ -27,7 +27,7 @@ app.use(
       }
     },
     credentials: true,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(express.json());
@@ -40,7 +40,7 @@ app.use("/api/order", orderRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/wishlist", wishlistRoutes);
-
+app.use("/api/checkout", checkout);
 const PORT = process.env.PORT || 8080;
 ConnectDB()
   .then(() => {

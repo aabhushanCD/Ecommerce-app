@@ -21,6 +21,7 @@ const ProductDetailsHead = ({ product }) => {
   const [wishlisted, setWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const fixed = discount(product?.price, product?.discount);
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:p-10">
       <div className="flex flex-col lg:flex-row gap-10 xl:gap-16">
