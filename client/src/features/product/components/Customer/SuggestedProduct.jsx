@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCart from "./ProductCard";
 import { useProducts } from "../../product.hook";
-import { discount } from "@/utils";
+import { discount } from "@/utils/utils";
 
 const SuggestedProduct = () => {
   const { data, isLoading, error } = useProducts();

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { useDeleteProduct, useGetAllMyProducts } from "../../product.hook";
-import { discount } from "@/utils";
+import { discount } from "@/utils/utils";
 
 const SellerMyProducts = () => {
   const { data, isLoading, error } = useGetAllMyProducts();

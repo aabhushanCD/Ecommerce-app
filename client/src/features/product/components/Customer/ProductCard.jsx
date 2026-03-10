@@ -1,6 +1,6 @@
 import React from "react";
 import { Package } from "lucide-react";
-import { discount } from "@/utils";
+import { discount } from "@/utils/utils";
 
 const ProductCard = ({ item }) => {
   const imageUrl = item.imageUrls?.[0];

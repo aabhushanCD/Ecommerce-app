@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { FaRegStar, FaStar } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
@@ -14,3 +15,6 @@ export function cn(...inputs) {
 export function discount(price, discount) {
   return Math.floor(price - price * (discount / 100));
 }
+
+
+
