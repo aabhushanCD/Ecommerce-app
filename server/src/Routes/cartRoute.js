@@ -7,8 +7,8 @@ import {
 } from "../Controllers/cartController.js";
 const router = express.Router();
 
-router.post("add/product", verifyToken, addToCart);
-router.delete("remove/:productId", verifyToken, removeFromCart);
-router.get("view/product", verifyToken, viewCart);
+router.post("/add/product", verifyToken, addToCart);
+router.delete("/remove/:productId", verifyToken, removeFromCart);
+router.get("/view/product", verifyToken, viewCart);
 
 export default router;
