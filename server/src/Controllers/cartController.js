@@ -25,7 +25,7 @@ export const addToCart = async (req, res) => {
     if (!cart) {
       cart = await Cart.create({
         userId,
-        cartItems: [{ item: productId, quantity }],
+        cartItems: [{ item: productId, quantity: quantity || 1 }],
       });
 
       return res
@@ -34,7 +34,7 @@ export const addToCart = async (req, res) => {
     }
     // If cart exists, check if product already in cart
     const existingItem = cart.cartItems.find(
-      (cartItem) => cartItem.item.toString() === productId
+      (cartItem) => cartItem.item.toString() === productId,
     );
     if (existingItem) {
       // Update quantity
@@ -75,7 +75,7 @@ export const removeFromCart = async (req, res) => {
     }
 
     const itemIndex = cart.cartItems.findIndex(
-      (cartItem) => cartItem.item.toString() === productId
+      (cartItem) => cartItem.item.toString() === productId,
     );
 
     if (itemIndex === -1) {
@@ -134,4 +134,3 @@ export const viewCart = async (req, res) => {
       .json({ message: "Server Error!  fetching cart ", success: false });
   }
 };
-
