@@ -3,11 +3,13 @@ import { LogOut, Search, ShoppingCart, Moon, Sun } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "./ThemeProvider";
+import { useCartStore } from "@/features/cart/cart.store";
 
 const Header = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const { currentUser, logOut } = useAuth();
+  const cartItems = useCartStore((state) => state.cartItems.length);
 
   const handleLogout = async () => {
     const success = await logOut();
@@ -65,7 +67,7 @@ const Header = () => {
           <button className="relative hover:text-yellow-400 transition">
             <ShoppingCart size={28} />
             <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-1.5 rounded-full">
-              2
+              {cartItems}
             </span>
           </button>
 

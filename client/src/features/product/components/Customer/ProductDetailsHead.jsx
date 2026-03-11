@@ -1,4 +1,5 @@
 import StarRating from "@/components/StarRating";
+import { useCartStore } from "@/features/cart/cart.store";
 import { discount } from "@/utils/utils";
 import { Check, LucideShare2, ShoppingCart, Zap } from "lucide-react";
 import React, { useState } from "react";
@@ -16,6 +17,7 @@ const COLORS = [
 
 const ProductDetailsHead = ({ product }) => {
   const [selectedColor, setSelectedColor] = useState(0);
+  const { addItem, loading, error } = useCartStore();
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [wishlisted, setWishlisted] = useState(false);
@@ -187,10 +189,16 @@ const ProductDetailsHead = ({ product }) => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button className="flex-1 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-indigo-200">
-              <ShoppingCart className="w-5 h-5" />
-              Add to Cart
-            </button>
+            {!loading && (
+              <button
+                onClick={() => addItem({ productId: product._id, quantity: 1 })}
+                className="flex-1 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-indigo-200"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                Add to Cart
+              </button>
+            )}
+            {error && <div>{error}</div>}
             <button className="flex-1 h-12 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors">
               <Zap className="w-5 h-5" />
               Buy Now
