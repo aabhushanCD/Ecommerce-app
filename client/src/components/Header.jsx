@@ -1,7 +1,7 @@
 import { useAuth } from "@/features/auth/store";
 import { LogOut, Search, ShoppingCart, Moon, Sun } from "lucide-react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "./ThemeProvider";
 import { useCartStore } from "@/features/cart/cart.store";
 
@@ -64,12 +64,15 @@ const Header = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-5">
-          <button className="relative hover:text-yellow-400 transition">
+          <Link
+            to="/cart"
+            className="relative hover:text-yellow-400 transition"
+          >
             <ShoppingCart size={28} />
             <span className="absolute -top-2 -right-2 bg-red-500 text-xs px-1.5 rounded-full">
               {cartItems}
             </span>
-          </button>
+          </Link>
 
           {currentUser && (
             <button
