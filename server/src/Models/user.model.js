@@ -1,5 +1,31 @@
 import mongoose from "mongoose";
 
+const addressSchema = new mongoose.Schema(
+  {
+    country: {
+      type: String,
+      required: true,
+    },
+    street: {
+      type: String,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    area: {
+      type: String,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -22,19 +48,25 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     phoneNumber: {
-      type: Number,
-    },
-    address: {
       type: String,
     },
+    address: [addressSchema],
     imageUrl: {
       type: String,
     },
     preferences: {
       type: String,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    refreshToken: {
+      type: String,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

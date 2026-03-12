@@ -1,3 +1,4 @@
+import { useCartStore } from "@/features/cart/cart.store";
 import { useProductDetails } from "@/features/product/product.hook";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
@@ -8,7 +9,7 @@ const CheckoutItems = ({ items }) => {
   const type = search.get("type");
   const quantity = search.get("quantity");
   const productId = search.get("productId");
-
+  const selectedItem = useCartStore((state) => state.selectedItem);
   const { data } = useProductDetails(productId);
 
   let checkoutItems = items;
@@ -21,7 +22,7 @@ const CheckoutItems = ({ items }) => {
       },
     ];
   } else {
-    checkoutItems = [];
+    checkoutItems = [...selectedItem];
   }
 
   return (
@@ -30,23 +31,29 @@ const CheckoutItems = ({ items }) => {
 
       {checkoutItems?.map((item) => (
         <div
-          key={item._id}
+          key={item._id || item.item._id}
           className="flex gap-6 items-center border-b pb-6 mb-6"
         >
           <img
-            src={item?.image}
-            alt={item?.name}
+            src={item?.image || item?.item?.image}
+            alt={item?.name || item?.item.name}
             className="w-28 h-28 object-cover rounded-xl border"
           />
 
           <div className="flex justify-between w-full">
             <div className="flex flex-col">
-              <span className="font-bold text-lg">{item?.name}</span>
-              <span className="text-gray-500">Color: {item?.color}</span>
+              <span className="font-bold text-lg">
+                {item?.name || item?.item.name}
+              </span>
+              <span className="text-gray-500">
+                Color: {item?.color || item?.item?.color}
+              </span>
             </div>
 
             <div className="flex flex-col text-right">
-              <span className="font-semibold text-lg">Rs. {item?.price}</span>
+              <span className="font-semibold text-lg">
+                Rs. {item?.price || item.item.price}
+              </span>
               <span className="font-medium">Quantity: {item.quantity}</span>
             </div>
           </div>
