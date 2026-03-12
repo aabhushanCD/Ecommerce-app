@@ -33,7 +33,7 @@ export const useGetAllMyProducts = () =>
  */
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
-  useMutation({
+  return useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-products"] });

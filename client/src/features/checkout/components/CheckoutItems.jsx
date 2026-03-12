@@ -2,6 +2,7 @@ import { useCartStore } from "@/features/cart/cart.store";
 import { useProductDetails } from "@/features/product/product.hook";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
+import Shipping from "./Shipping";
 
 const CheckoutItems = ({ items }) => {
   const [search] = useSearchParams();
@@ -59,6 +60,8 @@ const CheckoutItems = ({ items }) => {
           </div>
         </div>
       ))}
+
+      <Shipping />
     </div>
   );
 };

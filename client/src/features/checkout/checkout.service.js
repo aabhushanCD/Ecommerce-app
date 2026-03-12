@@ -7,3 +7,5 @@ export const placedOrder = async (data) => {
 export const buyNow = async (data) => {
   await axiosInstance.post("/checkout/buyNow", data);
 };
+
+
