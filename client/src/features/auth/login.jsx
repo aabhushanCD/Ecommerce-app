@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import catwebp from "/images/catwebp.webp";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 
 const Login = () => {
   const emailRef = useRef();

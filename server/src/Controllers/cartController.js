@@ -27,25 +27,25 @@ export const addToCart = async (req, res) => {
         userId,
         cartItems: [{ item: productId, quantity: quantity || 1 }],
       });
-
-      return res
-        .status(200)
-        .json({ message: "Product added to cart ", success: true, cart });
     }
     // If cart exists, check if product already in cart
-    const existingItem = cart.cartItems.find(
-      (cartItem) => cartItem.item.toString() === productId,
-    );
-    if (existingItem) {
-      // Update quantity
-      existingItem.quantity += quantity;
-    } else {
-      // Add new item
-      cart.cartItems.push({ item: productId, quantity });
+    else {
+      const existingItem = cart.cartItems.find(
+        (cartItem) => cartItem.item.toString() === productId,
+      );
+      if (existingItem) {
+        // Update quantity
+        existingItem.quantity += quantity || 1;
+      } else {
+        // Add new item
+        cart.cartItems.push({ item: productId, quantity: quantity || 1 });
+      }
+      await cart.save();
     }
-
-    await cart.save();
-
+    cart = await cart.populate({
+      path: "cartItems.item",
+      model: "Product",
+    });
     return res.status(200).json({
       success: true,
       message: "Product added to cart successfully",

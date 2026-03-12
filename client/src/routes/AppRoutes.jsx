@@ -1,29 +1,34 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import App from "@/App";
 import Layout from "@/components/Layout";
-import Login from "@/pages/Public/login";
-import Signup from "@/pages/Public/Signup";
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ProtectedRoute from "./protectedRoute";
-
-import PublicRoute from "./PublicRoute";
-
 import ProfileUpdate from "@/components/ProfileUpdate";
 
-import AddCategories from "@/pages/Admin/components/categories";
+import Login from "@/features/auth/login";
+import Signup from "@/features/auth/Signup";
 
-import AdminLanding from "@/pages/Admin/LangingPage";
-import SellerDashboard from "@/pages/Seller/Dashboard";
-import AdminLayout from "@/pages/Admin/components/AdminLayout";
-import Orders from "@/pages/Seller/Orders";
-import SellerLayout from "@/pages/Seller/components/SellerLayout";
-import SellerMyProducts from "@/features/product/components/Vendor/Products";
+import ProtectedRoute from "./protectedRoute";
+import PublicRoute from "./PublicRoute";
+
 import ProductDetailsContainer from "@/features/product/components/Customer/ProductDetailsContainer";
+import Checkout from "@/features/checkout/components/CheckoutItems";
+import SellerMyProducts from "@/features/product/components/Vendor/Products";
+
+import SellerLayout from "@/pages/Seller/components/SellerLayout";
+import SellerDashboard from "@/pages/Seller/Dashboard";
+import Orders from "@/pages/Seller/Orders";
+
+import AdminLayout from "@/pages/Admin/components/AdminLayout";
+import AdminLanding from "@/pages/Admin/LangingPage";
+import AddCategories from "@/pages/Admin/components/categories";
+import Cart from "@/features/cart/cart";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* ================= Customer / Common Protected Routes ================= */}
         <Route
           path="/"
           element={
@@ -32,26 +37,28 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<App />}></Route>
-          <Route path="/product/:id" element={<ProductDetailsContainer />} />
+          <Route index element={<App />} />
         </Route>
 
         <Route
-          path="*"
           element={
-            <div className="flex justify-center items-center min-h-screen text-4xl font-bold">
-              404 - Page Not Found !
-            </div>
+            <ProtectedRoute allowedRoles={["customer"]}>
+              <Layout />
+            </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/product/:id" element={<ProductDetailsContainer />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
+        </Route>
 
-        {/*______________________________ public Routes___________________ */}
+        {/* ================= Public Routes ================= */}
         <Route element={<PublicRoute />}>
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Route>
 
-        {/*____________________ Seller_____________________________ */}
+        {/* ================= Seller Routes ================= */}
         <Route
           path="/seller"
           element={
@@ -60,13 +67,13 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route index path="dashboard" element={<SellerDashboard />} />
+          <Route path="dashboard" element={<SellerDashboard />} />
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />
         </Route>
 
-        {/*____________________ Admin___________________________ */}
+        {/* ================= Admin Routes ================= */}
         <Route
           path="/admin"
           element={
@@ -78,6 +85,16 @@ const AppRoutes = () => {
           <Route index element={<AdminLanding />} />
           <Route path="addCategory" element={<AddCategories />} />
         </Route>
+
+        {/* ================= 404 ================= */}
+        <Route
+          path="*"
+          element={
+            <div className="flex items-center justify-center min-h-screen text-4xl font-bold">
+              404 - Page Not Found !
+            </div>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

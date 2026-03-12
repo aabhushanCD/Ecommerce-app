@@ -33,7 +33,7 @@ export const useCartStore = create(
           await deleteCartProduct(productId);
 
           set((state) => ({
-            cartItems: state.cartItem.filter(
+            cartItems: state.cartItems.filter(
               (item) => item.productId !== productId,
             ),
           }));

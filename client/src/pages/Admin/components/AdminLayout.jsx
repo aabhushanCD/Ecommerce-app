@@ -3,7 +3,7 @@ import { LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import SidebarItem from "./SidebarItems";
 import { Outlet } from "react-router-dom";
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 
 const AdminLayout = () => {
   const [activeTab, setActiveTab] = useState("Dashboard");

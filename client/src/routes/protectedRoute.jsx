@@ -1,13 +1,13 @@
-import { useAuth } from "@/Store/store";
-import { Navigate } from "react-router-dom";
+import { useAuth } from "@/features/auth/store";
+import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ allowedRoles, children }) {
+function ProtectedRoute({ children, allowedRoles }) {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
     return null; // or spinner
   }
-  if (!currentUser) {
+  if (!currentUser && !loading) {
     return <Navigate to="/login" replace />;
   }
 
@@ -16,7 +16,7 @@ function ProtectedRoute({ allowedRoles, children }) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return children ? children : <Outlet />;
+  return [children];
 }
 
 export default ProtectedRoute;

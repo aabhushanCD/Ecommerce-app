@@ -1,8 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 
 import { toast } from "sonner";
-import axiosInstance from "@/services/axiosInstance";
+
+import { authMe, Login, logout, signup } from "./auth.service";
 // axios.defaults.withCredentials = true;
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -15,10 +18,7 @@ export const AuthContextProvider = ({ children }) => {
   const me = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get(`/auth/me`, {
-        withCredentials: true,
-      });
-
+      const res = await authMe();
       setCurrentUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
     } catch (error) {
@@ -33,10 +33,7 @@ export const AuthContextProvider = ({ children }) => {
   // Login
   const login = async (data) => {
     try {
-      const res = await axiosInstance.post(`/auth/login`, data, {
-        withCredentials: true,
-      });
-
+      const res = await Login(data);
       setCurrentUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
       return true;
@@ -49,8 +46,7 @@ export const AuthContextProvider = ({ children }) => {
   // Signup
   const Signup = async (data) => {
     try {
-      const res = await axiosInstance.post(`/auth/register`, data);
-
+      const res = await signup(data);
       toast.success(res.data?.message || "Account created successfully");
       return true;
     } catch (error) {
@@ -60,13 +56,7 @@ export const AuthContextProvider = ({ children }) => {
   };
   const logOut = async () => {
     try {
-      const res = await axiosInstance.post(
-        `/auth/logout`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await logout();
       if (res.status === 200) {
         setCurrentUser(null);
         localStorage.removeItem("user");

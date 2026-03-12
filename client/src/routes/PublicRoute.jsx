@@ -1,4 +1,4 @@
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 import { Navigate, Outlet } from "react-router-dom";
 
 const roleRedirectMap = {
@@ -10,7 +10,7 @@ const roleRedirectMap = {
 function PublicRoute() {
   const { currentUser, loading } = useAuth();
 
-if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
 
   if (currentUser) {
     return <Navigate to={roleRedirectMap[currentUser.role] || "/"} replace />;

@@ -5,6 +5,7 @@ import { Check, LucideShare2, ShoppingCart, Zap } from "lucide-react";
 import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const SIZES = ["XS", "S", "M", "L", "XL"];
 
@@ -23,7 +24,7 @@ const ProductDetailsHead = ({ product }) => {
   const [wishlisted, setWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const fixed = discount(product?.price, product?.discount);
-
+  const navigate = useNavigate();
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 lg:p-10">
       <div className="flex flex-col lg:flex-row gap-10 xl:gap-16">
@@ -103,10 +104,10 @@ const ProductDetailsHead = ({ product }) => {
 
             {/* Price */}
             <div className="flex items-end gap-3 mt-4">
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-3xl  text-gray-900 font-medium">
                 Rs. {fixed}
               </span>
-              <span className="text-lg text-red-400 line-through mb-0.5">
+              <span className="text-lg text-red-400 line-through mb-0.5 font-medium">
                 Rs. {product?.price}
               </span>
               {product?.discount && (
@@ -191,7 +192,7 @@ const ProductDetailsHead = ({ product }) => {
           <div className="flex flex-col sm:flex-row gap-3">
             {!loading && (
               <button
-                onClick={() => addItem({ productId: product._id, quantity: 1 })}
+                onClick={() => addItem({ productId: product._id, quantity })}
                 className="flex-1 h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-indigo-200"
               >
                 <ShoppingCart className="w-5 h-5" />
@@ -199,7 +200,14 @@ const ProductDetailsHead = ({ product }) => {
               </button>
             )}
             {error && <div>{error}</div>}
-            <button className="flex-1 h-12 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors">
+            <button
+              onClick={() =>
+                navigate(
+                  `/checkout?type=${"buyNow"}&productId=${product._id}&quantity=${quantity}`,
+                )
+              }
+              className="flex-1 h-12 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+            >
               <Zap className="w-5 h-5" />
               Buy Now
             </button>

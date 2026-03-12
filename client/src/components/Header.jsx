@@ -1,4 +1,4 @@
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 import { LogOut, Search, ShoppingCart, Moon, Sun } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";

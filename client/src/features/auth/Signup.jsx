@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 const Signup = () => {
   const { Signup } = useAuth();
   const nameRef = useRef();
@@ -23,7 +23,7 @@ const Signup = () => {
       if (password.length <= 7) {
         return "Invalid Name!";
       }
-      const success = await Signup({name, email, password});
+      const success = await Signup({ name, email, password });
       if (success) {
         nameRef.current.value = "";
         emailRef.current.value = "";

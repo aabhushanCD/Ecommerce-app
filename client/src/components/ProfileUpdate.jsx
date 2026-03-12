@@ -1,5 +1,5 @@
 import { ServerApi } from "@/constant";
-import { useAuth } from "@/Store/store";
+import { useAuth } from "@/features/auth/store";
 import axios from "axios";
 import { useRef, useState } from "react";
 
