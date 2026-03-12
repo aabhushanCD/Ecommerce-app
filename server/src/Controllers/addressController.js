@@ -1,52 +1,5 @@
 import User from "../Models/user.model.js";
 
-export const setAddress = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const { country, state, city, area, street } = req.body;
-
-    if (!country || !city || !street || !state) {
-      return res
-        .status(400)
-        .json({ message: "Please Provide all required field" });
-    }
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    const address = {
-      country,
-      street,
-      city,
-      state,
-      area,
-    };
-
-    user.addresses.push(address);
-
-    await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Address added successfully",
-      addresses: user.addresses,
-    });
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
-  }
-};
-
 export const getAddress = async (req, res) => {
   try {
     const userId = req.userId;

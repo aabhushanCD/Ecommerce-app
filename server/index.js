@@ -11,7 +11,9 @@ import orderRoutes from "./src/Routes/orderRoutes.js";
 import productRoutes from "./src/Routes/productRoute.js";
 import sellerRoutes from "./src/Routes/sellerRoutes.js";
 import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
-import checkout from "./src/Routes/checkoutRoutes.js";
+import checkoutRoutes from "./src/Routes/checkoutRoutes.js";
+import addressRoutes from "./src/Routes/addressRoutes.js";
+
 const allowedOrigins = ["http://localhost:5173"];
 const app = express();
 app.use(
@@ -40,7 +42,8 @@ app.use("/api/order", orderRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/checkout", checkout);
+app.use("/api/checkout", checkoutRoutes);
+app.use("/api/address", addressRoutes);
 const PORT = process.env.PORT || 8080;
 ConnectDB()
   .then(() => {

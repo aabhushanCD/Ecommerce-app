@@ -1,36 +1,31 @@
 import mongoose from "mongoose";
 
-const addressSchema = new mongoose.Schema(
-  {
-    type: {
-      type: String,
-      enum: ["home", "office", "other"],
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    street: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    state: {
-      type: String,
-      required: true,
-    },
-    area: {
-      type: String,
-    },
+const addressSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["home", "office", "other"],
+    required: true,
   },
-  {
-    _id: false,
+  country: {
+    type: String,
+    required: true,
   },
-);
+  street: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  area: {
+    type: String,
+  },
+});
 
 const userSchema = new mongoose.Schema(
   {
