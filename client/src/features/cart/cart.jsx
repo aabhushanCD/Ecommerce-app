@@ -1,27 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useCartStore } from "./cart.store";
 import { discount } from "@/utils/utils";
 import { BsFillTagFill } from "react-icons/bs";
 import { TiDeleteOutline } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { cartItems, removeItem, viewCart, loading } = useCartStore();
-  const [selectedItems, setSelectedItems] = useState([]);
+  const selectedItem = useCartStore((state) => state.selectedItem);
+  const setSelectedItem = useCartStore((state) => state.setSelectedItem);
+
+  const navigate = useNavigate();
   useEffect(() => {
     viewCart();
   }, [viewCart]);
 
   const handleChoose = (data) => {
-    setSelectedItems((prev) => {
-      const exists = prev.find((item) => item.item === data.item);
+    setSelectedItem((prev) => {
+      const exists = prev.find((item) => item.item._id === data.item._id);
       if (exists) {
-        return prev.filter((item) => item.item !== data.item);
+        return prev.filter((item) => item.item._id !== data.item._id);
       }
       return [...prev, data];
     });
   };
-  console.log(selectedItems);
+  const total = selectedItem.reduce((acc, item) => {
+    const price = discount(item.item.price, item.item.discount);
+    return acc + price * item.quantity;
+  }, 0);
+
   return (
-    <main className="flex  min-h-screen">
+    <main className="flex  ">
       <section className="border-t pt-14 w-4xl border rounded-2xl mt-10 p-8">
         <div className="text-2xl mb-3">
           <h1>
@@ -62,7 +70,9 @@ const Cart = () => {
 
                 <input
                   type="checkbox"
-                  checked={selectedItems.some((i) => i.item._id === item.item._id)}
+                  checked={selectedItem.some(
+                    (i) => i.item._id === item.item._id,
+                  )}
                   onChange={() => handleChoose(item)}
                   name="selectItem"
                   id=""
@@ -98,20 +108,39 @@ const Cart = () => {
         <div className=" ">
           <h1 className="font-medium">Price Details</h1>
           <div className="w-100 h-50 pb-2">
-            <h2 className="pb-2">{"1 "}Items</h2>
-            <p className="flex justify-between items-center pb-2">
-              <span>{"1 x product name"}</span> <span>{"Rs. Price"}</span>
-            </p>
-            <p className="flex justify-between items-center pb-2">
-              <span>{"Coupon discount"}</span> <span>{" - Rs. Price"}</span>
-            </p>
+            <h2 className="pb-2">{`${selectedItem.length} `}Items</h2>
+            {selectedItem?.map((item) => (
+              <div key={item.item._id}>
+                <p className="flex justify-between items-center pb-2">
+                  <span>
+                    {item.quantity} x {item.item.name}
+                  </span>
+                  <span>Rs. {item.item.price}</span>
+                </p>
+
+                <p className="flex justify-between items-center pb-2">
+                  <span>{"Discount"}</span>{" "}
+                  <span>Rs. {total - item.item.price}</span>
+                </p>
+              </div>
+            ))}
             <p className="flex justify-between items-center pb-2 border-b-2">
               <span>{"Delivery Charge"}</span> <span>{"Free Delivery"}</span>
             </p>
-            <p className="flex justify-between items-center pb-2 pt-2">
-              <span>{"Total"}</span> <span>{"Rs. 324234"}</span>
+            <p className="flex justify-between items-center pb-2 pt-2 font-bold">
+              <span>{"Total"}</span> <span>Rs. {total}</span>
             </p>
           </div>
+
+          {selectedItem.length > 0 && (
+            <div
+              className={` bg-black flex text-white p-3 rounded-2xl  items-center justify-center`}
+            >
+              <button onClick={() => navigate('/checkout?type="cart')}>
+                Proced to Checkout
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </main>

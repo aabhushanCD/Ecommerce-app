@@ -8,6 +8,11 @@ export const useCartStore = create(
       loading: false,
       error: null,
 
+      selectedItem: [],
+      setSelectedItem: (fn) =>
+        set((state) => ({
+          selectedItem: typeof fn === "function" ? fn(state.selectedItem) : fn,
+        })),
       addItem: async (data) => {
         try {
           set({ loading: true, error: null });

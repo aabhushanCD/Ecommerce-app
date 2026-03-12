@@ -12,7 +12,9 @@ const Layout = () => {
         <div className="sticky top-0    w-full z-500">
           <Header />
         </div>
-        <Outlet />
+        <main className="min-h-screen">
+          <Outlet />
+        </main>
         <Footer />
       </ThemeProvider>
     </>
