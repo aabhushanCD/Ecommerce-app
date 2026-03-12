@@ -1,9 +1,9 @@
-import User from "../Models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { uploadMedia } from "../Utils/cloudinary.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import User from "../Models/user.model.js";
 
 dotenv.config({ path: ".env" });
 // signUp
@@ -69,7 +69,7 @@ export const Login = async (req, res) => {
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
-      }
+      },
     );
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
@@ -350,7 +350,7 @@ export const changeToSeller = async (req, res) => {
   } catch (error) {
     console.error(
       "Something went wrong while changing role to seller ",
-      error.message
+      error.message,
     );
     return res.status(500).json({
       message: "Server Error, change To Seller error ",
