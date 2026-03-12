@@ -85,9 +85,13 @@ export const addAddress = async (req, res) => {
   try {
     const userId = req.userId;
 
+    const { type, country, city, state, street, area } = req.body;
+    if (!type || !country || !city || !state || !street) {
+      return res.status(400).json({ message: "Please provide all Fields " });
+    }
     const user = await User.findByIdAndUpdate(
       userId,
-      { $push: { addresses: req.body } },
+      { $push: { address: { type, country, city, state, street, area } } },
       { new: true },
     );
 

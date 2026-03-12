@@ -45,4 +45,5 @@ export const useProductDetails = (productId) =>
   useQuery({
     queryKey: ["product", productId],
     queryFn: () => getProductDetails(productId),
+    enabled: !!productId,
   });

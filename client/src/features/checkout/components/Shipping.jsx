@@ -9,8 +9,30 @@ import {
   Landmark,
   User,
 } from "lucide-react";
+import { useAddress } from "@/features/user/address.hook";
 
 const Shipping = () => {
+  const { createAddress } = useAddress();
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = {
+      type: formData.get("type"),
+      country: formData.get("country"),
+      city: formData.get("city"),
+      state: formData.get("state"),
+      street: formData.get("street"),
+      area: formData.get("area"),
+    };
+    try {
+      const res = await createAddress(data);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-2xl p-8 border">
       {/* Heading */}
@@ -21,7 +43,7 @@ const Shipping = () => {
         </h1>
       </div>
 
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleAdd}>
         {/* Name */}
         {/* <div>
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600 mb-1">
@@ -62,6 +84,7 @@ const Shipping = () => {
           </label>
           <input
             type="text"
+            name="country"
             placeholder="Country"
             className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
@@ -75,6 +98,7 @@ const Shipping = () => {
             </label>
             <input
               type="text"
+              name="city"
               placeholder="City"
               className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
@@ -86,6 +110,7 @@ const Shipping = () => {
             </label>
             <input
               type="text"
+              name="state"
               placeholder="State"
               className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
@@ -99,6 +124,7 @@ const Shipping = () => {
           </label>
           <input
             type="text"
+            name="street"
             placeholder="Street / Ward / Local area"
             className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
@@ -111,6 +137,7 @@ const Shipping = () => {
           </label>
           <input
             type="text"
+            name="area"
             placeholder="Nearby landmark"
             className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
