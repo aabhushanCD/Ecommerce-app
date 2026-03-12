@@ -62,9 +62,9 @@ export const addToCart = async (req, res) => {
 export const removeFromCart = async (req, res) => {
   try {
     const { productId } = req.params;
-    const { quantity = 1 } = req.body; // optional: how many to remove
+    const { quantity } = req.body || {}; // optional: how many to remove
     const userId = req.userId;
-
+    const removeQty = quantity || 1;
     const cart = await Cart.findOne({ userId });
 
     if (!cart) {
@@ -74,7 +74,7 @@ export const removeFromCart = async (req, res) => {
       });
     }
 
-    const itemIndex = cart.cartItems.findIndex(
+    const itemIndex = cart?.cartItems.findIndex(
       (cartItem) => cartItem.item.toString() === productId,
     );
 
@@ -88,8 +88,8 @@ export const removeFromCart = async (req, res) => {
     const existingItem = cart.cartItems[itemIndex];
 
     // Decrease quantity or remove item
-    if (existingItem.quantity > quantity) {
-      existingItem.quantity -= quantity;
+    if (existingItem.quantity > removeQty) {
+      existingItem.quantity -= removeQty;
     } else {
       cart.cartItems.splice(itemIndex, 1); // remove item completely
     }

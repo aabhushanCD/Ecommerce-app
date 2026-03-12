@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useCartStore } from "./cart.store";
 import { discount } from "@/utils/utils";
-
+import { TiDeleteOutline } from "react-icons/ti";
 const Cart = () => {
-  const { cartItems, viewCart, loading } = useCartStore();
+  const { cartItems, removeItem, viewCart, loading } = useCartStore();
 
   useEffect(() => {
     viewCart();
@@ -40,12 +40,25 @@ const Cart = () => {
                 <span>{`Total Discount: ${item.item.discount}%`}</span>
               </div>
             </div>
-            <span className="font-medium text-blue-600">
-              Quantity: <span className="text-xl">{item.quantity}</span>
-            </span>
-            <div className=" ">
+
+            <div className=" flex gap-4 items-center justify-center">
+              <span className="font-medium text-blue-600">
+                Quantity: <span className="text-xl">{item.quantity}</span>
+              </span>
+
               <input type="checkbox" name="" id="" />
             </div>
+            <button
+              onClick={() =>
+                removeItem({
+                  productId: item.item._id,
+                  quantity: item.item.quantity,
+                })
+              }
+              className=" rounded full  text-red-500 cursor-pointer "
+            >
+              <TiDeleteOutline className="w-6 h-6" />
+            </button>
           </div>
         ))}
       </div>

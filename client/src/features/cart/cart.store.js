@@ -26,15 +26,15 @@ export const useCartStore = create(
         }
       },
 
-      removeItem: async (productId) => {
+      removeItem: async ({ productId, quantity }) => {
         try {
           set({ loading: true, error: null });
 
-          await deleteCartProduct(productId);
+          await deleteCartProduct({ productId, quantity });
 
           set((state) => ({
             cartItems: state.cartItems.filter(
-              (item) => item.productId !== productId,
+              (item) => item.item._id !== productId,
             ),
           }));
         } catch (err) {

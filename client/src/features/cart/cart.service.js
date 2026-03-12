@@ -8,6 +8,6 @@ export const addCart = async (data) => {
   return await axiosInstance.post("/cart/add/product", data);
 };
 
-export const deleteCartProduct = async (productId) => {
-  return await axiosInstance.delete(`/cart/remove/${productId}`);
+export const deleteCartProduct = async ({ productId, quantity }) => {
+  return await axiosInstance.delete(`/cart/remove/${productId}`, quantity);
 };
