@@ -1,62 +1,94 @@
-import React from "react";
-import { User, MapPin, Globe, Home, Edit } from "lucide-react";
+  import React, { useEffect, useState } from "react";
+  import { User, MapPin, Globe, Home, Edit, Trash2 } from "lucide-react";
+  import { useAddress } from "@/features/user/address.hook";
 
-const AddressCard = ({ address, onEdit }) => {
-  return (
-    <div className="w-full pb-4">
-      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-            <Home size={18} className="text-indigo-500" />
-            Delivery Address
-          </h2>
+  const AddressCard = ({ onEdit }) => {
+    const { fetchAddress, address, removeAddress } = useAddress();
 
-          <button
-            onClick={() => onEdit(address)}
-            className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+    const [selectedAddress, setSelectedAddress] = useState(null);
+
+    useEffect(() => {
+      fetchAddress();
+    }, []);
+
+    const handleDelete = async (id) => {
+      await removeAddress(id);
+    };
+
+    return (
+      <div className="space-y-4">
+        {address.map((item) => (
+          <div
+            key={item._id}
+            className={`bg-white border rounded-xl p-5 shadow-sm transition hover:shadow-md
+              ${
+                selectedAddress === item._id
+                  ? "border-indigo-500 ring-1 ring-indigo-200"
+                  : "border-gray-200"
+              }`}
           >
-            <Edit size={16} />
-            Edit
-          </button>
-        </div>
+            {/* Header */}
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-3">
+                {/* Radio Button */}
+                <input
+                  type="radio"
+                  name="selectedAddress"
+                  checked={selectedAddress === item._id}
+                  onChange={() => setSelectedAddress(item._id)}
+                  className="accent-indigo-600 cursor-pointer"
+                />
 
-        {/* Address Info */}
-        <div className="space-y-3 text-sm text-gray-700">
-          <div className="flex items-center gap-3">
-            <User size={16} className="text-gray-500" />
-            <span className="font-medium">{address?.fullName}</span>
-          </div>
+                <div className="flex items-center gap-2 text-indigo-600 font-semibold">
+                  <Home size={18} />
+                  <span>{item.type} Address</span>
+                </div>
+              </div>
 
-          <div className="flex items-center gap-3">
-            <Globe size={16} className="text-gray-500" />
-            <span>{address?.country}</span>
-          </div>
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => onEdit(item)}
+                  className="flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 transition"
+                >
+                  <Edit size={16} />
+                  Edit
+                </button>
 
-          <div className="flex items-center gap-3">
-            <MapPin size={16} className="text-gray-500" />
-            <span>
-              {address?.city}, {address?.state}
-            </span>
-          </div>
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="flex items-center gap-1 text-sm text-gray-500 hover:text-red-500 transition"
+                >
+                  <Trash2 size={16} />
+                  Delete
+                </button>
+              </div>
+            </div>
 
-          <div className="flex items-center gap-3">
-            <MapPin size={16} className="text-gray-500" />
-            <span>
-              {address?.area}, {address?.street}
-            </span>
-          </div>
+            {/* Name */}
+            <div className="flex items-center gap-3 text-gray-800 font-medium mb-2">
+              <User size={16} className="text-indigo-500" />
+              {item.fullName}
+            </div>
 
-          <div className="flex items-center gap-3">
-            <Home size={16} className="text-gray-500" />
-            <span className="bg-gray-100 px-2 py-0.5 rounded text-xs font-medium">
-              {address?.type}
-            </span>
+            {/* Address */}
+            <div className="flex items-start gap-3 text-gray-600 mb-2">
+              <MapPin size={16} className="text-indigo-500 mt-1" />
+              <div className="leading-relaxed">
+                {item.street}, {item.area} <br />
+                {item.city}, {item.state}
+              </div>
+            </div>
+
+            {/* Country */}
+            <div className="flex items-center gap-3 text-gray-600">
+              <Globe size={16} className="text-indigo-500" />
+              {item.country}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default AddressCard;
+  export default AddressCard;

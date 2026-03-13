@@ -82,19 +82,26 @@ export const addAddress = async (req, res) => {
     const userId = req.userId;
 
     const { fullName, type, country, city, state, street, area } = req.body;
-    if (!type || !country || !city || !state || !street) {
+    if (!fullName || !type || !country || !city || !state || !street) {
       return res.status(400).json({ message: "Please provide all Fields " });
     }
-    const address = await Address.create(
-      { userId, fullName, type, country, city, state, street, area },
-      { new: true, runValidators: true },
-    );
+    const address = await Address.create({
+      userId,
+      fullName,
+      type,
+      country,
+      city,
+      state,
+      street,
+      area,
+    });
 
     res.status(200).json({
       success: true,
       address,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Failed to add address",

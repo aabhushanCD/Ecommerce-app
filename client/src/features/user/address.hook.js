@@ -16,7 +16,7 @@ export const useAddress = () => {
     try {
       setLoading(true);
       const res = await getAddress(type);
-      setAddress(res.data.address);
+      setAddress(res.data.addresses);
     } catch (err) {
       setError(err.message || "Failed to load address");
     } finally {
