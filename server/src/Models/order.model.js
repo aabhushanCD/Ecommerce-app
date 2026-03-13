@@ -39,9 +39,13 @@ const orderSchema = new mongoose.Schema(
       enum: ["Placed", "Confirmed", "Shipped", "Delivered", "Cancelled"],
       default: "Placed",
     },
+    shipping: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    },
     transactionId: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Order = mongoose.model("Order", orderSchema);

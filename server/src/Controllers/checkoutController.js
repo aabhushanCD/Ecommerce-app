@@ -1,10 +1,11 @@
+import Address from "../Models/address.model.js";
 import Cart from "../Models/cart.model.js";
 import Product from "../Models/product.model.js";
-
+import User from "../Models/user.model.js";
 export const placedOrder = async (req, res) => {
   try {
     const userId = req.userId;
-    const { selectItems, paymentMethod, transactionId } = req.body;
+    const { selectItems, paymentMethod, transactionId, addressId } = req.body;
 
     if (!paymentMethod || !["Online", "COD"].includes(paymentMethod)) {
       return res.status(400).json({ message: "Invalid payment method" });
@@ -17,6 +18,15 @@ export const placedOrder = async (req, res) => {
     ) {
       return res.status(400).json({
         message: "Please select at least one product",
+        success: false,
+      });
+    }
+
+    const selectedAddress = Address.findById(addressId);
+
+    if (!selectedAddress) {
+      return res.status(404).json({
+        message: "Address not found",
         success: false,
       });
     }
@@ -50,6 +60,7 @@ export const placedOrder = async (req, res) => {
             price,
             discount,
             subtotal,
+            shipping: selectedAddress,
           });
 
           totalAmount += subtotal;
