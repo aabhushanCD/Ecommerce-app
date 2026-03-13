@@ -19,6 +19,7 @@ const Shipping = () => {
 
     const formData = new FormData(e.target);
     const data = {
+      fullName: formData.get("fullName"),
       type: formData.get("type"),
       country: formData.get("country"),
       city: formData.get("city"),
@@ -45,16 +46,17 @@ const Shipping = () => {
 
       <form className="space-y-6" onSubmit={handleAdd}>
         {/* Name */}
-        {/* <div>
+        <div>
           <label className="flex items-center gap-2 text-sm font-medium text-gray-600 mb-1">
             <User size={16} /> Full Name
           </label>
           <input
             type="text"
+            name="fullName"
             placeholder="Enter your full name"
             className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
-        </div> */}
+        </div>
 
         {/* Address Type */}
         <div>

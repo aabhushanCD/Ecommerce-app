@@ -1,8 +1,10 @@
 import { useCartStore } from "@/features/cart/cart.store";
 import { useProductDetails } from "@/features/product/product.hook";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Shipping from "./Shipping";
+import AddressCard from "./AddressCard";
+import { useAddress } from "@/features/user/address.hook";
 
 const CheckoutItems = ({ items }) => {
   const [search] = useSearchParams();
@@ -12,7 +14,7 @@ const CheckoutItems = ({ items }) => {
   const productId = search.get("productId");
   const selectedItem = useCartStore((state) => state.selectedItem);
   const { data } = useProductDetails(productId);
-
+  const [address, setAddress] = useState();
   let checkoutItems = items;
 
   if (type === "buyNow" && data?.data?.product) {
@@ -26,10 +28,15 @@ const CheckoutItems = ({ items }) => {
     checkoutItems = [...selectedItem];
   }
 
+  const { fetchAddress } = useAddress();
+  useEffect(() => {
+    const res = fetchAddress();
+    setAddress(res);
+    console.log(res)
+  }, []);
   return (
     <div className="border-2 p-6 rounded-xl max-w-3xl ml-4 mt-10">
       <h1 className="text-2xl font-semibold pb-8">Review Item And Shipping</h1>
-
       {checkoutItems?.map((item) => (
         <div
           key={item._id || item.item._id}
@@ -60,7 +67,10 @@ const CheckoutItems = ({ items }) => {
           </div>
         </div>
       ))}
-
+      <AddressCard address={address} />
+      <div className=" ">
+        <button className="border px-4 py-2">New Addresses</button>
+      </div>
       <Shipping />
     </div>
   );
