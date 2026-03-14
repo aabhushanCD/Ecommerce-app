@@ -2,6 +2,7 @@ import { useCartStore } from "@/features/cart/cart.store";
 import { useProductDetails } from "@/features/product/product.hook";
 import { discount } from "@/utils/utils";
 import { useSearchParams } from "react-router-dom";
+import { buyNow, placedOrder } from "../checkout.service";
 
 export const useCheckout = () => {
   const [search] = useSearchParams();
@@ -41,14 +42,13 @@ export const useCheckout = () => {
     }));
   }
 
-  let subtotal = 0;
-
-  items.forEach((item) => {
+  /* ---------------- PRICE CALCULATION ---------------- */
+  const subtotal = items.reduce((acc, item) => {
     const finalPrice = discount(item.price, item.discount || 0);
-    subtotal += finalPrice * item.quantity;
-  });
+    return acc + finalPrice * item.quantity;
+  }, 0);
 
-  const shipping = 100;
+  const shipping = subtotal > 2000 ? 0 : 100;
   const total = subtotal + shipping;
 
   const structuredData = {
@@ -57,8 +57,28 @@ export const useCheckout = () => {
     shipping,
     total,
   };
-  const handlePlacedOrder = async () => {
-    
+  /* ---------------- PLACE ORDER ---------------- */
+  const handlePlacedOrder = async (data) => {
+    try {
+      if (!items.length) throw new Error("No items to order");
+
+      const orderItems = items.map((item) => item.productId);
+
+      const payload = {
+        selectItems: orderItems,
+        paymentMethod: data.paymentMethod,
+        addressId: data.selectedAddress,
+      };
+
+      if (type === "buyNow") {
+        return await buyNow(payload);
+      }
+
+      return await placedOrder(payload);
+    } catch (error) {
+      console.error("Order placement failed:", error);
+      throw error;
+    }
   };
   return { structuredData, handlePlacedOrder };
 };

@@ -4,7 +4,7 @@ import { buyNow, placedOrder } from "../Controllers/checkoutController.js";
 
 const router = express.Router();
 
-router.post("/cart", verifyToken, placedOrder);
+router.post("/placedOrder", verifyToken, placedOrder);
 router.post("/buyNow", verifyToken, buyNow);
 
 export default router;

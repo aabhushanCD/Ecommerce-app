@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { User, MapPin, Globe, Home, Edit, Trash2 } from "lucide-react";
 import { useAddress } from "@/features/user/address.hook";
 
-const AddressCard = ({ onEdit }) => {
+const AddressCard = ({ onEdit, setSelectedAddress, selectedAddress }) => {
   const { fetchAddress, address, removeAddress } = useAddress();
-
-  const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     fetchAddress();

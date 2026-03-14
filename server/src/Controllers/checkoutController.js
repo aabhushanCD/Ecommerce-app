@@ -1,7 +1,7 @@
 import Address from "../Models/address.model.js";
 import Cart from "../Models/cart.model.js";
 import Product from "../Models/product.model.js";
-import User from "../Models/user.model.js";
+import Order from "../Models/order.model.js";
 export const placedOrder = async (req, res) => {
   try {
     const userId = req.userId;
@@ -45,6 +45,7 @@ export const placedOrder = async (req, res) => {
     let totalAmount = 0;
 
     for (const item of cart.cartItems) {
+      console.log(selectItems);
       if (selectItems.includes(item.item.toString())) {
         const product = await Product.findById(item.item);
         if (product) {

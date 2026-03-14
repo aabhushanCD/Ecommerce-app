@@ -9,12 +9,9 @@ import { FaMoneyBill } from "react-icons/fa";
 const CheckoutItems = () => {
   const [newAddress, setNewAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const { structuredData, handlePlacedOrder } = useCheckout();
 
-  const { structuredData } = useCheckout();
-
-  const handlePlacedOrder = () => {
-    
-  };
   return (
     <div className="max-w-7xl mx-auto grid lg:grid-cols-[2fr_1fr] gap-8 mt-10">
       {/* LEFT SECTION */}
@@ -80,7 +77,14 @@ const CheckoutItems = () => {
           </div>
 
           <div className="bg-gray-50 border rounded-md p-4">
-            {newAddress ? <Shipping /> : <AddressCard />}
+            {newAddress ? (
+              <Shipping />
+            ) : (
+              <AddressCard
+                setSelectedAddress={setSelectedAddress}
+                selectedAddress={selectedAddress}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -141,7 +145,7 @@ const CheckoutItems = () => {
         </div>
 
         <button
-          onClick={handlePlacedOrder}
+          onClick={() => handlePlacedOrder({ paymentMethod, selectedAddress })}
           className="w-full mt-6 bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition font-semibold"
         >
           Place Order
