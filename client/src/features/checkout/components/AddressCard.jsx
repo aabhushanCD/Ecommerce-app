@@ -17,7 +17,6 @@ const AddressCard = ({ onEdit }) => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-medium">Select Shipping Address</h1>
       {address.map((item) => (
         <div
           key={item._id}
