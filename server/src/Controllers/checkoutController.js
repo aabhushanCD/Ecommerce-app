@@ -116,9 +116,9 @@ export const placedOrder = async (req, res) => {
 export const buyNow = async (req, res) => {
   try {
     const userId = req.userId;
-    const { productId, quantity, paymentMethod, transactionId } = req.body;
+    const { selectItems, quantity, paymentMethod, transactionId } = req.body;
 
-    if (!productId) {
+    if (!selectItems) {
       return res.status(400).json({
         message: "Product is not available!",
         success: false,
@@ -132,7 +132,7 @@ export const buyNow = async (req, res) => {
       });
     }
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(selectItems[0]);
 
     if (!product) {
       return res.status(404).json({
