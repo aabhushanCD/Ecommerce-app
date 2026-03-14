@@ -15,9 +15,9 @@ import ProductDetailsContainer from "@/features/product/components/Customer/Prod
 import Checkout from "@/features/checkout/components/CheckoutItems";
 import SellerMyProducts from "@/features/product/components/Vendor/Products";
 
-import SellerLayout from "@/pages/Seller/components/SellerLayout";
+import SellerLayout from "@/features/order/components/SellerLayout";
 import SellerDashboard from "@/pages/Seller/Dashboard";
-import Orders from "@/pages/Seller/Orders";
+import Orders from "@/features/order/Orders";
 
 import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import AdminLanding from "@/pages/Admin/LangingPage";

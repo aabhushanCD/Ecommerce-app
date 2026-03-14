@@ -25,7 +25,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
   const stockRef = useRef();
   const descriptionRef = useRef();
   const categoriesRef = useRef();
-
+  const imageRef = useRef();
   /* -------- FETCH CATEGORIES -------- */
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ["categories"],
@@ -96,7 +96,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Price ($)
+            Price (Rs.)
           </label>
           <input
             ref={priceRef}
@@ -157,7 +157,10 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Product Images
           </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-violet-500 transition-colors cursor-pointer bg-gray-50/50">
+          <div
+            onClick={() => imageRef.click()}
+            className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-violet-500 transition-colors cursor-pointer bg-gray-50/50"
+          >
             <Upload className="mx-auto mb-3 text-gray-400" size={40} />
             <p className="text-gray-600 mb-1">
               <span className="text-violet-600 font-medium">
@@ -165,6 +168,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
               </span>
               or drag and drop
             </p>
+            <input type="file"  className="hidden" />
             <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import SidebarItem from "@/features/order/components/SideBarItems";
 import {
   BarChart3,
   DollarSign,
@@ -8,8 +9,6 @@ import {
   Star,
   TrendingUp,
 } from "lucide-react";
-
-import SidebarItem from "./SideBarItems";
 
 const SellerAsideNav = ({ productCount = 0, orderCount = 0 }) => {
   return (
@@ -51,7 +50,7 @@ const SellerAsideNav = ({ productCount = 0, orderCount = 0 }) => {
         </nav>
 
         {/* Pro Tip */}
-        <div className="mt-6 p-4 rounded-xl bg-linear-to-br from-violet-500 to-fuchsia-600 text-white">
+        <div className=" mt-6 p-4 rounded-xl bg-linear-to-br from-violet-500 to-fuchsia-600 text-white">
           <h4 className="font-semibold mb-2">🎉 Pro Tip</h4>
           <p className="text-sm opacity-90 mb-3">
             Products with clear images sell 3x faster!

@@ -1,31 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { Package } from "lucide-react";
-
-import { ServerApi } from "@/constant";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-/* ---------------- API ---------------- */
-
-const fetchOrders = async () => {
-  const res = await axios.get(`${ServerApi}/order/view`, {
-    withCredentials: true,
-  });
-  return res.data.orders;
-};
-
-/* ---------------- COMPONENT ---------------- */
+import { useSellerOrderView } from "./order.hook";
 
 const SellerOrdersTable = () => {
-  const {
-    data: orders = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["seller-orders"],
-    queryFn: fetchOrders,
-  });
+  const { data, isLoading, error } = useSellerOrderView();
 
   if (isLoading) {
     return (
@@ -35,13 +14,13 @@ const SellerOrdersTable = () => {
     );
   }
 
-  if (isError) {
+  if (error) {
     return (
-      <p className="text-center text-red-500 mt-10">Failed to load orders</p>
+      <p className="text-center text-red-500 mt-10">Failed to load orders .</p>
     );
   }
 
-  if (orders.length === 0) {
+  if (data?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-gray-500">
         <Package size={48} className="opacity-40 mb-3" />
@@ -81,7 +60,7 @@ const SellerOrdersTable = () => {
         </thead>
 
         <tbody className="divide-y">
-          {orders.map((order) => (
+          {data?.map((order) => (
             <tr key={order._id} className="hover:bg-gray-50 transition">
               <td className="px-4 py-3 font-medium">#{order._id.slice(-6)}</td>
 
@@ -91,7 +70,7 @@ const SellerOrdersTable = () => {
 
               <td className="px-4 py-3">{order.quantity}</td>
 
-              <td className="px-4 py-3 font-semibold">₹{order.totalAmount}</td>
+              <td className="px-4 py-3 font-semibold">₹ {order.totalAmount}</td>
 
               <td className="px-4 py-3">
                 <Badge

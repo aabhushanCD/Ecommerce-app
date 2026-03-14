@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import {
-  Store,
   Package,
   ShoppingBag,
   TrendingUp,
   DollarSign,
   Eye,
   Plus,
- 
   Clock,
   CheckCircle2,
   AlertCircle,
@@ -16,7 +14,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import StatCard from "./components/StatCard";
+import StatCard from "../../features/order/components/StatCard";
 import {
   AreaChart,
   Area,
@@ -79,7 +77,7 @@ const SellerDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Sales"
-          value="$12,426"
+          value="Rs. 12,426"
           change="+18.2%"
           icon={<DollarSign />}
           linear="from-emerald-500 to-teal-600"
@@ -207,28 +205,28 @@ const SellerDashboard = () => {
             <ProductItem
               name="Wireless Headphones"
               category="Electronics"
-              price="$89.99"
+              price="Rs.89.99"
               stock={45}
               status="Active"
             />
             <ProductItem
               name="Cotton T-Shirt"
               category="Fashion"
-              price="$24.99"
+              price="Rs.24.99"
               stock={8}
               status="Active"
             />
             <ProductItem
               name="Smart Watch Pro"
               category="Electronics"
-              price="$299.99"
+              price="Rs.299.99"
               stock={0}
               status="Out of Stock"
             />
             <ProductItem
               name="Leather Wallet"
               category="Accessories"
-              price="$49.99"
+              price="Rs.49.99"
               stock={23}
               status="Active"
             />
