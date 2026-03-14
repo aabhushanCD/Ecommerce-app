@@ -1,16 +1,20 @@
 import { useCartStore } from "@/features/cart/cart.store";
 import { useProductDetails } from "@/features/product/product.hook";
-import React from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Shipping from "./Shipping";
 import AddressCard from "./AddressCard";
+import { Package, MapPin, Plus } from "lucide-react";
+import { discount } from "@/utils/utils";
 
 const CheckoutItems = ({ items }) => {
   const [search] = useSearchParams();
+  const [newAddress, setNewAddress] = useState(false);
 
   const type = search.get("type");
   const quantity = search.get("quantity");
   const productId = search.get("productId");
+
   const selectedItem = useCartStore((state) => state.selectedItem);
   const { data } = useProductDetails(productId);
 
@@ -28,43 +32,84 @@ const CheckoutItems = ({ items }) => {
   }
 
   return (
-    <div className="border-2 p-6 rounded-xl max-w-3xl ml-4 mt-10">
-      <h1 className="text-2xl font-semibold pb-8">Review Item And Shipping</h1>
-      {checkoutItems?.map((item) => (
-        <div
-          key={item._id || item.item._id}
-          className="flex gap-6 items-center border-b pb-6 mb-6"
-        >
-          <img
-            src={item?.image || item?.item?.image}
-            alt={item?.name || item?.item.name}
-            className="w-28 h-28 object-cover rounded-xl border"
-          />
+    <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl p-8 shadow-sm mt-10">
+      {/* Title */}
+      <h1 className="text-2xl font-semibold mb-8 text-gray-800">
+        Review Items & Shipping
+      </h1>
 
-          <div className="flex justify-between w-full">
-            <div className="flex flex-col">
-              <span className="font-bold text-lg">
-                {item?.name || item?.item.name}
-              </span>
-              <span className="text-gray-500">
-                Color: {item?.color || item?.item?.color}
-              </span>
-            </div>
-
-            <div className="flex flex-col text-right">
-              <span className="font-semibold text-lg">
-                Rs. {item?.price || item.item.price}
-              </span>
-              <span className="font-medium">Quantity: {item.quantity}</span>
-            </div>
-          </div>
+      {/* ---------------- ITEMS SECTION ---------------- */}
+      <div className="mb-10">
+        <div className="flex items-center gap-2 mb-6 text-indigo-600 font-semibold">
+          <Package size={20} />
+          Order Items
         </div>
-      ))}
-      <AddressCard />
-      <div className=" ">
-        <button className="border px-4 py-2">New Addresses</button>
+
+        <div className="space-y-6">
+          {checkoutItems?.map((item) => (
+            <div
+              key={item._id || item.item._id}
+              className="flex gap-6 items-center border border-gray-200 rounded-xl p-4 hover:shadow-sm transition"
+            >
+              {/* Image */}
+              <img
+                src={item?.image || item?.item?.image}
+                alt={item?.name || item?.item?.name}
+                className="w-24 h-24 object-cover rounded-lg border"
+              />
+
+              {/* Product Info */}
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-800">
+                    {item?.name || item?.item?.name}
+                  </span>
+
+                  <span className="text-sm text-gray-500">
+                    Color: {item?.color || item?.item?.color}
+                  </span>
+
+                  <span className="text-sm text-gray-500">
+                    Quantity: {item.quantity}
+                  </span>
+                </div>
+
+                {/* Price */}
+                <div className="text-right">
+                  <span className="text-lg font-semibold text-indigo-600">
+                    Rs. {discount(item.item.price, item.item.discount)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <Shipping />
+
+      {/* ---------------- SHIPPING SECTION ---------------- */}
+
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-2 text-indigo-600 font-semibold">
+            <MapPin size={20} />
+            Shipping Address
+          </div>
+
+          <button
+            onClick={() => setNewAddress(!newAddress)}
+            className="flex items-center gap-2 text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+          >
+            <Plus size={16} />
+            {!newAddress ? "Add Address" : "My Addresses"}
+          </button>
+        </div>
+
+        {/* Address Section */}
+
+        <div className="border border-gray-200 rounded-xl p-5 bg-gray-50">
+          {newAddress ? <Shipping /> : <AddressCard />}
+        </div>
+      </div>
     </div>
   );
 };

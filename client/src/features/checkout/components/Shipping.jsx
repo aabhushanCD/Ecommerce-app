@@ -35,7 +35,7 @@ const Shipping = () => {
     }
   };
   return (
-    <div className="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-2xl p-8 border">
+    <div className="max-w-3xl mx-auto  bg-white shadow-lg rounded-2xl p-8 border">
       {/* Heading */}
       <div className="flex items-center gap-3 mb-6">
         <MapPin className="text-green-600" />
