@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import StatCard from "../../features/order/components/StatCard";
+import StatCard from "./components/StatCard";
 import {
   AreaChart,
   Area,
@@ -62,7 +62,7 @@ const SellerDashboard = () => {
           >
             <Plus size={20} className="mr-2" />
             Add Product
-          </Button>
+          </Button> 
         </div>
       </Card>
 

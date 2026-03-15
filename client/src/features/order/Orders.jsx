@@ -3,8 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSellerOrderView } from "./order.hook";
 
+const data = [
+  {
+    _id: "lkdfals;dkf",
+  },
+];
 const SellerOrdersTable = () => {
-  const { data, isLoading, error } = useSellerOrderView();
+  const { isLoading, error } = useSellerOrderView();
 
   if (isLoading) {
     return (
