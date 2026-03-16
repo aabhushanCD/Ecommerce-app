@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Upload } from "lucide-react";
 // import { useQuery } from "@tanstack/react-query";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -26,6 +26,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
   const descriptionRef = useRef();
   const categoriesRef = useRef();
   const imageRef = useRef();
+  const [images, setImages] = useState([]);
   /* -------- FETCH CATEGORIES -------- */
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ["categories"],
@@ -56,12 +57,36 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
     addProduct.mutate(payload);
   };
 
-  if (!showAddProduct) return null;
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
 
+    const previewImages = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+    setImages((prev) => [...prev, previewImages]);
+    console.log(images);
+  };
+
+  if (!showAddProduct) return null;
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    const previewImages = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setImages((prev) => [...prev, ...previewImages]);
+  };
   return (
     <Card className="p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
       <h3 className="text-xl font-bold mb-6 text-gray-800">Add New Product</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Product Name
@@ -152,13 +177,25 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
           ></textarea>
         </div>
+        <div className="flex gap-4 mt-4 flex-wrap">
+          {images?.map((img, index) => (
+            <img
+              key={index}
+              src={img.preview}
+              alt="preview"
+              className="w-24 h-24 object-cover rounded-lg border"
+            />
+          ))}
+        </div>
 
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Product Images
           </label>
           <div
-            onClick={() => imageRef.click()}
+            onClick={() => imageRef.current.click()}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
             className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-violet-500 transition-colors cursor-pointer bg-gray-50/50"
           >
             <Upload className="mx-auto mb-3 text-gray-400" size={40} />
@@ -168,11 +205,18 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
               </span>
               or drag and drop
             </p>
-            <input type="file"  className="hidden" />
+            <input
+              onChange={handleImageChange}
+              type="file"
+              multiple
+              accept="image/*"
+              ref={imageRef}
+              className="hidden"
+            />
             <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
           </div>
         </div>
-      </div>
+      </form>
 
       <div className="flex gap-3 mt-6">
         <Button
