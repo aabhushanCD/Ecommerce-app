@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
-import { Upload } from "lucide-react";
-// import { useQuery } from "@tanstack/react-query";
 import { useQuery, useMutation } from "@tanstack/react-query";
-
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+// import ProductDetailsForm from "./components/ProductDetailsForm";
+// import ProductImageUpload from "./components/ProductImageUpload";
+import { addProductService } from "./product.service";
 import axios from "axios";
 import { ServerApi } from "@/constant";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-/* ---------------- API FUNCTIONS ---------------- */
+import ProductDetailsForm from "./ProductDetailsForm";
+import ProductImageUpload from "./ProductImageUpload";
 
 const fetchCategories = async () => {
   const res = await axios.get(`${ServerApi}/categories/view`, {
@@ -18,6 +18,9 @@ const fetchCategories = async () => {
 };
 
 function ProductAdd({ showAddProduct, setShowAddProduct }) {
+  const [step, setStep] = useState(1);
+  const [images, setImages] = useState([]);
+
   const titleRef = useRef();
   const priceRef = useRef();
   const skuRef = useRef();
@@ -25,26 +28,20 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
   const stockRef = useRef();
   const descriptionRef = useRef();
   const categoriesRef = useRef();
-  const imageRef = useRef();
-  const [images, setImages] = useState([]);
-  /* -------- FETCH CATEGORIES -------- */
-  const { data: categories = [], isLoading } = useQuery({
+
+  const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
 
-  /* -------- ADD PRODUCT -------- */
   const addProduct = useMutation({
-    mutationFn: async (payload) => addProduct(payload),
+    mutationFn: addProductService,
     onSuccess: () => {
-      console.log("✅ Product added successfully");
       setShowAddProduct(false);
     },
-    onError: (err) => {
-      console.error("❌ Failed to add product", err);
-    },
   });
-  const handleSubmit = async () => {
+
+  const handleSubmit = () => {
     const payload = {
       name: titleRef.current.value,
       price: priceRef.current.value,
@@ -53,185 +50,43 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
       description: descriptionRef.current.value,
       category: categoriesRef.current.value,
       stock: stockRef.current.value,
+      images,
     };
+
     addProduct.mutate(payload);
   };
 
-  const handleImageChange = async (e) => {
-    const files = Array.from(e.target.files);
-
-    const previewImages = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-    setImages((prev) => [...prev, previewImages]);
-    console.log(images);
-  };
-
   if (!showAddProduct) return null;
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    const previewImages = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-
-    setImages((prev) => [...prev, ...previewImages]);
-  };
   return (
-    <Card className="p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-      <h3 className="text-xl font-bold mb-6 text-gray-800">Add New Product</h3>
-      <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Product Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter product name"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-            ref={titleRef}
-          />
-        </div>
+    <Card className="p-6">
+      {step === 1 && (
+        <ProductDetailsForm
+          refs={{
+            titleRef,
+            priceRef,
+            skuRef,
+            discountRef,
+            stockRef,
+            descriptionRef,
+            categoriesRef,
+          }}
+          categories={categories}
+        />
+      )}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Category
-          </label>
-          <select
-            ref={categoriesRef}
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          >
-            {isLoading ? (
-              <option>Loading...</option>
-            ) : (
-              categories.map((c) => (
-                <option key={c._id} value={c._id}>
-                  {c.name}
-                </option>
-              ))
-            )}
-          </select>
-        </div>
+      {step === 2 && (
+        <ProductImageUpload images={images} setImages={setImages} />
+      )}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Price (Rs.)
-          </label>
-          <input
-            ref={priceRef}
-            type="number"
-            placeholder="0.00"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Discount
-          </label>
-          <input
-            ref={discountRef}
-            type="number"
-            placeholder="0.00"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          />
-        </div>
+      <div className="flex gap-4 mt-6">
+        {step > 1 && (
+          <Button onClick={() => setStep(step - 1)}>Previous</Button>
+        )}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Stock Quantity
-          </label>
-          <input
-            ref={stockRef}
-            type="number"
-            placeholder="0"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          />
-        </div>
+        {step < 2 && <Button onClick={() => setStep(step + 1)}>Next</Button>}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            SKU
-          </label>
-          <input
-            ref={skuRef}
-            type="text"
-            placeholder="Product SKU"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Description
-          </label>
-          <textarea
-            ref={descriptionRef}
-            rows="4"
-            placeholder="Describe your product..."
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
-          ></textarea>
-        </div>
-        <div className="flex gap-4 mt-4 flex-wrap">
-          {images?.map((img, index) => (
-            <img
-              key={index}
-              src={img.preview}
-              alt="preview"
-              className="w-24 h-24 object-cover rounded-lg border"
-            />
-          ))}
-        </div>
-
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Product Images
-          </label>
-          <div
-            onClick={() => imageRef.current.click()}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-            className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-violet-500 transition-colors cursor-pointer bg-gray-50/50"
-          >
-            <Upload className="mx-auto mb-3 text-gray-400" size={40} />
-            <p className="text-gray-600 mb-1">
-              <span className="text-violet-600 font-medium">
-                Click to upload
-              </span>
-              or drag and drop
-            </p>
-            <input
-              onChange={handleImageChange}
-              type="file"
-              multiple
-              accept="image/*"
-              ref={imageRef}
-              className="hidden"
-            />
-            <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
-          </div>
-        </div>
-      </form>
-
-      <div className="flex gap-3 mt-6">
-        <Button
-          className="flex-1 bg-linear-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white shadow-md hover:shadow-lg transition-all"
-          onClick={handleSubmit}
-        >
-          Publish Product
-        </Button>
-        <Button
-          variant="outline"
-          className="flex-1"
-          onClick={() => setShowAddProduct(false)}
-        >
-          Cancel
-        </Button>
+        {step === 2 && <Button onClick={handleSubmit}>Publish Product</Button>}
       </div>
     </Card>
   );
