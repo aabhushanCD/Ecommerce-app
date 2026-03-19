@@ -1,4 +1,4 @@
-import ImageDropZone from "./ImageDropZone";
+import {ImageDropZone} from "./ImageDropZone";
 
 const ProductImageUpload = ({ images, setImages }) => {
   return (

@@ -2,13 +2,12 @@ import { useRef, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-// import ProductDetailsForm from "./components/ProductDetailsForm";
-// import ProductImageUpload from "./components/ProductImageUpload";
-import { addProductService } from "./product.service";
+
 import axios from "axios";
 import { ServerApi } from "@/constant";
 import ProductDetailsForm from "./ProductDetailsForm";
 import ProductImageUpload from "./ProductImageUpload";
+import { addProduct } from "../../product.api";
 
 const fetchCategories = async () => {
   const res = await axios.get(`${ServerApi}/categories/view`, {
@@ -34,8 +33,8 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
     queryFn: fetchCategories,
   });
 
-  const addProduct = useMutation({
-    mutationFn: addProductService,
+  const addProducts = useMutation({
+    mutationFn: addProduct,
     onSuccess: () => {
       setShowAddProduct(false);
     },
@@ -53,7 +52,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
       images,
     };
 
-    addProduct.mutate(payload);
+    addProducts.mutate(payload);
   };
 
   if (!showAddProduct) return null;
