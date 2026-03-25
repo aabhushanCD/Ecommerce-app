@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema(
     sellerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
     name: {
       type: String,
@@ -19,6 +20,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
+      required: true,
     },
     price: {
       type: Number,
@@ -28,6 +30,8 @@ const productSchema = new mongoose.Schema(
     discount: {
       type: Number,
       default: 0,
+      min: 0,
+      max: 100,
     },
     imageUrls: [
       {
@@ -49,9 +53,9 @@ const productSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
+productSchema.index({ sellerId: 1 });
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;

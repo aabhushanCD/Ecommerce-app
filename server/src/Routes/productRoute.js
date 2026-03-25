@@ -13,7 +13,7 @@ import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
-router.post("/add-product", verifyToken, addProduct);
+router.post("/add-product", verifyToken, upload.array("images"), addProduct);
 router.put("/update/product/", verifyToken, upload.array("files"), addProduct);
 router.put("/update/product/:productId", verifyToken, updateProduct);
 router.put(

@@ -6,13 +6,20 @@ import { deleteMedia, uploadMedia } from "../Utils/cloudinary.js";
 export const addProduct = async (req, res) => {
   try {
     const { name, category, description, price, discount, stock } = req.body;
+    const files = req.files;
     const userId = req.userId;
     const role = req.role;
-    console.log(req.body);
+
     if (!name || !price || !stock || !category || !description) {
       return res
         .status(400)
         .json({ message: "Please Provide mandatory fields", success: false });
+    }
+
+    if (!files || files.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Please add Product images!", success: false });
     }
 
     if (!userId || !role) {
@@ -22,9 +29,19 @@ export const addProduct = async (req, res) => {
     if (role !== "seller") {
       return res.status(403).json({ message: "Access denied", success: false });
     }
+    // Upload images
+
+    const imageUrls = await Promise.all(
+      files.map(async (file) => {
+        const { url, publicId } = await uploadMedia(file.path);
+        return {
+          url,
+          publicId,
+        };
+      }),
+    );
 
     // Upload images to Cloudinary
-    let imageUrls = null;
 
     const product = await Product.create({
       sellerId: userId,
@@ -36,6 +53,7 @@ export const addProduct = async (req, res) => {
       stock,
       imageUrls,
     });
+
     return res.status(201).json({
       success: true,
       message: "Product added successfully",
