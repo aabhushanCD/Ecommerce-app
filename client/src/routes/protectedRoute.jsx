@@ -1,8 +1,8 @@
 import { useAuth } from "@/features/auth/store";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, allowedRoles }) {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading } = useAuth(); 
 
   if (loading) {
     return null; // or spinner

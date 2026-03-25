@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -7,7 +7,8 @@ import axios from "axios";
 import { ServerApi } from "@/constant";
 import ProductDetailsForm from "./ProductDetailsForm";
 import ProductImageUpload from "./ProductImageUpload";
-import { addProduct } from "../../product.api";
+
+import { useProductAdd } from "../../product.hook";
 
 const fetchCategories = async () => {
   const res = await axios.get(`${ServerApi}/categories/view`, {
@@ -16,7 +17,7 @@ const fetchCategories = async () => {
   return res.data.categories;
 };
 
-function ProductAdd({ showAddProduct, setShowAddProduct }) {
+function ProductAdd({ showAddProduct }) {
   const [step, setStep] = useState(1);
   const [images, setImages] = useState([]);
 
@@ -33,33 +34,47 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
     queryFn: fetchCategories,
   });
 
-  const addProducts = useMutation({
-    mutationFn: addProduct,
-    onSuccess: () => {
-      setShowAddProduct(false);
-    },
-  });
+  const { mutate: addProduct, isLoading, isError, data } = useProductAdd();
 
-  const handleSubmit = () => {
-    const payload = {
-      name: titleRef.current.value,
-      price: priceRef.current.value,
-      sku: skuRef.current.value,
-      discount: discountRef.current.value,
-      description: descriptionRef.current.value,
-      category: categoriesRef.current.value,
-      stock: stockRef.current.value,
-      images,
-    };
+  const handleSubmit = async () => {
+    try {
+      if (!images.length) {
+        alert("Please add Product images!");
+        return;
+      }
+      const formData = new FormData();
 
-    addProducts.mutate(payload);
+      formData.append("name", titleRef.current.value);
+      formData.append("price", priceRef.current.value);
+      formData.append("sku", skuRef.current.value);
+      formData.append("discount", discountRef.current.value);
+      formData.append("description", descriptionRef.current.value);
+      formData.append("category", categoriesRef.current.value);
+      formData.append("stock", stockRef.current.value);
+
+      // append all images
+      images.forEach((image) => {
+        formData.append("images", image.file); // 'images' must match multer field name
+      });
+      console.log(images);
+      addProduct(formData, {
+        onSuccess: (res) => {
+          console.log("Product added successfully", res.data);
+        },
+        onError: (err) => {
+          console.error("Error adding product", err.response?.data || err);
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (!showAddProduct) return null;
 
   return (
     <Card className="p-6">
-      {step === 1 && (
+      <div className={`${step === 1 ? "block" : "hidden"}`}>
         <ProductDetailsForm
           refs={{
             titleRef,
@@ -72,7 +87,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
           }}
           categories={categories}
         />
-      )}
+      </div>
 
       {step === 2 && (
         <ProductImageUpload images={images} setImages={setImages} />

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.4",
@@ -25,6 +26,7 @@
     "nodemailer": "^7.0.10",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.72.0",
     "react-icons": "^5.6.0",
     "react-router-dom": "^7.9.1",
     "recharts": "^3.6.0",
@@ -32,6 +34,7 @@
     "sonner": "^2.0.7",
     "sooner": "^1.1.1",
     "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },
   "devDependencies": {

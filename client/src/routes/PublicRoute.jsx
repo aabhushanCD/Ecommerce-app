@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const roleRedirectMap = {
   admin: "/admin",
-  seller: "/seller",
+  seller: "/seller/dashboard",
   customer: "/",
 };
 

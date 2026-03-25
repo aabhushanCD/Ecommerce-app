@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  addProduct,
   deleteProduct,
   getAllMyProducts,
   getProductDetails,
   getProducts,
 } from "./product.api";
+
 
 /**
  * @name useProducts
@@ -30,6 +32,7 @@ export const useGetAllMyProducts = () =>
 
 /**
  * @name useDeleteProduct
+ *
  */
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
@@ -47,3 +50,9 @@ export const useProductDetails = (productId) =>
     queryFn: () => getProductDetails(productId),
     enabled: !!productId,
   });
+
+export const useProductAdd = () => {
+  return useMutation({
+    mutationFn: (formData) => addProduct(formData),
+  });
+};

@@ -4,12 +4,14 @@ import catwebp from "/images/catwebp.webp";
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/store";
+import { toast } from "sonner";
 
 const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const [eye, setEye] = useState(false);
   const [validForm, setValidForm] = useState({
     email: { valid: false },
@@ -33,8 +35,10 @@ const Login = () => {
       const email = emailRef.current.value.trim();
       const password = passwordRef.current.value.trim();
       const success = await login({ email, password });
+
       if (success) navigate("/");
     } catch (error) {
+      toast.error(error.message);
       console.error(error);
     }
   };

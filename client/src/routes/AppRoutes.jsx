@@ -67,7 +67,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<SellerDashboard />} />
+          <Route path="dashboard" index element={<SellerDashboard />} />
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />

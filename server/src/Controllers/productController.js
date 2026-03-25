@@ -9,13 +9,14 @@ export const addProduct = async (req, res) => {
     const files = req.files;
     const userId = req.userId;
     const role = req.role;
-
+console.log(files)
     if (!name || !price || !stock || !category || !description) {
       return res
         .status(400)
         .json({ message: "Please Provide mandatory fields", success: false });
     }
 
+   
     if (!files || files.length === 0) {
       return res
         .status(400)
