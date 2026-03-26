@@ -44,6 +44,7 @@ app.use("/api/seller", sellerRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/checkout", checkoutRoutes);
 app.use("/api/address", addressRoutes);
+
 const PORT = process.env.PORT || 8080;
 ConnectDB()
   .then(() => {

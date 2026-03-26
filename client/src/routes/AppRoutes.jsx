@@ -23,6 +23,7 @@ import AdminLanding from "@/pages/Admin/LangingPage";
 import AddCategories from "@/pages/Admin/components/categories";
 import Cart from "@/features/cart/cart";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
+import AuthLayout from "@/features/auth/components/AuthLayout";
 
 const AppRoutes = () => {
   return (
@@ -53,7 +54,7 @@ const AppRoutes = () => {
         </Route>
 
         {/* ================= Public Routes ================= */}
-        <Route element={<PublicRoute />}>
+        <Route element={<AuthLayout />}>
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Route>

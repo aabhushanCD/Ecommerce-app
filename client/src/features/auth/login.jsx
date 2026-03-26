@@ -7,8 +7,8 @@ import { useAuth } from "@/features/auth/store";
 import { toast } from "sonner";
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 

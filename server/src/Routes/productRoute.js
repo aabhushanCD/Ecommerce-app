@@ -24,7 +24,7 @@ router.put(
 );
 router.get("/view", verifyToken, getProducts);
 
-router.get("productId/:productId", getProductDetails);
+router.get("/productId/:productId", getProductDetails);
 
 // seller products
 router.delete("/remove/:productId", verifyToken, deleteProduct);

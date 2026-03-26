@@ -47,5 +47,5 @@ export const getAllMyProducts = async () => {
 };
 
 export const getProductDetails = async (productId) => {
-  return await axiosInstance.get(`/product/${productId}`);
+  return await axiosInstance.get(`/product/productId/${productId}`);
 };

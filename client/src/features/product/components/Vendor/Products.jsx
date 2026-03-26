@@ -4,11 +4,12 @@ import { Badge } from "@/components/ui/badge";
 
 import { useDeleteProduct, useGetAllMyProducts } from "../../product.hook";
 import { discount } from "@/utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const SellerMyProducts = () => {
   const { data, isLoading, error } = useGetAllMyProducts();
   const deleteProduct = useDeleteProduct();
-
+  const navigate = useNavigate();
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh] text-gray-500">
@@ -88,7 +89,14 @@ const SellerMyProducts = () => {
                   </Badge>
                 </td>
                 <td className="px-4 py-2 flex justify-center gap-2">
-                  <Button size="sm" variant="outline" className="gap-1">
+                  <Button
+                    onClick={() =>
+                      navigate(`/seller/product/edit/${product._id}`)
+                    } 
+                    size="sm"
+                    variant="outline"
+                    className="gap-1"
+                  >
                     <Edit size={16} />
                     Edit
                   </Button>

@@ -43,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  // Signup
+  // Signup;
   const Signup = async (data) => {
     try {
       const res = await signup(data);
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, login, Signup, me, isLoading, logOut }}
+      value={{ currentUser, login, me, Signup, isLoading, logOut }}
     >
       {children}
     </AuthContext.Provider>

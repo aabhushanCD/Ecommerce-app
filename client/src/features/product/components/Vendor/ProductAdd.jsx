@@ -72,6 +72,10 @@ function ProductAdd({ showAddProduct }) {
 
   if (!showAddProduct) return null;
 
+  // if (isError){
+  //   return (<div> {isError.message} </div>)
+  // }
+  
   return (
     <Card className="p-6">
       <div className={`${step === 1 ? "block" : "hidden"}`}>
@@ -100,7 +104,9 @@ function ProductAdd({ showAddProduct }) {
 
         {step < 2 && <Button onClick={() => setStep(step + 1)}>Next</Button>}
 
-        {step === 2 && <Button onClick={handleSubmit}>Publish Product</Button>}
+        {step === 2 && !isLoading && (
+          <Button onClick={handleSubmit}>Publish Product</Button>
+        )}
       </div>
     </Card>
   );

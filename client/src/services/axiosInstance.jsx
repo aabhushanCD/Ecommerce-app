@@ -4,7 +4,7 @@ import { ServerApi } from "@/constant";
 const axiosInstance = axios.create({
   baseURL: ServerApi,
   withCredentials: true,
-  headers: { "Content-Type": "multipart/form-data" },
+  // headers: { "Content-Type": "multipart/form-data" },
 });
 
 axiosInstance.interceptors.request.use(

@@ -10,7 +10,7 @@ const ProductDetailsForm = ({ refs, categories }) => {
   } = refs;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <input ref={titleRef} placeholder="Product name" />
 
       <select ref={categoriesRef}>
@@ -30,7 +30,7 @@ const ProductDetailsForm = ({ refs, categories }) => {
       <input ref={skuRef} placeholder="SKU" />
 
       <textarea ref={descriptionRef} placeholder="Description" />
-    </div>
+    </form>
   );
 };
 

@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { uploadMedia } from "../Utils/cloudinary.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import User from "../Models/user.model.js";
+import User from "../Models/User.model.js";
+
 
 dotenv.config({ path: ".env" });
 // signUp
@@ -47,6 +48,7 @@ export const Register = async (req, res) => {
 // Login
 export const Login = async (req, res) => {
   try {
+  
     const { email, password } = req.body;
     if (!email || !password) {
       return res
@@ -111,7 +113,7 @@ export const LogOut = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Logout Successfully!" });
   } catch (error) {
-    console.log("Something went wrong", error.message);
+    console.error("Something went wrong", error.message);
     return res
       .status(500)
       .json({ success: false, message: "Internal server error logout" });

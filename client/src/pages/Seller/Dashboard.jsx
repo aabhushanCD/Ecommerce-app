@@ -73,8 +73,8 @@ const SellerDashboard = () => {
         setShowAddProduct={setShowAddProduct}
       />
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      Stats Grid
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Sales"
           value="Rs. 12,426"
@@ -103,7 +103,7 @@ const SellerDashboard = () => {
           icon={<Eye />}
           linear="from-orange-500 to-pink-600"
         />
-      </div>
+      </div> */}
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
