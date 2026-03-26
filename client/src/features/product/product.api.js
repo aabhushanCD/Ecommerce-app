@@ -31,8 +31,8 @@ export const addProduct = async (data) => {
  * @returns
  * @access vendor,admin
  */
-export const deleteProduct = async (id) => {
-  return await axiosInstance.delete(`/product/${id}`);
+export const deleteProduct = async (productId) => {
+  return await axiosInstance.delete(`/product/remove/${productId}`);
 };
 
 /**
@@ -49,5 +49,3 @@ export const getAllMyProducts = async () => {
 export const getProductDetails = async (productId) => {
   return await axiosInstance.get(`/product/${productId}`);
 };
-
-

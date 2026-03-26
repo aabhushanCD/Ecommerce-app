@@ -24,7 +24,7 @@ const SellerMyProducts = () => {
     );
   }
 
-  if (data?.products.length === 0) {
+  if (data?.data.products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-gray-500">
         <Package size={48} className="mb-4 opacity-40" />
@@ -60,7 +60,7 @@ const SellerMyProducts = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data?.products.map((product) => {
+          {data?.data?.products.map((product) => {
             const discountedPrice = discount(product.price, product.discount);
 
             return (

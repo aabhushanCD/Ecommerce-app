@@ -9,14 +9,13 @@ export const addProduct = async (req, res) => {
     const files = req.files;
     const userId = req.userId;
     const role = req.role;
-console.log(files)
+    console.log(files);
     if (!name || !price || !stock || !category || !description) {
       return res
         .status(400)
         .json({ message: "Please Provide mandatory fields", success: false });
     }
 
-   
     if (!files || files.length === 0) {
       return res
         .status(400)
@@ -283,7 +282,7 @@ export const myProduct = async (req, res) => {
     const userId = req.userId;
 
     const user = await User.findById(userId);
-    if (user.role === "customer" || user.role === "Customer") {
+    if (user.role === "customer") {
       return res
         .status(404)
         .json({ message: "Unauthorized to view product", success: false });

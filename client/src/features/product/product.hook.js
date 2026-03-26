@@ -7,7 +7,6 @@ import {
   getProducts,
 } from "./product.api";
 
-
 /**
  * @name useProducts
  * @description get all public products
@@ -25,7 +24,7 @@ export const useProducts = () =>
  */
 export const useGetAllMyProducts = () =>
   useQuery({
-    queryKey: ["my-products"],
+    queryKey: ["seller-products"],
     queryFn: getAllMyProducts,
     staleTime: 1000 * 60 * 5,
   });
@@ -37,9 +36,9 @@ export const useGetAllMyProducts = () =>
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: deleteProduct,
+    mutationFn: (id) => deleteProduct(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["my-products"] });
+      queryClient.invalidateQueries({ queryKey: ["seller-products"] });
     },
   });
 };

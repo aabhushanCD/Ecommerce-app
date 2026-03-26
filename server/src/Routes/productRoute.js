@@ -23,8 +23,10 @@ router.put(
   updateProductImage,
 );
 router.get("/view", verifyToken, getProducts);
-router.delete("remove/product/:productId", verifyToken, deleteProduct);
-router.get("/:productId", getProductDetails);
+
+router.get("productId/:productId", getProductDetails);
+
 // seller products
+router.delete("/remove/:productId", verifyToken, deleteProduct);
 router.get("/myProducts", verifyToken, myProduct);
 export default router;
