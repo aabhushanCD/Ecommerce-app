@@ -2,9 +2,15 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./store";
+import { Lock, Mail } from "lucide-react";
+import { BsPersonCheck } from "react-icons/bs";
 
-const Form = ({ children }) => {
-  return <form className="space-y-4 ">{children}</form>;
+const Form = ({ children, ...props }) => {
+  return (
+    <form {...props} className="space-y-4 ">
+      {children}
+    </form>
+  );
 };
 const Field = ({ children }) => {
   return <div className="block">{children}</div>;
@@ -13,19 +19,22 @@ const Label = ({ children, htmlFor }) => {
   return (
     <label
       htmlFor={htmlFor}
-      className="text-slate-500 text-sm tracking-wide block font-semibold "
+      className="text-sm text-gray-600 tracking-wide block mb-1  "
     >
       {children}
     </label>
   );
 };
 
-const Input = ({ className = "", ...props }) => {
+const Input = ({ className = "", icon: Icon, ...props }) => {
   return (
-    <input
-      {...props}
-      className={`border-2 px-2 py-2 mt-1 w-full rounded-md font-medium font-serif ${className}`}
-    />
+    <div className="flex items-center border-2 px-2 rounded-xl py-2">
+      {Icon && <Icon className="text-gray-400 mr-2" size={18} />}
+      <input
+        {...props}
+        className={`outline-none  w-full rounded-md font-medium font-serif ${className}`}
+      />
+    </div>
   );
 };
 
@@ -34,34 +43,59 @@ const Signup = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    await Signup;
+    await Signup();
   };
   return (
     <>
       <div>
-        <Form>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Sign Up</h1>
+        <p className="text-gray-500 mb-6">
+          Enter your credentials to access your account
+        </p>
+        <Form onSubmit={handleSignUp}>
           <Field>
-            <Label>Name</Label>
-            <Input placeholder="John" name="fullName"></Input>
+            <Label htmlFor={"fullName"}>Name</Label>
+            <Input
+              icon={BsPersonCheck}
+              placeholder="John"
+              name="fullName"
+            ></Input>
           </Field>
           <Field>
-            <Label>Email</Label>
-            <Input placeholder="john@gmail.com" name="email"></Input>
+            <Label htmlFor={"email"}>Email</Label>
+            <Input
+              icon={Mail}
+              placeholder="john@gmail.com"
+              name="email"
+            ></Input>
           </Field>
           <Field>
-            <Label>Password</Label>
+            <Label htmlFor={"password"}>Password</Label>
             <Input
               type="password"
               placeholder="********"
               name="password"
+              icon={Lock}
             ></Input>
           </Field>
-          <Link to="/login" className=" flex justify-center text-sm">
-            Sign-In page
-          </Link>
-          <Button className="flex m-auto text-lg" onClick={handleSignUp}>
-            Sign Up
+
+          <Button
+            type="submit"
+            className="w-full text-lg rounded-xl text-white font-semibold 
+              bg-linear-to-r from-green-400 to-emerald-500
+              hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Signup
           </Button>
+          <Link
+            to="/login"
+            className=" flex justify-center text-sm text-gray-500 "
+          >
+            Already have an account?
+            <span className="text-green-400 font-medium tracking-wide">
+              Login
+            </span>
+          </Link>
         </Form>
       </div>
     </>

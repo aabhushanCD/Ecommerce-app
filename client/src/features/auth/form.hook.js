@@ -22,7 +22,7 @@ export const useForm = (initialValues) => {
     await callback(formData);
     setLoading(false);
   };
-  
+
   return {
     formData,
     resetForm,
