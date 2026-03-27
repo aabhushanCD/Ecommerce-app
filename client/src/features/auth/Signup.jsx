@@ -4,39 +4,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./store";
 import { Lock, Mail } from "lucide-react";
 import { BsPersonCheck } from "react-icons/bs";
-
-const Form = ({ children, ...props }) => {
-  return (
-    <form {...props} className="space-y-4 ">
-      {children}
-    </form>
-  );
-};
-const Field = ({ children }) => {
-  return <div className="block">{children}</div>;
-};
-const Label = ({ children, htmlFor }) => {
-  return (
-    <label
-      htmlFor={htmlFor}
-      className="text-sm text-gray-600 tracking-wide block mb-1  "
-    >
-      {children}
-    </label>
-  );
-};
-
-const Input = ({ className = "", icon: Icon, ...props }) => {
-  return (
-    <div className="flex items-center border-2 px-2 rounded-xl py-2">
-      {Icon && <Icon className="text-gray-400 mr-2" size={18} />}
-      <input
-        {...props}
-        className={`outline-none  w-full rounded-md font-medium font-serif ${className}`}
-      />
-    </div>
-  );
-};
+import { Label } from "@/components/customs/Label";
+import { Input } from "@/components/customs/Input";
+import { Field } from "@/components/customs/Field";
+import { Form } from "@/components/customs/Form";
 
 const Signup = () => {
   const { Signup } = useAuth();
