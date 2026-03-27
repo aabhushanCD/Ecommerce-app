@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { toast } from "sonner";
-import Cookies from "js-cookie";
+
 import { authMe, Login, logout, signup } from "./auth.service";
 // axios.defaults.withCredentials = true;
 // eslint-disable-next-line react-refresh/only-export-components
@@ -17,8 +17,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const me = async () => {
       setLoading(true);
-
-      if (!Cookies.get("accessToken")) return;
 
       try {
         const res = await authMe();

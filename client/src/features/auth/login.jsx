@@ -32,7 +32,7 @@ const Login = () => {
       <Form onSubmit={handleSubmit(onLogin)}>
         <Field className="mb-5">
           <Label className="text-sm text-gray-600">Email</Label>
-          <Error></Error>
+
           <Input
             onChange={handleInputChange}
             type="text"
@@ -57,6 +57,7 @@ const Login = () => {
 
         {/* Button */}
         {!loading ? <Button type="submit">Login</Button> : <Loading />}
+        <Error>{error}</Error>
       </Form>
       <p className="text-center text-sm text-gray-500 mt-4">
         Don’t have an account?

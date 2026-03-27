@@ -2,8 +2,8 @@ import React from "react";
 
 const Error = ({ children }) => {
   return (
-    <div className="flex text-2xl text-red-900 w-100 overflow-clip">
-      {children}
+    <div className="flex text-md justify-center items-center text-red-600 w-100 overflow-hidden">
+      {children} !
     </div>
   );
 };
