@@ -7,7 +7,7 @@ const roleRedirectMap = {
   customer: "/",
 };
 
-function PublicRoute() {
+function PublicRoute({ children }) {
   const { currentUser, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
@@ -16,7 +16,7 @@ function PublicRoute() {
     return <Navigate to={roleRedirectMap[currentUser.role] || "/"} replace />;
   }
 
-  return <Outlet />;
+  return [children];
 }
 
 export default PublicRoute;

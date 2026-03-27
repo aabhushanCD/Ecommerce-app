@@ -14,8 +14,8 @@ import { useAuth } from "./store";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const { loading, handleInputChange, formData, handleSubmit } = useForm();
+  const { login, error } = useAuth();
+  const { loading, handleInputChange, handleSubmit } = useForm();
 
   const onLogin = async (data) => {
     await login(data);
