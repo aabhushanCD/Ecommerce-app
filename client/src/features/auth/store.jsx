@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { authMe, Login, logout, signup } from "./auth.service";
+
 // axios.defaults.withCredentials = true;
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -17,14 +18,11 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const me = async () => {
       setLoading(true);
-
       try {
         const res = await authMe();
         return setCurrentUser(res.data.user);
       } catch (error) {
-        serError(error.response?.data?.message || "Please Login!");
         setCurrentUser(null);
-        toast.error(error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }

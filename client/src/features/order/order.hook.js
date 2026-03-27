@@ -4,6 +4,6 @@ import { sellerOrderView } from "./order.service";
 export const useSellerOrderView = () => {
   return useQuery({
     queryKey: ["seller-orders"],
-    queryFn: () => sellerOrderView,
+    queryFn: sellerOrderView,
   });
 };

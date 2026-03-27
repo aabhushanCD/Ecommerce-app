@@ -2,21 +2,13 @@ import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSellerOrderView } from "./order.hook";
+import Loading from "@/components/customs/Loading";
 
-const data = [
-  {
-    _id: "lkdfals;dkf",
-  },
-];
 const SellerOrdersTable = () => {
-  const { isLoading, error } = useSellerOrderView();
+  const { isLoading, data, error } = useSellerOrderView();
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[50vh] text-gray-500">
-        Loading orders...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
@@ -25,7 +17,7 @@ const SellerOrdersTable = () => {
     );
   }
 
-  if (data?.length === 0) {
+  if (data?.product?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-gray-500">
         <Package size={48} className="opacity-40 mb-3" />
@@ -65,15 +57,15 @@ const SellerOrdersTable = () => {
         </thead>
 
         <tbody className="divide-y">
-          {data?.map((order) => (
+          {data?.data.orders?.map((order) => (
             <tr key={order._id} className="hover:bg-gray-50 transition">
               <td className="px-4 py-3 font-medium">#{order._id.slice(-6)}</td>
 
-              <td className="px-4 py-3">{order.user?.name || "Guest"}</td>
+              <td className="px-4 py-3">{order.userId?.name || "Guest"}</td>
 
-              <td className="px-4 py-3">{order.product?.name}</td>
+              <td className="px-4 py-3">{order.items.length}</td>
 
-              <td className="px-4 py-3">{order.quantity}</td>
+              <td className="px-4 py-3">{order.items.length}</td>
 
               <td className="px-4 py-3 font-semibold">₹ {order.totalAmount}</td>
 
@@ -87,7 +79,7 @@ const SellerOrdersTable = () => {
                         : "outline"
                   }
                 >
-                  {order.status}
+                  {order.paymentStatus}
                 </Badge>
               </td>
 

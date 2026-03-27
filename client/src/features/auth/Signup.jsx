@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./store";
 import { Lock, Mail } from "lucide-react";
 import { BsPersonCheck } from "react-icons/bs";
@@ -8,13 +7,16 @@ import { Label } from "@/components/customs/Label";
 import { Input } from "@/components/customs/Input";
 import { Field } from "@/components/customs/Field";
 import { Form } from "@/components/customs/Form";
+import { useForm } from "./form.hook";
+import Button from "@/components/customs/Button";
 
 const Signup = () => {
   const { Signup } = useAuth();
-
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    await Signup();
+  const { loading, handleInputChange, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const onSignup = async (data) => {
+    await Signup(data);
+    navigate("/login");
   };
   return (
     <>
@@ -23,18 +25,20 @@ const Signup = () => {
         <p className="text-gray-500 mb-6">
           Enter your credentials to access your account
         </p>
-        <Form onSubmit={handleSignUp}>
+        <Form onSubmit={handleSubmit(onSignup)}>
           <Field>
-            <Label htmlFor={"fullName"}>Name</Label>
+            <Label htmlFor={"name"}>Name</Label>
             <Input
+              onChange={handleInputChange}
               icon={BsPersonCheck}
               placeholder="John"
-              name="fullName"
+              name="name"
             ></Input>
           </Field>
           <Field>
             <Label htmlFor={"email"}>Email</Label>
             <Input
+              onChange={handleInputChange}
               icon={Mail}
               placeholder="john@gmail.com"
               name="email"
@@ -43,6 +47,7 @@ const Signup = () => {
           <Field>
             <Label htmlFor={"password"}>Password</Label>
             <Input
+              onChange={handleInputChange}
               type="password"
               placeholder="********"
               name="password"
@@ -50,14 +55,7 @@ const Signup = () => {
             ></Input>
           </Field>
 
-          <Button
-            type="submit"
-            className="w-full text-lg rounded-xl text-white font-semibold 
-              bg-linear-to-r from-green-400 to-emerald-500
-              hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Signup
-          </Button>
+          {!loading && <Button type="submit">Signup</Button>}
           <Link
             to="/login"
             className=" flex justify-center text-sm text-gray-500 "
