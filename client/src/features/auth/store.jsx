@@ -21,7 +21,8 @@ export const AuthContextProvider = ({ children }) => {
       try {
         const res = await authMe();
         return setCurrentUser(res.data.user);
-      } catch (error) {
+      } catch (_error) {
+        console.log(_error?.response?.data?.message);
         setCurrentUser(null);
       } finally {
         setLoading(false);
@@ -64,8 +65,8 @@ export const AuthContextProvider = ({ children }) => {
         return true;
       }
       return false;
-    } catch (error) {
-      toast.error(error.response?.data?.message);
+    } catch (_error) {
+      toast.error(_error.response?.data?.message);
     }
   };
 

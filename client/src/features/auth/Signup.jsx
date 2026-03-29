@@ -15,8 +15,8 @@ const Signup = () => {
   const { loading, handleInputChange, handleSubmit } = useForm();
   const navigate = useNavigate();
   const onSignup = async (data) => {
-    await Signup(data);
-    navigate("/login");
+    const success = await Signup(data);
+    if (success) navigate("/login");
   };
   return (
     <>
