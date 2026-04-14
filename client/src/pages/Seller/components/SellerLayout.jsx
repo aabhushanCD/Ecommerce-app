@@ -1,4 +1,4 @@
-import { Bell, Menu, MenuSquareIcon, Search, Settings, Store, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import SellerAsideNav from "./SellerAsideNav";
@@ -14,7 +14,7 @@ const SellerLayout = () => {
           className="lg:hidden p-2 absolute z-50"
           onClick={() => setMenuView(!menuView)}
         >
-          {!menuView ? <X /> : <Menu className="text-white" />}
+          {!menuView ? <X /> : <Menu className="text-yellow-300" />}
         </button>
         <div className="grid grid-cols-1 md:grid-cols-12  ">
           {/* Sidebar */}

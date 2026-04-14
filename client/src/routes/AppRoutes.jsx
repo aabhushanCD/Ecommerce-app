@@ -24,6 +24,7 @@ import AddCategories from "@/pages/Admin/components/categories";
 import Cart from "@/features/cart/cart";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import AuthLayout from "@/features/auth/components/AuthLayout";
+import ProductDetailsForm from "@/features/product/components/Vendor/ProductDetailsForm";
 
 const AppRoutes = () => {
   return (
@@ -78,6 +79,7 @@ const AppRoutes = () => {
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="product/edit/:id" element={<ProductDetailsForm />} />
         </Route>
 
         {/* ================= Admin Routes ================= */}

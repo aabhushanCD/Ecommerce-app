@@ -11,7 +11,7 @@ import ProductImageUpload from "./ProductImageUpload";
 import { useProductAdd } from "../../product.hook";
 
 const fetchCategories = async () => {
-  const res = await axios.get(`${ServerApi}/categories/view`, {
+  const res = await axios.get(`${ServerApi}categories/view`, {
     withCredentials: true,
   });
   return res.data.categories;
