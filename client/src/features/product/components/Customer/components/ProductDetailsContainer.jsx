@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useProductDetails } from "../../product.hook";
+import { useProductDetails } from "../../../product.hook";
 
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 

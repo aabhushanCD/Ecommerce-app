@@ -44,7 +44,7 @@ const SellerDashboard = () => {
   return (
     <section className="col-span-12 lg:col-span-9 space-y-6">
       {/* Quick Action Banner */}
-      <Card className="p-6 shadow-xl border-0 bg-linear-to-r from-violet-600 to-fuchsia-600 text-white overflow-hidden relative">
+      <Card className="p-4 shadow-xl border-0 bg-linear-to-r from-violet-600 to-fuchsia-600 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
@@ -73,8 +73,8 @@ const SellerDashboard = () => {
         setShowAddProduct={setShowAddProduct}
       />
 
-      Stats Grid
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div className="grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Sales"
           value="Rs. 12,426"
@@ -103,13 +103,13 @@ const SellerDashboard = () => {
           icon={<Eye />}
           linear="from-orange-500 to-pink-600"
         />
-      </div> */}
+      </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Sales Chart */}
-        <Card className="p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-6">
+        <Card className="p-4 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-semibold text-lg text-gray-800">
                 Weekly Sales
@@ -153,8 +153,8 @@ const SellerDashboard = () => {
         </Card>
 
         {/* Views Chart */}
-        <Card className="p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-6">
+        <Card className="p-4 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-semibold text-lg text-gray-800">
                 Product Views
@@ -189,8 +189,8 @@ const SellerDashboard = () => {
       {/* Products & Orders */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Products */}
-        <Card className="lg:col-span-2 p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-6">
+        <Card className="lg:col-span-2 p-4 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+          <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-lg text-gray-800">
               Your Products
             </h3>
@@ -234,8 +234,8 @@ const SellerDashboard = () => {
         </Card>
 
         {/* Quick Stats */}
-        <Card className="p-6 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
-          <h3 className="font-semibold text-lg text-gray-800 mb-6">
+        <Card className="p-4 shadow-xl border-0 bg-white/90 backdrop-blur-sm">
+          <h3 className="font-semibold text-lg text-gray-800 mb-4">
             Quick Stats
           </h3>
           <div className="space-y-4">

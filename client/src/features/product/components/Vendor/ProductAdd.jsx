@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 import axios from "axios";
 import { ServerApi } from "@/constant";
@@ -17,7 +18,7 @@ const fetchCategories = async () => {
   return res.data.categories;
 };
 
-function ProductAdd({ showAddProduct }) {
+function ProductAdd({ showAddProduct, setShowAddProduct }) {
   const [step, setStep] = useState(1);
   const [images, setImages] = useState([]);
 
@@ -39,7 +40,7 @@ function ProductAdd({ showAddProduct }) {
   const handleSubmit = async () => {
     try {
       if (!images.length) {
-        alert("Please add Product images!");
+        toast.error("Please add Product images!");
         return;
       }
       const formData = new FormData();
@@ -59,10 +60,19 @@ function ProductAdd({ showAddProduct }) {
       console.log(images);
       addProduct(formData, {
         onSuccess: (res) => {
-          console.log("Product added successfully", res.data);
+          toast.success("Product published successfully!");
+          setImages([]);
+          if (titleRef.current) titleRef.current.value = "";
+          if (priceRef.current) priceRef.current.value = "";
+          if (skuRef.current) skuRef.current.value = "";
+          if (discountRef.current) discountRef.current.value = "";
+          if (descriptionRef.current) descriptionRef.current.value = "";
+          if (stockRef.current) stockRef.current.value = "";
+          setStep(1);
+          if (setShowAddProduct) setShowAddProduct(false);
         },
         onError: (err) => {
-          console.error("Error adding product", err.response?.data || err);
+          toast.error(err.response?.data?.message || "Failed to publish product");
         },
       });
     } catch (error) {
@@ -104,8 +114,10 @@ function ProductAdd({ showAddProduct }) {
 
         {step < 2 && <Button onClick={() => setStep(step + 1)}>Next</Button>}
 
-        {step === 2 && !isLoading && (
-          <Button onClick={handleSubmit}>Publish Product</Button>
+        {step === 2 && (
+          <Button onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "Publishing..." : "Publish Product"}
+          </Button>
         )}
       </div>
     </Card>

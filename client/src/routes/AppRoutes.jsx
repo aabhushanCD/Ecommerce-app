@@ -11,7 +11,7 @@ import Signup from "@/features/auth/Signup";
 import ProtectedRoute from "./protectedRoute";
 import PublicRoute from "./PublicRoute";
 
-import ProductDetailsContainer from "@/features/product/components/Customer/ProductDetailsContainer";
+import ProductDetailsContainer from "@/features/product/components/Customer/components/ProductDetailsContainer";
 import Checkout from "@/features/checkout/components/CheckoutItems";
 import SellerMyProducts from "@/features/product/components/Vendor/Products";
 

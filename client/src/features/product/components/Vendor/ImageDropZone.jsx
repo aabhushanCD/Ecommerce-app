@@ -56,11 +56,20 @@ export const ImageDropZone = ({ images, setImages }) => {
 
       <div className="flex gap-4 mt-4 flex-wrap">
         {images.map((img, i) => (
-          <img
-            key={i}
-            src={img.preview}
-            className="w-24 h-24 object-cover rounded-lg border"
-          />
+          <div key={i} className="relative group">
+            <img
+              src={img.preview}
+              className="w-24 h-24 object-cover rounded-lg border"
+              alt="preview"
+            />
+            <button
+              type="button"
+              onClick={() => setImages((prev) => prev.filter((_, index) => index !== i))}
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:scale-110"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
         ))}
       </div>
     </>
