@@ -61,7 +61,9 @@ const SellerOrdersTable = () => {
             <tr key={order._id} className="hover:bg-gray-50 transition">
               <td className="px-4 py-3 font-medium">#{order._id.slice(-6)}</td>
 
-              <td className="px-4 py-3">{order.userId?.name || "Guest"}</td>
+              <td className="px-4 py-3">
+                {order.userId?.name || "Guest"}
+              </td>
 
               <td className="px-4 py-3">{order.items.length}</td>
 

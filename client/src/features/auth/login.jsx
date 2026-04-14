@@ -22,7 +22,7 @@ const Login = () => {
     navigate("/");
   };
   return (
-    <div className="">
+    <div >
       <h1 className="text-3xl font-bold text-gray-800 mb-2">Log In</h1>
       <p className="text-gray-500 mb-6">
         Enter your credentials to access your account
@@ -31,7 +31,7 @@ const Login = () => {
       {/* Email */}
       <Form onSubmit={handleSubmit(onLogin)}>
         <Field className="mb-5">
-          <Label className="text-sm text-gray-600">Email</Label>
+          <Label >Email</Label>
 
           <Input
             onChange={handleInputChange}
@@ -39,35 +39,34 @@ const Login = () => {
             name="email"
             icon={Mail}
             placeholder="you@example.com"
-            className="w-full outline-none px-2"
           />
         </Field>
 
         {/* Password */}
         <Field className="mb-6">
-          <Label className="text-sm text-gray-600">Password</Label>
+          <Label >Password</Label>
           <Input
             onChange={handleInputChange}
             icon={Lock}
             name="password"
             placeholder="••••••••••••"
-            className="w-full outline-none px-2"
           />
         </Field>
 
         {/* Button */}
         {!loading ? <Button type="submit">Login</Button> : <Loading />}
         <Error>{error}</Error>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Don’t have an account?
+          <span
+            className="text-green-600 font-semibold cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
+            Sign up
+          </span>
+        </p>
       </Form>
-      <p className="text-center text-sm text-gray-500 mt-4">
-        Don’t have an account?
-        <span
-          className="text-green-600 font-semibold cursor-pointer"
-          onClick={() => navigate("/register")}
-        >
-          Sign up
-        </span>
-      </p>
     </div>
   );
 };

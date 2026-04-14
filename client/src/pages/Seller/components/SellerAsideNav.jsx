@@ -24,7 +24,7 @@ const SellerAsideNav = ({ productCount = 0, orderCount = 0 }) => {
           <SidebarItem
             to="/seller/products"
             icon={<Package size={20} />}
-            text="My Products"
+            text="Products"
             badge={productCount}
           />
           <SidebarItem
