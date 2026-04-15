@@ -72,7 +72,9 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
           if (setShowAddProduct) setShowAddProduct(false);
         },
         onError: (err) => {
-          toast.error(err.response?.data?.message || "Failed to publish product");
+          toast.error(
+            err.response?.data?.message || "Failed to publish product",
+          );
         },
       });
     } catch (error) {
@@ -85,7 +87,7 @@ function ProductAdd({ showAddProduct, setShowAddProduct }) {
   // if (isError){
   //   return (<div> {isError.message} </div>)
   // }
-  
+
   return (
     <Card className="p-6">
       <div className={`${step === 1 ? "block" : "hidden"}`}>

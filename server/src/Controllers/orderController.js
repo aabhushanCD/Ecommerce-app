@@ -3,8 +3,7 @@ import Product from "../Models/product.model.js";
 import Order from "../Models/order.model.js";
 import User from "../Models/User.model.js";
 
-
-
+// view all orders
 export const getOrders = async (req, res) => {
   try {
     const userId = req.userId;
@@ -38,6 +37,7 @@ export const getOrders = async (req, res) => {
   }
 };
 
+// confirm the order
 export const sellerConfirmedOrder = async (req, res) => {
   try {
     const { orderId } = req.body;
@@ -49,7 +49,7 @@ export const sellerConfirmedOrder = async (req, res) => {
     }
     const order = await Order.findById(orderId).populate(
       "items.productId",
-      "stock isAvailable "
+      "stock isAvailable ",
     );
 
     if (!order) {
@@ -59,7 +59,7 @@ export const sellerConfirmedOrder = async (req, res) => {
     }
     // Filter only items that belong to this seller
     const sellerItems = order.items.filter(
-      (item) => item.sellerId.toString() === userId.toString()
+      (item) => item.sellerId.toString() === userId.toString(),
     );
     if (sellerItems.length === 0) {
       return res.status(403).json({
@@ -105,6 +105,27 @@ export const sellerConfirmedOrder = async (req, res) => {
   }
 };
 
+// get the details of the order
+export const viewOrderDetails = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    
+    const order = await Order.findById( orderId ).populate("userId", "name email").populate("items.productId", "name price");
+
+    if (!order) {
+      res.status(404).json({ message: "didn't found the order" });
+    }
+
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error(
+      `Error in controller orderController viewOrderDetails`,
+      error,
+    );
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+};
+
 export const getOrderStatus = async (req, res) => {
   try {
   } catch (error) {}
@@ -114,5 +135,3 @@ export const setOrderStatus = async (req, res) => {
   try {
   } catch (error) {}
 };
-
-

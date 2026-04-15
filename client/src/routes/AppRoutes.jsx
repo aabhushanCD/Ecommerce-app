@@ -11,9 +11,9 @@ import Signup from "@/features/auth/Signup";
 import ProtectedRoute from "./protectedRoute";
 import PublicRoute from "./PublicRoute";
 
-import ProductDetailsContainer from "@/features/product/components/Customer/components/ProductDetailsContainer";
+import ProductDetailsContainer from "@/features/product/Customer/components/ProductDetailsContainer";
 import Checkout from "@/features/checkout/components/CheckoutItems";
-import SellerMyProducts from "@/features/product/components/Vendor/Products";
+import SellerMyProducts from "@/features/product/Vendor/Products";
 
 import SellerDashboard from "@/pages/Seller/Dashboard";
 import Orders from "@/features/order/Orders";
@@ -24,7 +24,9 @@ import AddCategories from "@/pages/Admin/components/categories";
 import Cart from "@/features/cart/cart";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import AuthLayout from "@/features/auth/components/AuthLayout";
-import ProductDetailsForm from "@/features/product/components/Vendor/ProductDetailsForm";
+import ProductDetailsForm from "@/features/product/Vendor/components/ProductDetailsForm";
+import EditProductDetails from "@/features/product/Vendor/components/EditProductDetails";
+import ViewOrder from "@/features/order/components/ViewOrder";
 
 const AppRoutes = () => {
   return (
@@ -79,7 +81,8 @@ const AppRoutes = () => {
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="product/edit/:id" element={<ProductDetailsForm />} />
+          <Route path="orders/view/:id" element={<ViewOrder />} />
+          <Route path="product/edit/:id" element={<EditProductDetails />} />
         </Route>
 
         {/* ================= Admin Routes ================= */}

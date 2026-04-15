@@ -14,7 +14,7 @@ import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 import checkoutRoutes from "./src/Routes/checkoutRoutes.js";
 import addressRoutes from "./src/Routes/addressRoutes.js";
 
-const allowedOrigins = ["http://localhost:5173", "http://192.168.254.4:5173"];
+const allowedOrigins = ["http://localhost:5173", "http://192.168.254.7:5173"];
 const app = express();
 app.use(
   cors({

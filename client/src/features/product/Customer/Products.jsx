@@ -1,6 +1,6 @@
 import React from "react";
 import ProductCart from "./components/ProductCard";
-import { useProducts } from "../../product.hook";
+import { useProducts } from "../product.hook";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Products = () => {

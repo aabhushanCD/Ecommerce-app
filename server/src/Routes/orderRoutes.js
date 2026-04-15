@@ -4,12 +4,15 @@ import {
   getOrderStatus,
   sellerConfirmedOrder,
   setOrderStatus,
+  viewOrderDetails,
 } from "../Controllers/orderController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.get("/view", verifyToken, getOrders);
+router.get("/get/all", verifyToken, getOrders);
+
+router.get("/get/orderId/:orderId", verifyToken, viewOrderDetails);
 
 router.post("confirmed/by/seller", verifyToken, sellerConfirmedOrder);
 

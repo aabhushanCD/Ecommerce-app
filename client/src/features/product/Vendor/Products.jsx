@@ -1,11 +1,20 @@
-import { Trash2, Edit, Package, DollarSign, Eye, ShoppingBag, Plus } from "lucide-react";
+import {
+  Trash2,
+  Edit,
+  Package,
+  DollarSign,
+  Eye,
+  ShoppingBag,
+  Plus,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
-import { useDeleteProduct, useGetAllMyProducts } from "../../product.hook";
+
 import { discount } from "@/utils/utils";
 import { useNavigate } from "react-router-dom";
 import StatCard from "@/pages/Seller/components/StatCard";
+import { useDeleteProduct, useGetAllMyProducts } from "../product.hook";
 
 const SellerMyProducts = () => {
   const { data, isLoading, error } = useGetAllMyProducts();
@@ -13,7 +22,11 @@ const SellerMyProducts = () => {
   const navigate = useNavigate();
 
   const handleDelete = (productId) => {
-    if (window.confirm("Are you sure you want to delete this product? This action cannot be undone.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this product? This action cannot be undone.",
+      )
+    ) {
       deleteProduct.mutate(productId, {
         onSuccess: () => toast.success("Product deleted successfully"),
         onError: () => toast.error("Failed to delete product"),
@@ -57,35 +70,41 @@ const SellerMyProducts = () => {
         </Button>
       </header>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 ">
-      <StatCard
+        <StatCard
           title="Total Products"
           value={data?.data?.products.length}
           change=""
           icon={<Package />}
           linear="from-blue-500 to-blue-600"
         />
-      <StatCard
+        <StatCard
           title="Total Sales"
-          value={data?.data?.products.reduce((acc, product) => acc + product.price, 0)}
+          value={data?.data?.products.reduce(
+            (acc, product) => acc + product.price,
+            0,
+          )}
           change=""
           icon={<DollarSign />}
           linear="from-green-500 to-green-600"
         />
-      <StatCard
+        <StatCard
           title="Total Views"
-          value={data?.data?.products.reduce((acc, product) => acc + product.views, 0)}
+          value={data?.data?.products.reduce(
+            (acc, product) => acc + product.views,
+            0,
+          )}
           change=""
           icon={<Eye />}
           linear="from-yellow-500 to-yellow-600"
         />
-      <StatCard
+        <StatCard
           title="Total Orders"
           value={data?.data?.products.length}
           change=""
           icon={<ShoppingBag />}
           linear="from-green-500 to-green-600"
         />
-        </div>
+      </div>
       {/* 📱 MOBILE VIEW (Cards) */}
       <div className="grid gap-4 md:hidden">
         {data?.data?.products.map((product) => {
@@ -183,7 +202,7 @@ const SellerMyProducts = () => {
 
               return (
                 <tr key={product._id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 text-sm font-medium max-w-[180px] truncate">
+                  <td className="px-4 py-3 text-sm font-medium max-w-180 truncate">
                     {product.name}
                   </td>
 
@@ -224,7 +243,9 @@ const SellerMyProducts = () => {
                     <Button
                       size="sm"
                       variant="destructive"
-                      disabled={deleteProduct.isPending || deleteProduct.isLoading}
+                      disabled={
+                        deleteProduct.isPending || deleteProduct.isLoading
+                      }
                       onClick={() => handleDelete(product._id)}
                     >
                       <Trash2 size={16} />

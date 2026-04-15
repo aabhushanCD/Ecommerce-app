@@ -26,7 +26,7 @@ import {
   Bar,
 } from "recharts";
 
-import ProductAdd from "@/features/product/components/Vendor/ProductAdd";
+import ProductAdd from "@/features/product/Vendor/components/ProductAdd";
 
 const salesData = [
   { day: "Mon", sales: 2400, views: 4000 },
@@ -62,7 +62,7 @@ const SellerDashboard = () => {
           >
             <Plus size={20} className="mr-2" />
             Add Product
-          </Button> 
+          </Button>
         </div>
       </Card>
 
@@ -72,7 +72,6 @@ const SellerDashboard = () => {
         showAddProduct={showAddProduct}
         setShowAddProduct={setShowAddProduct}
       />
-
 
       <div className="grid grid-cols-2  sm:grid-cols-3 lg:grid-cols-4 gap-4">
         <StatCard

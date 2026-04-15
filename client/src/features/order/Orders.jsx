@@ -1,13 +1,16 @@
 import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useSellerOrderView } from "./order.hook";
+import { useSellerOrders } from "./order.hook";
 import Loading from "@/components/customs/Loading";
 import Error from "@/components/customs/Error";
+import { useNavigate } from "react-router-dom";
 
 const SellerOrdersTable = () => {
-  const { isLoading, data, error } = useSellerOrderView();
+  const { isLoading, data, error } = useSellerOrders();
 
+
+  const navigate = useNavigate();
   if (isLoading) return <Loading />;
 
   if (error) {
@@ -18,7 +21,7 @@ const SellerOrdersTable = () => {
     );
   }
 
-  if (data?.data?.orders?.length === 0) {
+  if (data?.orders?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] text-gray-500">
         <Package size={48} className="opacity-40 mb-3" />
@@ -32,7 +35,7 @@ const SellerOrdersTable = () => {
     <div className="w-full px-2 md:px-4">
       {/* 📱 MOBILE VIEW */}
       <div className="grid gap-4 md:hidden">
-        {data?.data?.orders.map((order) => (
+        {data?.orders.map((order) => (
           <div
             key={order._id}
             className="border rounded-xl p-4 shadow-sm bg-white space-y-2"
@@ -83,7 +86,7 @@ const SellerOrdersTable = () => {
           </thead>
 
           <tbody className="divide-y">
-            {data?.data?.orders.map((order) => (
+            {data?.orders.map((order) => (
               <tr key={order._id} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">
                   #{order._id.slice(-6)}
@@ -112,7 +115,15 @@ const SellerOrdersTable = () => {
                 </td>
 
                 <td className="px-4 py-3 text-center">
-                  <Button size="sm" variant="outline">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() =>
+                      navigate(
+                        `view/${order._id}`,
+                      )
+                    }
+                  >
                     View
                   </Button>
                 </td>
