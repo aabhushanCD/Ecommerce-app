@@ -1,4 +1,4 @@
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import { sellerOrders, sellerOrderView } from "./order.service";
 
 export const useSellerOrders = () => {

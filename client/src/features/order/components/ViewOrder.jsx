@@ -30,7 +30,7 @@ const ViewOrder = () => {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading order</p>;
   if (!order) return <p>No order found</p>;
-  const price = (price,percent) => discount(price, percent);
+  const price = (price, percent) => discount(price, percent);
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <div className="w-full bg-white shadow-lg rounded-2xl p-8 space-y-6">
@@ -54,7 +54,7 @@ const ViewOrder = () => {
           </p>
 
           <p>
-            <span className="font-medium">Total:</span> ₹{order.totalAmount}
+            <span className="font-medium">Total:</span> ₹{total}
           </p>
         </div>
 
