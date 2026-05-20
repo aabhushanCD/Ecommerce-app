@@ -1,5 +1,3 @@
-import Cart from "../Models/cart.model.js";
-import Product from "../Models/product.model.js";
 import Order from "../Models/order.model.js";
 import User from "../Models/User.model.js";
 
@@ -40,11 +38,11 @@ export const getOrders = async (req, res) => {
 // confirm the order
 export const sellerConfirmedOrder = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const { orderId } = req.params;
     const userId = req.userId;
     const role = req.role;
 
-    if (role !== "Seller") {
+    if (role !== "seller") {
       return res.status(403).json({ message: "UnAuthorized", success: false });
     }
     const order = await Order.findById(orderId).populate(
@@ -67,12 +65,13 @@ export const sellerConfirmedOrder = async (req, res) => {
         success: false,
       });
     }
+    console.log(sellerItems);
     // Update item status and check stock
     for (const item of sellerItems) {
       const product = item.productId;
       if (!product || product.stock < item.quantity) {
         return res.status(400).json({
-          message: `Insufficient stock for product ${item.name}`,
+          message: `Insufficient stock for product "${item.name}"`,
           success: false,
         });
       }
@@ -109,8 +108,10 @@ export const sellerConfirmedOrder = async (req, res) => {
 export const viewOrderDetails = async (req, res) => {
   try {
     const { orderId } = req.params;
-    
-    const order = await Order.findById( orderId ).populate("userId", "name email").populate("items.productId", "name price");
+
+    const order = await Order.findById(orderId)
+      .populate("userId", "name email")
+      .populate("items.productId", "name price");
 
     if (!order) {
       res.status(404).json({ message: "didn't found the order" });
@@ -134,4 +135,116 @@ export const getOrderStatus = async (req, res) => {
 export const setOrderStatus = async (req, res) => {
   try {
   } catch (error) {}
+};
+
+export const confirmOrder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+    const order = await Order.findById(orderId).populate(
+      "items.productId",
+      "stock isAvailable ",
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    // Check if the order is already confirmed
+    if (order.orderStatus === "Confirmed") {
+      return res.status(400).json({ message: "Order is already confirmed" });
+    }
+    // Check stock for each item in the order
+    for (const item of order.items) {
+      const product = item.productId;
+      if (!product || product.stock < item.quantity) {
+        return res.status(400).json({
+          message: `Insufficient stock for product ${item.name}`,
+          success: false,
+        });
+      }
+    }
+    // Reduce stock for each item and mark as confirmed
+    for (const item of order.items) {
+      const product = item.productId;
+      product.stock -= item.quantity;
+      if (product.stock <= 0) product.isAvailable = false;
+      await product.save();
+    }
+    order.orderStatus = "Confirmed";
+    await order.save({ validateBeforeSave: false });
+    return res.status(200).json({
+      message: "Order confirmed successfully",
+      success: true,
+      order,
+    });
+  } catch (error) {
+    console.error("Something went wrong!", error.message);
+    return res.status(500).json({
+      message: "Server Error! while confirming order",
+      success: false,
+    });
+  }
+};
+
+export const cancelOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+    const order = await Order.findById(orderId).populate(
+      "items.productId",
+      "stock isAvailable",
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    //  Already cancelled
+    if (order.orderStatus === "Cancelled") {
+      return res.status(400).json({ message: "Order is already cancelled" });
+    }
+
+    //  Optional: prevent cancel after confirmed
+    if (order.orderStatus === "Confirmed") {
+      return res.status(400).json({
+        message: "Confirmed orders cannot be cancelled",
+      });
+    }
+
+    //  Restore stock
+    for (let item of order.items) {
+      const product = item.productId;
+
+      if (product) {
+        product.stock += item.quantity;
+
+        // If stock > 0 → make available
+        if (product.stock > 0) {
+          product.isAvailable = true;
+        }
+
+        await product.save();
+      }
+    }
+
+    //  Update order status
+    order.orderStatus = "Cancelled";
+    await order.save();
+
+    return res.status(200).json({
+      message: "Order cancelled successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Something went wrong",
+    });
+  }
 };

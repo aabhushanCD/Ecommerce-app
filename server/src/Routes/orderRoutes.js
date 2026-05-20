@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  cancelOrder,
   getOrders,
   getOrderStatus,
   sellerConfirmedOrder,
@@ -14,7 +15,8 @@ router.get("/get/all", verifyToken, getOrders);
 
 router.get("/get/orderId/:orderId", verifyToken, viewOrderDetails);
 
-router.post("confirmed/by/seller", verifyToken, sellerConfirmedOrder);
+router.put("/confirmed/by/seller/:orderId", verifyToken, sellerConfirmedOrder);
+router.put("/cancel/by/seller/:orderId", verifyToken, cancelOrder);
 
 router.get("view/status", verifyToken, getOrderStatus);
 
