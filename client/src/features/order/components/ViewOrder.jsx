@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useSellerOrderView } from "../order.hook";
 import { discount } from "@/utils/utils";
+import OrderSkeleton from "./OrderSkeleton";
 
 const ViewOrder = () => {
   const { id: orderId } = useParams();
@@ -10,9 +11,7 @@ const ViewOrder = () => {
 
   const order = data?.order;
 
-  const total =
-    order?.items?.reduce((acc, item) => acc + item.price * item.quantity, 0) ||
-    0;
+  const total = data?.order?.totalAmount;
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -27,7 +26,7 @@ const ViewOrder = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <OrderSkeleton />;
   if (isError) return <p>Error loading order</p>;
   if (!order) return <p>No order found</p>;
   const price = (price, percent) => discount(price, percent);

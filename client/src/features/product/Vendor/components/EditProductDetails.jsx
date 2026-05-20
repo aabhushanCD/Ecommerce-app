@@ -3,15 +3,19 @@ import { Form } from "@/components/customs/Form";
 import { Input } from "@/components/customs/Input";
 import { Label } from "@/components/customs/Label";
 import { useState } from "react";
+import { useProductUpdate } from "../../product.hook";
+import { useParams } from "react-router-dom";
 
 export default function EditProductPage() {
+  const { id } = useParams();
   const [form, setForm] = useState({
-    title: "",
+    name: "",
     description: "",
     price: "",
     discount: "",
     stock: "",
   });
+  const updateProduct = useProductUpdate();
 
   const handleChange = (e) => {
     setForm({
@@ -20,9 +24,17 @@ export default function EditProductPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+    try {
+      const res = await updateProduct.mutateAsync({
+        productId: id,
+        formData: form,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -34,7 +46,7 @@ export default function EditProductPage() {
         </h2>
 
         {/* Form */}
-        <Form onSubmit={handleSubmit} >
+        <Form onSubmit={handleSubmit}>
           {/* Title */}
           <Field>
             <Label className="block text-sm font-medium text-gray-600 mb-1">
@@ -43,10 +55,9 @@ export default function EditProductPage() {
             <Input
               type="text"
               name="title"
-              value={form.title}
+              value={form.name}
               onChange={handleChange}
-              placeholder="Enter product title"
-              
+              placeholder="Enter product Name"
             />
           </Field>
 
@@ -77,7 +88,6 @@ export default function EditProductPage() {
                 value={form.price}
                 onChange={handleChange}
                 placeholder="100"
-                
               />
             </Field>
 
@@ -91,23 +101,19 @@ export default function EditProductPage() {
                 value={form.discount}
                 onChange={handleChange}
                 placeholder="10"
-                
               />
             </Field>
           </div>
 
           {/* Stock */}
           <Field>
-            <Label >
-              Stock Quantity
-            </Label>
+            <Label>Stock Quantity</Label>
             <Input
               type="number"
               name="stock"
               value={form.stock}
               onChange={handleChange}
               placeholder="Available stock"
-             
             />
           </Field>
 

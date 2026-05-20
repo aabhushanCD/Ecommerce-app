@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 const SellerOrdersTable = () => {
   const { isLoading, data, error } = useSellerOrders();
 
-
   const navigate = useNavigate();
   if (isLoading) return <Loading />;
 
@@ -33,6 +32,7 @@ const SellerOrdersTable = () => {
 
   return (
     <div className="w-full px-2 md:px-4">
+      <h1 className="text-4xl font-bold py-10">Order Management</h1>
       {/* 📱 MOBILE VIEW */}
       <div className="grid gap-4 md:hidden">
         {data?.orders.map((order) => (
@@ -118,11 +118,7 @@ const SellerOrdersTable = () => {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() =>
-                      navigate(
-                        `view/${order._id}`,
-                      )
-                    }
+                    onClick={() => navigate(`view/${order._id}`)}
                   >
                     View
                   </Button>

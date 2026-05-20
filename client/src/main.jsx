@@ -6,6 +6,7 @@ import AppRoutes from "./routes/appRoutes";
 import { AuthContextProvider } from "./features/auth/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>

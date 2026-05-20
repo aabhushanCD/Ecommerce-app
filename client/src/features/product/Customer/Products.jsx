@@ -18,11 +18,11 @@ const Products = () => {
 
       <div
         id="product"
-        className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-fr  mt-4  "
+        className="grid grid-cols-1 gap-12 md:gap-0 md:grid-cols-4 lg:grid-cols-6 auto-rows-fr  mt-4  "
       >
         {data?.data?.products?.map((item) => (
           <div key={item._id} onClick={() => navigate(`/product/${item._id}`)}>
-            <ProductCart item={item} />
+            <ProductCart className="w-full md:w-55" item={item} />
           </div>
         ))}
       </div>

@@ -5,6 +5,7 @@ import {
   getAllMyProducts,
   getProductDetails,
   getProducts,
+  updateProduct,
 } from "./product.api";
 
 /**
@@ -36,7 +37,7 @@ export const useGetAllMyProducts = () =>
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id) => deleteProduct(id),
+    mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["seller-products"] });
     },
@@ -51,7 +52,29 @@ export const useProductDetails = (productId) =>
   });
 
 export const useProductAdd = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (formData) => addProduct(formData),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["seller-products"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+    },
+  });
+};
+
+export const useProductUpdate = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ productId, formData }) => updateProduct(productId, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["seller-products"] });
+    },
   });
 };

@@ -24,13 +24,14 @@ import AddCategories from "@/pages/Admin/components/categories";
 import Cart from "@/features/cart/cart";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import AuthLayout from "@/features/auth/components/AuthLayout";
-import ProductDetailsForm from "@/features/product/Vendor/components/ProductDetailsForm";
 import EditProductDetails from "@/features/product/Vendor/components/EditProductDetails";
 import ViewOrder from "@/features/order/components/ViewOrder";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* ================= Customer / Common Protected Routes ================= */}
         <Route

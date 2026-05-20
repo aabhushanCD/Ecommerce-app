@@ -2,14 +2,15 @@ import React from "react";
 import { Package } from "lucide-react";
 import { discount } from "@/utils/utils";
 
-const ProductCard = ({ item }) => {
+const ProductCard = ({ item, className, ...props }) => {
   const imageUrl = item.imageUrls?.[0];
   const fixedprice = discount(item.price, item.discount);
   return (
     <div
       key={item._id}
-      className="w-55 bg-white rounded-xl border shadow-sm
-                 hover:shadow-lg transition-all duration-300 group"
+      {...props}
+      className={` w-55 h-full bg-white rounded-xl border shadow-sm
+                 hover:shadow-lg transition-all duration-300 group ${className}`}
     >
       {/* Image */}
       <div className="relative w-full h-45 overflow-hidden rounded-t-xl bg-gray-100 flex items-center justify-center">

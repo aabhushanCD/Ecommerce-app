@@ -7,9 +7,11 @@ import Carousel from "./pages/customer/component/Carosel";
 function App() {
   return (
     <>
-      <Carousel />
-      <SuggestedProduct />
-      <Products />
+     
+        <Carousel />
+        <SuggestedProduct />
+        <Products />
+     
     </>
   );
 }

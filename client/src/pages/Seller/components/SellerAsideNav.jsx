@@ -58,7 +58,7 @@ const SellerAsideNav = ({ productCount = 0, orderCount = 0 }) => {
   };
   
   return (
-    <aside className="col-span-12 lg:col-span-3">
+    <aside className="col-span-12 lg:col-span-3 sticky top-0">
       <Card className="flex flex-col justify-between p-5 shadow-xl border-0 bg-white/90 backdrop-blur-sm sticky top-0 h-[100vh] overflow-auto">
         {/* Menu */}
         <nav className="space-y-2">

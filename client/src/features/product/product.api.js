@@ -34,7 +34,16 @@ export const addProduct = async (data) => {
 export const deleteProduct = async (productId) => {
   return await axiosInstance.delete(`/product/remove/${productId}`);
 };
-
+/**
+ * @name updateProduct
+ * @description used to update the product by the vendor and admin
+ * @param {*} data
+ * @returns
+ * @access vendor,admin
+ */
+export const updateProduct = async(productId, data) => {
+  return await axiosInstance.put(`/product/update/product/${productId}`, data);
+}
 /**
  * @name allMyProducts
  * @description used to get all the products of the vendor
