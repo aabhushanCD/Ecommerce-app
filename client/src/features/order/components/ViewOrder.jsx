@@ -1,6 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useSellerOrderView } from "../order.hook";
+import {
+  useCancelOrder,
+  useConfirmOrder,
+  useSellerOrderView,
+} from "../order.hook";
 import { discount } from "@/utils/utils";
 import OrderSkeleton from "./OrderSkeleton";
 
@@ -8,7 +12,8 @@ const ViewOrder = () => {
   const { id: orderId } = useParams();
 
   const { data, isError, isLoading } = useSellerOrderView(orderId);
-
+  const confirmOrder = useConfirmOrder();
+  const cancelOrder = useCancelOrder();
   const order = data?.order;
 
   const total = data?.order?.totalAmount;
@@ -98,12 +103,19 @@ const ViewOrder = () => {
         {/* Actions */}
         {order.orderStatus === "Placed" && (
           <div className="flex justify-end gap-3 pt-4">
-            <button className="px-5 py-2 rounded-lg border border-red-300 text-red-600 hover:bg-red-50">
+            <button
+              onClick={() => cancelOrder.mutateAsync(orderId)}
+              className="px-5 py-2 rounded-lg border border-red-300 text-red-600 hover:bg-red-50"
+            >
               Cancel Order
             </button>
 
-            <button className="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700">
-              Confirm Order
+            <button
+              disabled={confirmOrder.isPending}
+              onClick={() => confirmOrder.mutateAsync(orderId)}
+              className="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+            >
+              {confirmOrder.isPending ? "Confirming..." : "Confirm Order"}
             </button>
           </div>
         )}
