@@ -2,10 +2,10 @@ import { useAuth } from "@/features/auth/store";
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, allowedRoles }) {
-  const { currentUser, loading } = useAuth(); 
+  const { currentUser, loading } = useAuth();
 
   if (loading) {
-    return null; // or spinner
+    return <div>Loading...</div>; // or spinner
   }
   if (!currentUser && !loading) {
     return <Navigate to="/login" replace />;
