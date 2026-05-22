@@ -36,7 +36,7 @@ const ViewOrder = () => {
   if (!order) return <p>No order found</p>;
   const price = (price, percent) => discount(price, percent);
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
+    <div className="min-h-screen  bg-gray-50 p-6 flex justify-center ">
       <div className="w-full bg-white shadow-lg rounded-2xl p-8 space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">

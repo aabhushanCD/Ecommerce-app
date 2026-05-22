@@ -31,11 +31,11 @@ const ProductDetailsHead = ({ product }) => {
         {/* Image Gallery */}
         <div className="flex flex-col gap-4 lg:w-[45%]">
           <div className="w-full aspect-square bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center border border-gray-200">
-            {product?.imageUrls[selectedImage].url ? (
+            {product?.imageUrls[selectedImage]?.url ? (
               <img
                 src={product.imageUrls[selectedImage].url}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             ) : (
               <div className="flex flex-col items-center gap-2 text-gray-400">

@@ -4,10 +4,11 @@ import { Input } from "@/components/customs/Input";
 import { Label } from "@/components/customs/Label";
 import { useState } from "react";
 import { useProductUpdate } from "../../product.hook";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditProductPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -54,7 +55,7 @@ export default function EditProductPage() {
             </Label>
             <Input
               type="text"
-              name="title"
+              name="name"
               value={form.name}
               onChange={handleChange}
               placeholder="Enter product Name"
@@ -122,6 +123,7 @@ export default function EditProductPage() {
             <button
               type="button"
               className="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+              onClick={() => navigate(-1)}
             >
               Cancel
             </button>

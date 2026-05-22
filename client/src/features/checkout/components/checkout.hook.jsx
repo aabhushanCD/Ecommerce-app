@@ -3,10 +3,11 @@ import { useProductDetails } from "@/features/product/product.hook";
 import { discount } from "@/utils/utils";
 import { useSearchParams } from "react-router-dom";
 import { buyNow, placedOrder } from "../checkout.service";
+import { useCallback, useState } from "react";
+import { normalizeError } from "@/utils/normalizeError";
 
 export const useCheckout = () => {
   const [search] = useSearchParams();
-
   const productId = search.get("productId");
   const quantity = search.get("quantity");
   const type = search.get("type");
@@ -14,6 +15,11 @@ export const useCheckout = () => {
   const { data } = useProductDetails(productId);
   const { selectedItem } = useCartStore();
 
+  const [orderState, setOrderState] = useState({
+    status: "idle",
+    orderId: null,
+    error: null,
+  });
   let items = [];
 
   if (type === "buyNow" && data?.data?.product) {
@@ -51,34 +57,51 @@ export const useCheckout = () => {
   const shipping = subtotal > 2000 ? 0 : 100;
   const total = subtotal + shipping;
 
-  const structuredData = {
-    items,
-    subtotal,
-    shipping,
-    total,
-  };
   /* ---------------- PLACE ORDER ---------------- */
-  const handlePlacedOrder = async (data) => {
-    try {
-      if (!items.length) throw new Error("No items to order");
+  const handlePlacedOrder = useCallback(
+    async (data) => {
+      try {
+        if (!items.length) {
+          setOrderState({
+            status: "error",
+            orderId: null,
+            error: "Cart is empty",
+          });
+          return;
+        }
 
-      const orderItems = items.map((item) => item.productId);
+        const payload = {
+          selectItems: items.map((i) => i.productId),
+          paymentMethod: data.paymentMethod,
+          addressId: data.selectedAddress,
+        };
 
-      const payload = {
-        selectItems: orderItems,
-        paymentMethod: data.paymentMethod,
-        addressId: data.selectedAddress,
-      };
+        const res =
+          type === "buyNow"
+            ? await buyNow(payload)
+            : await placedOrder(payload);
+        setOrderState({
+          status: "success",
+          orderId: res?.data?.orderId ?? null,
+          error: null,
+        });
 
-      if (type === "buyNow") {
-        return await buyNow(payload);
+        return res;
+      } catch (err) {
+        const { message } = normalizeError(err);
+        setOrderState({ status: "error", orderId: null, error: message });
       }
+    },
+    [items, type],
+  );
+  const resetOrder = useCallback(() => {
+    setOrderState({ status: "idle", orderId: null, error: null });
+  }, []);
 
-      return await placedOrder(payload);
-    } catch (error) {
-      console.error("Order placement failed:", error);
-      throw error;
-    }
+  return {
+    structuredData: { items, subtotal, shipping, total },
+    orderState, // { status, orderId, error }
+    handlePlacedOrder,
+    resetOrder,
   };
-  return { structuredData, handlePlacedOrder };
 };

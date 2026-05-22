@@ -2,10 +2,10 @@ import { Card } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 
 const StatCard = ({ title, value, change, icon, linear }) => (
-  <Card className="p-4 shadow-xl border-0 bg-white/90 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer group">
+  <Card className="p-4  border-2 bg-white/90 backdrop-blur-sm    cursor-pointer group">
     <div className="flex justify-between items-start mb-2">
       <div
-        className={`p-2 rounded-xl bg-linear-to-br ${linear} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+        className={`p-2  rounded bg-linear-to-br ${linear} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
       >
         {icon}
       </div>

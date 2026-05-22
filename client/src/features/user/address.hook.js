@@ -30,6 +30,7 @@ export const useAddress = () => {
       setLoading(true);
       const res = await addAddress(data);
       setAddress(res.data.addresses);
+      return res;
     } catch (err) {
       setError(err.message || "Failed to add address");
     } finally {
@@ -54,8 +55,9 @@ export const useAddress = () => {
   const removeAddress = async (addressId) => {
     try {
       setLoading(true);
-      const res = await deleteAddress(addressId);
-      setAddress(res.data.addresses);
+      await deleteAddress(addressId);
+      const deleted = address.filter((item) => item._id !== addressId);
+      setAddress(deleted);
     } catch (err) {
       setError(err.message || "Failed to delete address");
     } finally {

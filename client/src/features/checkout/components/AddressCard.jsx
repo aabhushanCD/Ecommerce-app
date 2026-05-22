@@ -15,10 +15,10 @@ const AddressCard = ({ onEdit, setSelectedAddress, selectedAddress }) => {
 
   return (
     <div className="space-y-4">
-      {address.map((item) => (
+      {address?.map((item) => (
         <div
           key={item._id}
-          className={`bg-white border rounded-xl p-5 shadow-sm transition hover:shadow-md
+          className={`bg-white  rounded-xl p-5 shadow-sm transition hover:shadow-md
               ${
                 selectedAddress === item._id
                   ? "border-indigo-500 ring-1 ring-indigo-200"

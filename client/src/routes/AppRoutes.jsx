@@ -16,7 +16,6 @@ import Checkout from "@/features/checkout/components/CheckoutItems";
 import SellerMyProducts from "@/features/product/Vendor/Products";
 
 import SellerDashboard from "@/pages/Seller/Dashboard";
-import Orders from "@/features/order/Orders";
 
 import AdminLayout from "@/pages/Admin/components/AdminLayout";
 import AdminLanding from "@/pages/Admin/LangingPage";
@@ -25,8 +24,10 @@ import Cart from "@/features/cart/cart";
 import SellerLayout from "@/pages/Seller/components/SellerLayout";
 import AuthLayout from "@/features/auth/components/AuthLayout";
 import EditProductDetails from "@/features/product/Vendor/components/EditProductDetails";
-import ViewOrder from "@/features/order/components/ViewOrder";
+
 import ScrollToTop from "@/components/ScrollToTop";
+import OrdersPage from "@/features/order/OrdersPage";
+import ViewOrder from "@/features/order/components/ViewOrder";
 
 const AppRoutes = () => {
   return (
@@ -78,10 +79,10 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" index element={<SellerDashboard />} />
+          <Route path="dashboard" element={<SellerDashboard />} />
           <Route path="profile" element={<ProfileUpdate />} />
           <Route path="products" element={<SellerMyProducts />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders" element={<OrdersPage />} />
           <Route path="orders/view/:id" element={<ViewOrder />} />
           <Route path="product/edit/:id" element={<EditProductDetails />} />
         </Route>

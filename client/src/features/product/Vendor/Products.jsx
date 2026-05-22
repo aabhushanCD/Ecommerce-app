@@ -15,6 +15,7 @@ import { discount } from "@/utils/utils";
 import { useNavigate } from "react-router-dom";
 import StatCard from "@/pages/Seller/components/StatCard";
 import { useDeleteProduct, useGetAllMyProducts } from "../product.hook";
+import { timeAgo } from "@/constant";
 
 const SellerMyProducts = () => {
   const { data, isLoading, error } = useGetAllMyProducts();
@@ -61,9 +62,15 @@ const SellerMyProducts = () => {
   }
 
   return (
-    <div className="w-full px-2 md:px-4">
-      <header className="flex justify-between items-center mb-4 mt-8">
-        <h2 className="text-2xl font-bold">My Products</h2>
+    <div className="w-full px-2  md:px-8">
+      <header className="flex justify-between items-center mb-4 mt-8 py-8">
+        <div>
+          <h2 className="text-2xl font-semibold">Product Inventory</h2>
+          <p className="text-gray-700">
+            Manage and monitor your global product catalog across all
+            marketplaces.
+          </p>
+        </div>
         <Button onClick={() => navigate("/seller/product/add")}>
           <Plus size={16} className="mr-2" />
           Add Product
@@ -196,22 +203,38 @@ const SellerMyProducts = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y">
+          <tbody className="divide-y font-semibold">
             {data?.data?.products.map((product) => {
               const discountedPrice = discount(product.price, product.discount);
 
               return (
-                <tr key={product._id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-3 text-sm font-medium max-w-180 truncate">
-                    {product.name}
+                <tr key={product._id} className="hover:bg-gray-50 transition ">
+                  <td className="col-span-2 px-4 py-3 text-sm font-medium max-w-40 text-blue-800 ">
+                    <div className="flex gap-2  ">
+                      <div className="border-2 min-w-20 max-w-20 h-20 py-2 ">
+                        {product?.imageUrls[0]?.url && (
+                          <img
+                            src={product?.imageUrls[0].url}
+                            alt={product.name}
+                            className=" w-auto h-auto object-cover"
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {product.name}
+                        <p className="text-gray-600 ">
+                          {timeAgo(product.createdAt)}
+                        </p>
+                      </div>
+                    </div>
                   </td>
 
                   <td className="px-4 py-3 text-sm text-gray-500">
                     {product.category?.name || "-"}
                   </td>
 
-                  <td className="px-4 py-3 text-sm">
-                    ₹{discountedPrice}
+                  <td className="px-4 py-3 text-sm ">
+                    ₹ {discountedPrice}
                     {product.discount > 0 && (
                       <span className="line-through text-gray-400 ml-2 text-xs">
                         ₹{product.price}
@@ -229,7 +252,7 @@ const SellerMyProducts = () => {
                     </Badge>
                   </td>
 
-                  <td className="px-4 py-3 flex justify-center gap-2">
+                  <td className="px-4 py-8 flex justify-center gap-2">
                     <Button
                       size="sm"
                       variant="outline"

@@ -1,11 +1,10 @@
 import React from "react";
 import ProductCart from "./components/ProductCard";
 import { useProducts } from "../product.hook";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const Products = () => {
   const { data, isLoading, error } = useProducts();
-  const navigate = useNavigate();
+
   if (isLoading) {
     return <div className="flex justify-center align-center">... Loading</div>;
   }
@@ -21,7 +20,7 @@ const Products = () => {
         className="grid grid-cols-1 gap-12 md:gap-0 md:grid-cols-4 lg:grid-cols-6 auto-rows-fr  mt-4  "
       >
         {data?.data?.products?.map((item) => (
-          <div key={item._id} onClick={() => navigate(`/product/${item._id}`)}>
+          <div key={item._id}>
             <ProductCart className="w-full md:w-55" item={item} />
           </div>
         ))}

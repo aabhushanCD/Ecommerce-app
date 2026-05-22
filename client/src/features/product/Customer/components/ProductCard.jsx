@@ -1,10 +1,12 @@
 import React from "react";
 import { Package } from "lucide-react";
 import { discount } from "@/utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ item, className, ...props }) => {
   const imageUrl = item.imageUrls?.[0];
   const fixedprice = discount(item.price, item.discount);
+  const navigate = useNavigate();
   return (
     <div
       key={item._id}
@@ -13,12 +15,15 @@ const ProductCard = ({ item, className, ...props }) => {
                  hover:shadow-lg transition-all duration-300 group ${className}`}
     >
       {/* Image */}
-      <div className="relative w-full h-45 overflow-hidden rounded-t-xl bg-gray-100 flex items-center justify-center">
+      <div
+        onClick={() => navigate(`/product/${item._id}`)}
+        className="relative w-full h-45 overflow-hidden rounded-t-xl bg-gray-100 flex items-center justify-center"
+      >
         {imageUrl ? (
           <img
             src={imageUrl.url}
             alt={item.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
           <Package size={40} className="text-gray-400" />
@@ -52,6 +57,7 @@ const ProductCard = ({ item, className, ...props }) => {
 
         <button
           disabled={!item.isAvailable}
+          
           className={`mt-3 w-full py-2 rounded-lg text-sm transition
             ${
               item.isAvailable

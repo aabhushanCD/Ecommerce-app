@@ -143,7 +143,7 @@ export const buyNow = async (req, res) => {
   try {
     const userId = req.userId;
     const {
-      productId,
+      selectItems,
       quantity = 1,
       paymentMethod,
       transactionId,
@@ -151,9 +151,9 @@ export const buyNow = async (req, res) => {
     } = req.body;
 
     //  Validate inputs
-    if (!productId) {
+    if (!selectItems[0]) {
       return res.status(400).json({
-        message: "Product is required",
+        message: "Selected item is required",
         success: false,
       });
     }
@@ -166,7 +166,7 @@ export const buyNow = async (req, res) => {
     }
     session.startTransaction();
     //  Get product
-    const product = await Product.findById(productId);
+    const product = await Product.findById(selectItems[0]);
     if (!product) {
       return res.status(404).json(
         {
@@ -251,7 +251,9 @@ export const buyNow = async (req, res) => {
       order: newOrder,
     });
   } catch (error) {
-    await session.abortTransaction();
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
 
     console.error("Buy now error:", error);
     return res.status(500).json({

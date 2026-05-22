@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useAddress } from "@/features/user/address.hook";
 
-const Shipping = () => {
+const Shipping = ({ setNewAddress }) => {
   const { createAddress } = useAddress();
 
   const handleAdd = async (e) => {
@@ -29,7 +29,7 @@ const Shipping = () => {
     };
     try {
       const res = await createAddress(data);
-      console.log(res);
+      if (res.status === 200 || res.status === 201) setNewAddress(false);
     } catch (error) {
       console.error(error);
     }

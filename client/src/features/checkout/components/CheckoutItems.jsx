@@ -5,17 +5,27 @@ import { Package, MapPin, Plus, CreditCard, Truck } from "lucide-react";
 import { discount } from "@/utils/utils";
 import { useCheckout } from "./checkout.hook";
 import { FaMoneyBill } from "react-icons/fa";
+import { toast } from "sonner";
 
 const CheckoutItems = () => {
   const [newAddress, setNewAddress] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const { structuredData, handlePlacedOrder } = useCheckout();
+  const { structuredData, handlePlacedOrder, orderState, resetOrder } =
+    useCheckout();
+
+  const { status, error } = orderState;
+  const isLoading = status === "loading";
+  const isSuccess = status === "success";
+  const isError = status === "error";
+
+  if (isSuccess) toast.success("Order placed successfully");
 
   return (
     <div className="max-w-7xl mx-auto grid lg:grid-cols-[2fr_1fr] gap-8 mt-10">
       {/* LEFT SECTION */}
       <div className="space-y-8">
+        {isError && <ErrorBanner message={error} onRetry={resetOrder} />}
         {/* ORDER ITEMS */}
         <div className="bg-white border rounded-lg p-6 shadow-sm">
           <div className="flex items-center gap-2 text-indigo-600 font-semibold mb-6">
@@ -76,9 +86,9 @@ const CheckoutItems = () => {
             </button>
           </div>
 
-          <div className="bg-gray-50 border rounded-md p-4">
+          <div>
             {newAddress ? (
-              <Shipping />
+              <Shipping setNewAddress={setNewAddress} />
             ) : (
               <AddressCard
                 setSelectedAddress={setSelectedAddress}
@@ -145,10 +155,11 @@ const CheckoutItems = () => {
         </div>
 
         <button
+          disabled={isLoading}
           onClick={() => handlePlacedOrder({ paymentMethod, selectedAddress })}
           className="w-full mt-6 bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition font-semibold"
         >
-          Place Order
+          {isLoading ? "Placing order…" : "Place order"}
         </button>
       </div>
     </div>

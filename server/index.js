@@ -14,18 +14,17 @@ import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 import checkoutRoutes from "./src/Routes/checkoutRoutes.js";
 import addressRoutes from "./src/Routes/addressRoutes.js";
 
-const allowedOrigins = ["http://localhost:5173", "http://192.168.1.67:5173"];
+const allowedOrigins = ["http://localhost:5173", "http://192.168.1.65:5173"];
 const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) {
-        callback(null, true);
-      }
+      if (!origin)  return callback(null, true);
+      
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+       return callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
