@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useCancelOrder,
   useConfirmOrder,
@@ -15,7 +15,7 @@ const ViewOrder = () => {
   const confirmOrder = useConfirmOrder();
   const cancelOrder = useCancelOrder();
   const order = data?.order;
-
+  const navigate = useNavigate();
   const total = data?.order?.totalAmount;
 
   const getStatusColor = (status) => {
@@ -99,6 +99,13 @@ const ViewOrder = () => {
             </table>
           </div>
         </div>
+
+        <button
+          className="border px-3 rounded bg-gray-500 text-white"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
 
         {/* Actions */}
         {order.orderStatus === "Placed" && (

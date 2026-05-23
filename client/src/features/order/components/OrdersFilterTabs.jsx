@@ -6,7 +6,7 @@ const OrdersFilterTabs = ({ active, onChange }) => (
       <button
         key={filter}
         onClick={() => onChange(filter)}
-        className={`${active === filter ? "text-black underline" : ""} `}
+        className={`${active === filter ? "text-black border-orange-600 border-b-3 " : ""} `}
       >
         {filter}
       </button>
