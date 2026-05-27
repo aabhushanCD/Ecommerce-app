@@ -29,7 +29,7 @@ export const useCheckout = () => {
       {
         productId: product._id,
         name: product.name,
-        image: product.image,
+        image: product.imageUrls,
         color: product.color,
         quantity: Number(quantity),
         price: product.price,
@@ -40,7 +40,7 @@ export const useCheckout = () => {
     items = selectedItem.map((item) => ({
       productId: item.item._id,
       name: item.item.name,
-      image: item.item.image,
+      image: item.item.imageUrls,
       color: item.item.color,
       quantity: item.quantity,
       price: item.item.price,

@@ -55,6 +55,10 @@ const Login = () => {
 
         {/* Button */}
         {!loading ? <Button type="submit">Login</Button> : <Loading />}
+        {/* Google Login */}
+        <Button type="button" className="ml-2 " onClick={() => {
+          window.location.href = `http://localhost:8000/api/auth/google`;
+        }}>Login with Google</Button>
         <Error>{error}</Error>
 
         <p className="text-center text-sm text-gray-500 mt-4">

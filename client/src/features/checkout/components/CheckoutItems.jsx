@@ -6,6 +6,7 @@ import { discount } from "@/utils/utils";
 import { useCheckout } from "./checkout.hook";
 import { FaMoneyBill } from "react-icons/fa";
 import { toast } from "sonner";
+import ErrorBanner from "@/components/ui/errorBanner";
 
 const CheckoutItems = () => {
   const [newAddress, setNewAddress] = useState(false);
@@ -40,9 +41,9 @@ const CheckoutItems = () => {
                 className="flex gap-5 items-center border rounded-lg p-4 hover:shadow-sm transition"
               >
                 <img
-                  src={item.image}
+                  src={item?.image[0]?.url}
                   alt={item.name}
-                  className="w-20 h-20 object-cover rounded-md border"
+                  className="w-20 h-20 object-fill rounded-md border"
                 />
 
                 <div className="flex justify-between w-full">

@@ -116,9 +116,9 @@ export const viewCart = async (req, res) => {
 
     let cart = await Cart.findOne({ userId }).populate({
       path: "cartItems.item",
-      select: "name price discount imageUrl stock", // only useful fields
+      select: "name price discount imageUrls stock", // only useful fields
     });
-
+    console.log("Fetched cart:", cart);
     if (!cart) {
       cart = await Cart.create({ userId, cartItems: [] });
     }

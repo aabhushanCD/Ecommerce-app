@@ -66,13 +66,13 @@ const Shipping = ({ setNewAddress }) => {
 
           <div className="flex gap-4">
             <label className="flex items-center gap-2 border px-4 py-2 rounded-lg cursor-pointer hover:border-green-500">
-              <input type="radio" name="type" value="home" />
+              <input type="radio" name="type" value="Home" />
               <Home size={16} />
               Home
             </label>
 
             <label className="flex items-center gap-2 border px-4 py-2 rounded-lg cursor-pointer hover:border-green-500">
-              <input type="radio" name="type" value="office" />
+              <input type="radio" name="type" value="Office" />
               <Building2 size={16} />
               Office
             </label>

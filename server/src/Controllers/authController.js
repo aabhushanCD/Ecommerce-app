@@ -360,3 +360,36 @@ export const changeToSeller = async (req, res) => {
     });
   }
 };
+
+
+export const googleLoginToken = async(req,res)=>{
+  console.log(req.user._id);
+  console.log(req.user.role);
+  console.log(req.user);
+  try {
+      const accessToken = jwt.sign(
+      { userId: req.user._id, role: req.user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+    console.log(accessToken);
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    const redirectUrl = process.env.CLIENT_URL_1 || "http://localhost:5173";
+    res.redirect(`${redirectUrl}`);
+  }
+  catch (error) {
+    console.error("something went wrong while generating token googleLoginToken controller",error.message)
+    return res.status(500).json({
+      success:false,
+      message:"Internal Server Error, ",
+      error:error.message
+    })
+  }
+}

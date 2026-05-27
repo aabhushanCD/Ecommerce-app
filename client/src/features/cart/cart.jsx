@@ -105,7 +105,7 @@ const Cart = () => {
                 >
                   {/* Image */}
                   <img
-                    src={item.item?.image}
+                    src={item.item?.imageUrls[0].url}
                     alt={item.item.name}
                     className="w-20 h-20 rounded-lg object-cover bg-gray-100 shrink-0"
                   />

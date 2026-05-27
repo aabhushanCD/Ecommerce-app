@@ -8,13 +8,15 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
+      default: "",
     },
     email: {
       type: String,
       required: true,
       unique: true,
     },
+    googleId: { type: String, unique: true, sparse: true },
     role: {
       type: String,
       enum: ["admin", "customer", "seller"],

@@ -1,8 +1,9 @@
-// import dotenv from "dotenv";
-// dotenv.config({ path: ".env" });
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import passport from "./src/Config/passport.js";
 import auth from "./src/Routes/authRoutes.js";
 import { ConnectDB } from "./src/DB/ConnectDb.js";
 import cartRoute from "./src/Routes/cartRoute.js";
@@ -14,7 +15,7 @@ import wishlistRoutes from "./src/Routes/wishlistRoutes.js";
 import checkoutRoutes from "./src/Routes/checkoutRoutes.js";
 import addressRoutes from "./src/Routes/addressRoutes.js";
 
-const allowedOrigins = ["http://localhost:5173", "http://192.168.1.72:5173"];
+const allowedOrigins = ["http://localhost:5173", "http://192.168.1.67:5173"];
 const app = express();
 app.use(
   cors({
@@ -33,6 +34,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 app.use("/api/auth", auth);
 app.use("/api/cart", cartRoute);

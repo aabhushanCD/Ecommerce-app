@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const addressSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ["home", "office", "other"],
+    enum: ["Home", "Office", "Other"],
     required: true,
   },
   userId: {
